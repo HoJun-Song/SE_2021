@@ -2,4 +2,4 @@
 my_settings.py
 seproject/
 *.csv
-backend/post/migrations/__pycache__/
+backend/post/migrations/
