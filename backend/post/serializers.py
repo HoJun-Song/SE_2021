@@ -10,6 +10,9 @@ class MenuSerializer(serializers.ModelSerializer):
             'price'
         )
         model = Menu
+        fields = '__all__' # added fields. all of data.
+
+
 
 class MenuTimerSerializer(serializers.ModelSerializer):
     class Meta:
