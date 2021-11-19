@@ -17,6 +17,7 @@ class AuthGroup(models.Model):
 
 
 class AuthGroupPermissions(models.Model):
+    id = models.BigAutoField(primary_key=True)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
     permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
 
@@ -27,9 +28,9 @@ class AuthGroupPermissions(models.Model):
 
 
 class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
     codename = models.CharField(max_length=100)
-    name = models.CharField(max_length=255)
 
     class Meta:
         managed = False
@@ -40,14 +41,14 @@ class AuthPermission(models.Model):
 class AuthUser(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.BooleanField()
+    is_superuser = models.IntegerField()
     username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     email = models.CharField(max_length=254)
-    is_staff = models.BooleanField()
-    is_active = models.BooleanField()
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
     date_joined = models.DateTimeField()
-    first_name = models.CharField(max_length=150)
 
     class Meta:
         managed = False
@@ -55,6 +56,7 @@ class AuthUser(models.Model):
 
 
 class AuthUserGroups(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
 
@@ -65,6 +67,7 @@ class AuthUserGroups(models.Model):
 
 
 class AuthUserUserPermissions(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
 
@@ -78,10 +81,10 @@ class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
     object_repr = models.CharField(max_length=200)
+    action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    action_flag = models.PositiveSmallIntegerField()
 
     class Meta:
         managed = False
@@ -99,6 +102,7 @@ class DjangoContentType(models.Model):
 
 
 class DjangoMigrations(models.Model):
+    id = models.BigAutoField(primary_key=True)
     app = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     applied = models.DateTimeField()
@@ -118,10 +122,88 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class PostPost(models.Model):
-    title = models.CharField(max_length=200)
-    content = models.TextField()
+class Menu(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    category = models.CharField(max_length=30, blank=True, null=True)
+    price = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'post_post'
+        db_table = 'menu'
+
+
+class MenuTimer(models.Model):
+    id = models.IntegerField(primary_key=True)
+    menu = models.ForeignKey(Menu, models.DO_NOTHING, blank=True, null=True)
+    start_time = models.ForeignKey('OrderTimer', models.DO_NOTHING, db_column='start_time', blank=True, null=True)
+    end_time = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'menu_timer'
+
+
+class MenuToStock(models.Model):
+    menu = models.ForeignKey(Menu, models.DO_NOTHING, blank=True, null=True)
+    stock = models.ForeignKey('Stock', models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'menu_to_stock'
+
+
+class OrderTimer(models.Model):
+    id = models.IntegerField(primary_key=True)
+    start_time = models.CharField(unique=True, max_length=20, blank=True, null=True)
+    end_time = models.CharField(max_length=20, blank=True, null=True)
+    order = models.ForeignKey('Orders', models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'order_timer'
+
+
+class Orders(models.Model):
+    id = models.IntegerField(primary_key=True)
+    amount = models.IntegerField(blank=True, null=True)
+    order_id = models.IntegerField(blank=True, null=True)
+    menu = models.ForeignKey(Menu, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'orders'
+
+
+class Staff(models.Model):
+    id = models.IntegerField(primary_key=True)
+    staff_id = models.CharField(max_length=10, blank=True, null=True)
+    staff_pw = models.CharField(max_length=10, blank=True, null=True)
+    name = models.CharField(max_length=20, blank=True, null=True)
+    phone_num = models.CharField(max_length=11, blank=True, null=True)
+    order = models.ForeignKey(Orders, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'staff'
+
+
+class Stock(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=30, blank=True, null=True)
+    unit = models.CharField(max_length=10, blank=True, null=True)
+    amount = models.IntegerField(blank=True, null=True)
+    price = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'stock'
+
+
+class Tables(models.Model):
+    id = models.IntegerField(primary_key=True)
+    order = models.ForeignKey(Orders, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tables'
