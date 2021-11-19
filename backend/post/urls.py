@@ -1,8 +1,9 @@
 from django.urls import path
 
-from . import views
+# from . import views
+from .views import createMenu
 
 urlpatterns = [
-    #path('', views.ListPost.as_view()),
-    #path('<int:pk>/', views.DetailPost.as_view()),
+    # create menu
+    path('createMenu/', createMenu.createMenuAPI.as_view()),
 ]
