@@ -1,31 +1,23 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import FindPW from './components/FindPW';
+import Login_Admin from './components/Login_Admin';
+import Login_Staff from './components/Login_Staff';
+
 
 class App extends Component {
     state = {
         posts: []
     };
-
-    async componentDidMount() {
-        try {
-            const res = await fetch('http://127.0.0.1:8000/api/');
-            const posts = await res.json();
-            this.setState({
-                posts
-            });
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     render() {
         return (
             <div>
-                {this.state.posts.map(item => (
-                    <div key={item.id}>
-                        <h1>{item.title}</h1>
-                        <span>{item.content}</span>
-                    </div>
-                ))}
+                <BrowserRouter>
+                <Route path="/" exact component={Home}/>
+                <Route path="/Login_Admin" component={Login_Admin} />
+                <Route path="/Login_Staff" component={Login_Staff} />
+                <Route path="/findpw" component={FindPW}/>
+                </BrowserRouter>
             </div>
         );
     }
