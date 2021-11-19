@@ -1,3 +1,4 @@
+*.json
 *.pyc
 *.json
 my_settings.py
