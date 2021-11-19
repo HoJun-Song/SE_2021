@@ -1,3 +1,4 @@
+*.json
 *.pyc
 my_settings.py
 seproject/
