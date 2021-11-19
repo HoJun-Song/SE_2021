@@ -1,4 +1,5 @@
 *.pyc
+*.json
 my_settings.py
 seproject/
 *.csv
