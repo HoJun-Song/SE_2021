@@ -1,7 +1,7 @@
 from django.urls import path
 
 # from . import views
-from .views import createMenu, browseMenu, login, orderMenu, showTable
+from .views import createMenu, browseMenu, browseStaffProfile, browseStock, login, orderMenu, showTable
 
 urlpatterns = [
     # create menu
@@ -11,7 +11,10 @@ urlpatterns = [
     path('browseMenu/', browseMenu.post),
 
     # browse staff profile
-    path('browseMenu/', browseMenu.post),
+    path('browseStaffProfile/', browseStaffProfile.post),
+
+    # browse stock
+    path('browseStock/', browseStock.post),
 
     # manager login
     path('manager/login/', login.loginManager),
