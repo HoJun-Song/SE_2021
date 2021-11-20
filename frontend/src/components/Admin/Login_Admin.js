@@ -13,12 +13,14 @@ const Login_Admin = ( { history } ) => {
     password: password
   };
 
-  Axios.post('/',user)
+  Axios.post('http://127.0.0.1:8000/post/staff/login/',user)
   .then(res =>{
-    if (res.data.key) {
-      localStorage.clear()
-      localStorage.setItem('token', res.data.key)
-    }
+     
+    localStorage.clear()
+    localStorage.setItem('token', res.data.key)
+    window.location.replace('./Main_Admin')
+    //history.push("./Main_Admin")
+    
   })
   .catch(err =>{
     console.clear()
