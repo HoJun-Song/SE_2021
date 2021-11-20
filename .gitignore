@@ -1,5 +1,7 @@
+*.json
 *.pyc
 *.json
 my_settings.py
 seproject/
 *.csv
+backend/post/migrations/
