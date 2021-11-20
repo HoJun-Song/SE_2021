@@ -45,7 +45,16 @@ class OrdersSerializer(serializers.ModelSerializer):
         )
         model = Orders
 
-    
+class StockSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'name',
+            'unit',
+            'amount',
+            'price'
+        )
+        model = Stock
 
 
 
