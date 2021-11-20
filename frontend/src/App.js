@@ -27,6 +27,7 @@ import OpenOneMenu from './components/Admin/Menu/OpenOneMenu';
 import OpenTime from './components/Admin/Others/OpenTime';
 import TrackStock from './components/Admin/Others/TrackStock';
 import AnalyzeSale from './components/Admin/Others/AnalyzeSale';
+import OrderStock from './components/Admin/Others/OrderStock';
 
 class App extends Component {
   render() {
@@ -49,6 +50,7 @@ class App extends Component {
           <Route path="/RewriteMenu" component={RewriteMenu} />
           <Route path="/OpenOne" component={OpenOne} />
           <Route path="/OpenOneMenu" component={OpenOneMenu} />
+          <Route path="/OrderStock" component={OrderStock} />
         </BrowserRouter>
       </div>
     )
