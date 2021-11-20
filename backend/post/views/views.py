@@ -11,84 +11,8 @@ from ..models import Staff
 from .. import serializers
 from rest_framework.decorators import api_view
 
-class LoginAPI(generics.GenericAPIView):
-    def post(self, request):
-        try:
-            data = json.loads(request.body)
-            print(data)
-            login_user = Staff.objects.filter(staff_id=data['staff_id'])
-
-            if not login_user.exists() or login_user[0].staff_pw != data['staff_pw']:
-                return JsonResponse({'MESSAGE' : 'id 혹은 password가 다릅니다.'}, status=401)
-
-        except KeyError:
-            return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=400)
-
-        return JsonResponse({'MESSAGE' : 'SUCCESS'}, status=200)
-    
-class FindPW(generics.GenericAPIView):
-    Serializer = serializers.StaffSerializer
-    def post(self, request):
-        try:
-            input_data = json.loads(request.body)
-            print(input_data)
-            pw_user = Staff.objects.filter(staff_id=input_data['staff_id'])
-
-            if not pw_user.exists():
-                return JsonResponse({'MESSAGE' : '존재하지 않는 id입니다.'}, status=401)
-            elif pw_user[0].name != input_data['name']:
-                return JsonResponse({'MESSAGE' : '존재하지 않는 이름입니다.'}, status = 402)
-            elif pw_user[0].phone_num != input_data['phone_num']:
-                return JsonResponse({'MESSAGE' : '존재하지 않는 전화번호입니다.'}, status = 403)
-            
-            output_data = serializers.StaffEncoder.serialize(self, pw_user)
-            print(output_data)
-            '''
-            output_data = pw_user.all()
-            print(output_data)
-            serialized_output_data = serializers.StaffSerializer(output_data, many=True)
-            print(serialized_output_data)
-            '''
-
-        except KeyError:
-            return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=400)
-
-        #return JsonResponse(output_data, safe = False, status = 200)
-        #return Response(serialized_output_data.data)
-        return HttpResponse(output_data, content_type="text/json-comment-filtered")
-
-@api_view(['GET', 'POST'])
-def post(request):
-        try:
-            input_data = json.loads(request.body)
-            print(input_data)
-            pw_user = Staff.objects.filter(staff_id=input_data['staff_id'])
-
-            if not pw_user.exists():
-                return JsonResponse({'MESSAGE' : '존재하지 않는 id입니다.'}, status=401)
-            elif pw_user[0].name != input_data['name']:
-                return JsonResponse({'MESSAGE' : '존재하지 않는 이름입니다.'}, status = 402)
-            elif pw_user[0].phone_num != input_data['phone_num']:
-                return JsonResponse({'MESSAGE' : '존재하지 않는 전화번호입니다.'}, status = 403)
-            
-            #output_data = serializers.StaffEncoder.serialize(pw_user)
-            #print(output_data)
-            
-            output_data = pw_user.all()
-            print(output_data)
-            serialized_output_data = serializers.StaffSerializer(output_data, many=True)
-            print(serialized_output_data)
-            
-
-        except KeyError:
-            return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=400)
-
-        #return JsonResponse(output_data, safe = False, status = 200)
-        return Response(serialized_output_data.data, status=200)
-        #return HttpResponse(output_data, content_type="text/json-comment-filtered")
-        
 @api_view(['POST'])
-def login(request):
+def loginManager(request):
     try:
         data = json.loads(request.body)
         print(type(data))
@@ -106,7 +30,57 @@ def login(request):
     serialized_output_data = serializers.StaffSerializer(output_data, many=True)
     print(serialized_output_data)
     return Response(serialized_output_data.data, status=200)
+
+@api_view(['POST'])
+def loginStaff(request):
+    try:
+        data = json.loads(request.body)
+        print(type(data))
+        login_user = Staff.objects.filter(staff_id=data['staff_id'])
+        print(login_user)
+
+        if not login_user.exists() or login_user[0].staff_pw != data['staff_pw']:
+            return JsonResponse({'MESSAGE' : 'id 혹은 password가 다릅니다.'}, status=401)
+
+    except KeyError:
+        return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=400)
+
+    output_data = login_user.all()
+    print(output_data)
+    serialized_output_data = serializers.StaffSerializer(output_data, many=True)
+    print(serialized_output_data)
+    return Response(serialized_output_data.data, status=200)
+
+@api_view(['POST'])
+def findPW(request):
+    try:
+        input_data = json.loads(request.body)
+        print(input_data)
+        pw_user = Staff.objects.filter(staff_id=input_data['staff_id'])
+
+        if not pw_user.exists():
+            return JsonResponse({'MESSAGE' : '존재하지 않는 id입니다.'}, status=401)
+        elif pw_user[0].name != input_data['name']:
+            return JsonResponse({'MESSAGE' : '존재하지 않는 이름입니다.'}, status = 402)
+        elif pw_user[0].phone_num != input_data['phone_num']:
+            return JsonResponse({'MESSAGE' : '존재하지 않는 전화번호입니다.'}, status = 403)
         
+        #output_data = serializers.StaffEncoder.serialize(pw_user)
+        #print(output_data)
+        
+        output_data = pw_user.all()
+        print(output_data)
+        serialized_output_data = serializers.StaffSerializer(output_data, many=True)
+        print(serialized_output_data)
+        
+
+    except KeyError:
+        return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=400)
+
+    #return JsonResponse(output_data, safe = False, status = 200)
+    return Response(serialized_output_data.data, status=200)
+    #return HttpResponse(output_data, content_type="text/json-comment-filtered")
+
 
 '''
 # Create your views here.
