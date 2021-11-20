@@ -121,7 +121,6 @@ class DjangoSession(models.Model):
         managed = False
         db_table = 'django_session'
 
-### DATABASES ###
 
 class Menu(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -132,18 +131,7 @@ class Menu(models.Model):
     class Meta:
         managed = False
         db_table = 'menu'
-    
-    def getId(self):
-        return self.id
-    
-    def getName(self):
-        return self.name
-    
-    def getCategory(self):
-        return self.getCategory
-    
-    def getPrice(self):
-        return self.price
+
 
 class MenuTimer(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -157,20 +145,14 @@ class MenuTimer(models.Model):
 
 
 class MenuToStock(models.Model):
+    id = models.IntegerField(primary_key=True)
     menu = models.ForeignKey(Menu, models.DO_NOTHING, blank=True, null=True)
     stock = models.ForeignKey('Stock', models.DO_NOTHING, blank=True, null=True)
+    amount_per_menu = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'menu_to_stock'
-    
-    def getMenu(self):
-        return self.menu
-    
-    def getStock(self):
-        return self.stock
-    
-    
 
 
 class OrderTimer(models.Model):
@@ -197,7 +179,7 @@ class Orders(models.Model):
 
 class Staff(models.Model):
     id = models.IntegerField(primary_key=True)
-    staff_id = models.CharField(max_length=10, blank=True, null=True)
+    staff_id = models.CharField(unique=True, max_length=10, blank=True, null=True)
     staff_pw = models.CharField(max_length=10, blank=True, null=True)
     name = models.CharField(max_length=20, blank=True, null=True)
     phone_num = models.CharField(max_length=11, blank=True, null=True)
@@ -218,9 +200,6 @@ class Stock(models.Model):
     class Meta:
         managed = False
         db_table = 'stock'
-    
-    def __str__(self):
-        return self.id
 
 
 class Tables(models.Model):
