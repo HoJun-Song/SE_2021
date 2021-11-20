@@ -87,6 +87,26 @@ def post(request):
         return Response(serialized_output_data.data, status=200)
         #return HttpResponse(output_data, content_type="text/json-comment-filtered")
         
+@api_view(['POST'])
+def login(request):
+    try:
+        data = json.loads(request.body)
+        print(type(data))
+        login_user = Staff.objects.filter(staff_id=data['id'])
+        print(login_user)
+
+        if not login_user.exists() or login_user[0].staff_pw != data['password']:
+            return JsonResponse({'MESSAGE' : 'id 혹은 password가 다릅니다.'}, status=401)
+
+    except KeyError:
+        return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=400)
+
+    output_data = login_user.all()
+    print(output_data)
+    serialized_output_data = serializers.StaffSerializer(output_data, many=True)
+    print(serialized_output_data)
+    return Response(serialized_output_data.data, status=200)
+        
 
 '''
 # Create your views here.
