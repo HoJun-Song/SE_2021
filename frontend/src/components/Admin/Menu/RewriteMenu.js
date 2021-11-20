@@ -24,7 +24,13 @@ const RewriteMenu = ( { history } ) => {
             메뉴 수정<br/>
             <hr/>
             메뉴 이름<br/>
-            <input id="m_name" name="m_name" /><br/>
+            <input id="m_name" name="m_name" />
+            <select>
+			<option key="pasta" value="pasta">파스타</option>
+			<option key="pizza" value="pizza">피자</option>
+			<option key="steak" value="steak">스테이크</option>
+            <option key="all" value="all">전체</option>
+		    </select>
             가격<br/>
             <input id="price" name="price"/><br/>
             <br/>
