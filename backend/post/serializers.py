@@ -1,6 +1,32 @@
-from rest_framework import serializers
+#from rest_framework import serializers
 from .models import Menu, MenuTimer, MenuToStock, OrderTimer, Orders, Staff, Stock, Tables
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core.serializers import serialize
+from rest_framework import serializers
 
+class StaffEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Staff):
+            return str(obj)
+        return super().default(obj)
+    
+    def serialize(self, data):
+        output_data = serialize('json', data, fields="staff_pw", cls=StaffEncoder)
+        return output_data
+    
+class StaffSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'staff_id',
+            'staff_pw',
+            'name',
+            'phone_num',
+            'order'
+        )
+        model = Staff
+
+'''
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
@@ -11,8 +37,6 @@ class MenuSerializer(serializers.ModelSerializer):
         )
         model = Menu
         fields = '__all__' # added fields. all of data.
-
-
 
 class MenuTimerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,3 +106,4 @@ class TablesSerializer(serializers.ModelSerializer):
             'order'
         )
         model = Tables
+'''
