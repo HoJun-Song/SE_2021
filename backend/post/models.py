@@ -121,6 +121,7 @@ class DjangoSession(models.Model):
         managed = False
         db_table = 'django_session'
 
+### DATABASES ###
 
 class Menu(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -131,7 +132,18 @@ class Menu(models.Model):
     class Meta:
         managed = False
         db_table = 'menu'
-
+    
+    def getId(self):
+        return self.id
+    
+    def getName(self):
+        return self.name
+    
+    def getCategory(self):
+        return self.getCategory
+    
+    def getPrice(self):
+        return self.price
 
 class MenuTimer(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -151,6 +163,14 @@ class MenuToStock(models.Model):
     class Meta:
         managed = False
         db_table = 'menu_to_stock'
+    
+    def getMenu(self):
+        return self.menu
+    
+    def getStock(self):
+        return self.stock
+    
+    
 
 
 class OrderTimer(models.Model):
@@ -198,6 +218,9 @@ class Stock(models.Model):
     class Meta:
         managed = False
         db_table = 'stock'
+    
+    def __str__(self):
+        return self.id
 
 
 class Tables(models.Model):
