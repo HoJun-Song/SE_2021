@@ -27,6 +27,16 @@ import OpenOneMenu from './components/Admin/Menu/OpenOneMenu';
 import OpenTime from './components/Admin/Others/OpenTime';
 import TrackStock from './components/Admin/Others/TrackStock';
 import AnalyzeSale from './components/Admin/Others/AnalyzeSale';
+import OrderStock from './components/Admin/Others/OrderStock';
+
+//Staff func.
+import Main_Staff from './components/Staff/Main_Staff';
+
+//Order
+import OrderMenu from './components/Staff/Order/OrderMenu';
+
+//Table
+import TableManage from './components/Staff/Table/TableManage';
 
 class App extends Component {
   render() {
@@ -49,6 +59,10 @@ class App extends Component {
           <Route path="/RewriteMenu" component={RewriteMenu} />
           <Route path="/OpenOne" component={OpenOne} />
           <Route path="/OpenOneMenu" component={OpenOneMenu} />
+          <Route path="/Main_Staff" component={Main_Staff} />
+          <Route path="/OrderMenu" component={OrderMenu} />
+          <Route path="/TableManage" component={TableManage} />
+          <Route path="/OrderStock" component={OrderStock} />
         </BrowserRouter>
       </div>
     )

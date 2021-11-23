@@ -13,7 +13,7 @@ const Login_Admin = ( { history } ) => {
     password: password
   };
 
-  Axios.post('http://127.0.0.1:8000/post/staff/login/',user)
+  Axios.post('http://127.0.0.1:8000/post/manager/login/',user)
   .then(res =>{
      
     localStorage.clear()
@@ -50,7 +50,6 @@ const Login_Admin = ( { history } ) => {
           onChange={e => setPassword(e.target.value)}
         /><br/>
         <input type='submit' size="large" value='로그인'/>
-        <button onClick={()=> {history.push("./FindPW")}}> 비밀번호 찾기 </button>
        </form>
     </div>
   );

@@ -4,15 +4,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
 from rest_framework import serializers
 
-class StaffEncoder(DjangoJSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Staff):
-            return str(obj)
-        return super().default(obj)
-    
-    def serialize(self, data):
-        output_data = serialize('json', data, fields="staff_pw", cls=StaffEncoder)
-        return output_data
     
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,6 +16,48 @@ class StaffSerializer(serializers.ModelSerializer):
             'order'
         )
         model = Staff
+
+class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'name',
+            'category',
+            'price',
+        )
+        model = Menu
+
+class TablesSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'order'
+        )
+        model = Tables
+ 
+class OrdersSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'amount',
+            'order_id',
+            'menu'
+        )
+        model = Orders
+
+class StockSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'name',
+            'unit',
+            'amount',
+            'price'
+        )
+        model = Stock
+
+
+
 
 '''
 class MenuSerializer(serializers.ModelSerializer):
