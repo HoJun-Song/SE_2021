@@ -1,0 +1,25 @@
+import React from 'react';
+//결제 누르면 팝업으로 뜨도록 만들기
+const Cash = ( { history } ) => {
+    return (
+        <div>
+            <h3> Cash현금 </h3>
+            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
+            <hr/>
+            <container>
+            현금 결제<br/><hr/>
+            총 금액
+            <input id="price" name="price" /><br/>
+            받은 금액
+            <input id="price" name="price" /><br/><br/>
+            거스름돈
+            <input id="price" name="price" /><br/>
+            <br/>
+            <button onClick={()=> {history.push("./CompletePay")}}> 결제 완료 </button><br/>
+            </container>
+        </div>
+    );
+}
+export default Cash;
