@@ -122,18 +122,25 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class LoginPost(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'login_post'
+
+
 class Menu(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(unique=True, max_length=50, blank=True, null=True)
     category = models.CharField(max_length=30, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'menu'
-
-    # def __str__(self):
-    #     return self.name
 
 
 class MenuTimer(models.Model):
@@ -182,7 +189,7 @@ class Orders(models.Model):
 
 class Staff(models.Model):
     id = models.IntegerField(primary_key=True)
-    staff_id = models.CharField(unique=True, max_length=10, blank=True, null=True)
+    staff_id = models.CharField(max_length=10, blank=True, null=True)
     staff_pw = models.CharField(max_length=10, blank=True, null=True)
     name = models.CharField(max_length=20, blank=True, null=True)
     phone_num = models.CharField(max_length=11, blank=True, null=True)
@@ -195,7 +202,7 @@ class Staff(models.Model):
 
 class Stock(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=30, blank=True, null=True)
+    name = models.CharField(unique=True, max_length=30, blank=True, null=True)
     unit = models.CharField(max_length=10, blank=True, null=True)
     amount = models.IntegerField(blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
