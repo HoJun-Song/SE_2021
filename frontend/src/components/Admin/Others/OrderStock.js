@@ -19,7 +19,7 @@ const OrderStock = ( { history } ) => {
             <br/>
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
             재고 주문<br/>
             <hr/>
             <container>
@@ -35,7 +35,7 @@ const OrderStock = ( { history } ) => {
             <br/>
             <hr/>
             <button>초기화</button>
-            <button>선택 완료</button>
+            <button onClick={()=> {history.push("./ConfirmOrderStock")}}> 선택 완료 </button><br/>
         </div>
     );
 }
