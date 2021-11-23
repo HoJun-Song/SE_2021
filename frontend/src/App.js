@@ -28,15 +28,32 @@ import OpenTime from './components/Admin/Others/OpenTime';
 import TrackStock from './components/Admin/Others/TrackStock';
 import AnalyzeSale from './components/Admin/Others/AnalyzeSale';
 import OrderStock from './components/Admin/Others/OrderStock';
+import OpenOneAnalyze from './components/Admin/Others/OpenOneAnalyze';
+import RegisterStock from './components/Admin/Others/RegisterStock';
+import AnalyzeStock from './components/Admin/Others/AnalyzeStock';
+import RewriteStock from './components/Admin/Others/RewriteStock';
+import ConfirmOrderStock from './components/Admin/Others/ConfirmOrderStock';
+
 
 //Staff func.
 import Main_Staff from './components/Staff/Main_Staff';
 
 //Order
 import OrderMenu from './components/Staff/Order/OrderMenu';
+import ConfirmOrderMenu from './components/Staff/Order/ConfirmOrderMenu';
+import CompleteOrder from './components/Staff/Order/CompleteOrder';
 
 //Table
 import TableManage from './components/Staff/Table/TableManage';
+import SelectTable from './components/Staff/Table/SelectTable';
+import TableInfo from './components/Staff/Table/TableInfo';
+import MoveTable from './components/Staff/Table/MoveTable';
+
+//Payment
+import Payment from './components/Staff/Pay/Payment';
+import Card from './components/Staff/Pay/Card';
+import Cash from './components/Staff/Pay/Cash';
+import CompletePay from './components/Staff/Pay/CompletePay';
 
 class App extends Component {
   render() {
@@ -63,6 +80,20 @@ class App extends Component {
           <Route path="/OrderMenu" component={OrderMenu} />
           <Route path="/TableManage" component={TableManage} />
           <Route path="/OrderStock" component={OrderStock} />
+          <Route path="/OpenOneAnalyze" component={OpenOneAnalyze} />
+          <Route path="/RegisterStock" component={RegisterStock} />
+          <Route path="/AnalyzeStock" component={AnalyzeStock} />
+          <Route path="/RewriteStock" component={RewriteStock} />
+          <Route path="/ConfirmOrderStock" component={ConfirmOrderStock} />
+          <Route path="/ConfirmOrderMenu" component={ConfirmOrderMenu} />
+          <Route path="/SelectTable" component={SelectTable} />
+          <Route path="/Payment" component={Payment} />
+          <Route path="/Cash" component={Cash} />
+          <Route path="/Card" component={Card} />
+          <Route path="/CompletePay" component={CompletePay} />
+          <Route path="/CompleteOrder" component={CompleteOrder} />
+          <Route path="/TableInfo" component={TableInfo} />
+          <Route path="/MoveTable" component={MoveTable} />
         </BrowserRouter>
       </div>
     )
