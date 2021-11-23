@@ -10,7 +10,11 @@ from rest_framework.decorators import api_view
 @api_view(['POST'])
 def orderMenu(request):
     '''
-    메뉴 주문
+    메뉴 주문 
+
+    2021-11-23 2차
+    
+    - 메뉴 주문 완료 시 해당 메뉴에 필요한 재고들의 amount 줄이기 (예정)
     '''
     try:
         data = json.loads(request.body)

@@ -7,7 +7,7 @@ const Main_Staff = ( { history } ) => {
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button><br/>
             <button onClick={()=> {history.push("./OrderMenu")}}> 메뉴 주문 </button>
             <button onClick={()=> {history.push("./TableManage")}}> 테이블 관리 / 수정 </button><br/><br/>
-            <button onClick={()=> {history.push("./ReadyTimeCheck")}}> 메뉴 준비시간 체크 </button>
+            <button onClick={()=> {history.push("./CompleteOrder")}}> 메뉴 준비시간 체크 </button>
         </div>
     );
 }
