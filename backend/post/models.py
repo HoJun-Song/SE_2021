@@ -132,8 +132,8 @@ class Menu(models.Model):
         managed = False
         db_table = 'menu'
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
 
 class MenuTimer(models.Model):
