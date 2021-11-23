@@ -48,7 +48,7 @@ const OrderMenu = ( { history } ) => {
                 <br/>
             총금액 <input id="price" name="price"/>
             <button>초기화</button>
-            <button>선택 완료</button>
+            <button onClick={()=> {history.push("./ConfirmOrderMenu")}}> 선택완료 </button><br/>
             </container>
         </div>
     );
