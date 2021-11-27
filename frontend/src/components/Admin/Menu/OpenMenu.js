@@ -1,23 +1,41 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Axios from 'axios';
+import axios from 'axios';
 
 const OpenMenu = ( { history } ) => {
-    const [id,setId] = useState('')
+    /*const [id,setId] = useState('')
     const [name,setName] = useState('');
+    const [errors, setErrors] = useState(false)*/
+    
+    const [menus, setMenus] = useState([])
     const [errors, setErrors] = useState(false)
-       
-    const onSubmit = (e) => {
+
+    const getMenus = async () => {
+        const response = await axios.get('http://127.0.0.1:8000/post/createMenu/')
+        setMenus(response.data)
+    }
+
+    useEffect(() => {
+        getMenus();
+    }, [])
+
+    /*const onSubmit = (e) => {
     e.preventDefault();
     const user = {
         id: id,
         name: name,
     };
+    const OpenMenu = async () => {
+        const {data} = await axios.get('http://127.0.0.1:8000/post/browseMenu/');
+        console.log(data)
+    }*/
        
-    Axios.get('http://127.0.0.1:8000/post/browseMenu/',user)
+    /*Axios.get('http://127.0.0.1:8000/post/browseMenu/',user)
         .then(res =>{
-        localStorage.setItem('token', res.data.key)
-        localStorage.getItem('token')
-        window.location.replace('./OpenOneMenu')
+        console.log(res.data);
+        //localStorage.setItem('token', res.data.key)
+        //localStorage.getItem('token')
+        //window.location.replace('./OpenOneMenu')
         //alert('메뉴가 선택되었습니다.')
         })
         .catch(err =>{
@@ -26,10 +44,10 @@ const OpenMenu = ( { history } ) => {
         setId('')
         setName('')
         })
-        .then(()=>{
-        console.log(user)
-        })
-    };
+        //.then(()=>{
+        //console.log(user)
+        //})
+    };*/
 
     return (
         <div>
@@ -38,12 +56,19 @@ const OpenMenu = ( { history } ) => {
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
             <hr/>
-            <form onSubmit={onSubmit}>
             메뉴 ID <br/>
-            <input id="id" name="id" onChange={e => setId(e.target.value)} />
-            <input id="name" name="name" onChange={e => setName(e.target.value)} />
+            <div>
+            {
+                menus.map((menu) => (
+                    <div>
+                        {menu.id}<br/>
+                        {menu.name}<br/>
+                    </div>
+                )
+                )
+            }
             <input type='submit' size="large" value='선택'/>
-            </form>
+            </div>
         </div>
     );
 }
