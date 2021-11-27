@@ -1,0 +1,11 @@
+body {
+    background-color: rgb(157, 198, 218);
+    color: rgb(14,84,205);
+    margin: 10px;
+    font-family: Jua-Regular;
+  }
+
+  @font-face {
+      font-family: Jua-Regular;
+      src: url("./fonts/Jua-Regular.ttf");
+  }

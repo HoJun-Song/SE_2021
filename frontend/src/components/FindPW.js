@@ -48,7 +48,7 @@ const FindPW = ({history}) =>{
         <input id="staff_id" name="staff_id" onChange={e => setStaff_ID(e.target.value)} /><br/>
         전화번호<br/>
         <input id="phone_num" name="phone_num" onChange={e => setPhone_Num(e.target.value)} /><br/>
-        <input type='submit' size="large" value='PW 찾기'/>
+        <input className="btn" type='submit' size="large" value='PW 찾기'/>
     </form>
     </div>
         );

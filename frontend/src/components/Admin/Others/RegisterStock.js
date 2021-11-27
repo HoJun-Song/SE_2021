@@ -1,16 +1,19 @@
 import React, {useState } from 'react';
 let init = 0;
 const RegisterStock = ( { history }, props ) => {
-    
-    //증감
-    console.log('rebuild');
-    const [num, setNum] = useState(0);
-    const Increase = () => {
-        setNum(num + 10);
+                //초기화 버튼 구현 
+    /*
+    const chkName = (e) =>{
+        setName(e.target.value);
     }
-    const Decrease = () => {
-        setNum(num - 10);
+    const chkPrice = (e) =>{
+        setPrice(e.target.value);
     }
+    const resetVal = () =>{
+        setName('');
+        setPrice('');
+    }
+    */
     //기능 변경 필요 => 메뉴 입력 칸 증감
     return (
         <div>
