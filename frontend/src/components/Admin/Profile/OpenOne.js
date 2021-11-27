@@ -17,7 +17,6 @@ const OpenOne = ( { history } ) => {
             <input id="pw" name="pw"/><br/>
             전화번호<br/>
             <input id="pnum" name="pnum"/><br/>
-            <button>초기화</button>
             <button onClick={()=> {history.push("./RewriteProfile")}}> 수정 </button>
             </container>
         </div>

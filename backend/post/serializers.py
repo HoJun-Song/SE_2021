@@ -13,7 +13,6 @@ class StaffSerializer(serializers.ModelSerializer):
             'staff_pw',
             'name',
             'phone_num',
-            'order'
         )
         model = Staff
 
@@ -31,7 +30,8 @@ class TablesSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
-            'order'
+            'order',
+            'table_id'
         )
         model = Tables
  

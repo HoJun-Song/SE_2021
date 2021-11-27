@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Axios from 'axios';
+import RASZAS from '../img/RASZAS.jpg';
 
 const Login_Admin = ( { history } ) => {
  const [id,setID] = useState('');
@@ -34,22 +35,28 @@ const Login_Admin = ( { history } ) => {
     <div>
       <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
       <h3> Login_Admin </h3>
+      <img
+            src={ RASZAS }
+            width='400'
+            height='200'
+            textAlign="center"
+            alt='RASZAS' /><br/>
       {errors === true && <h3>Cannot log in with provided credentials</h3>}
       <form onSubmit={onSubmit}>
-        <input 
+        <button className="btn">ID</button><input 
           id="id" 
           name="id" 
           placeholder="아이디를 입력해주세요"
           onChange={e => setID(e.target.value)}
-        />
-        <input
+        /><br/>
+        <button className="btn">PW</button><input
           id="password"
           name="password"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           onChange={e => setPassword(e.target.value)}
         /><br/>
-        <input type='submit' size="large" value='로그인'/>
+        <input className="btn" type='submit' size="large" value='로그인'/>
        </form>
     </div>
   );
