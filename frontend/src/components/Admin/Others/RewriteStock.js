@@ -1,6 +1,19 @@
 import React from 'react';
 //DB에서 요청 후 받아오는 작업 필요
 const RewriteStock = ( { history } ) => {
+            //초기화 버튼 구현 
+    /*
+    const chkName = (e) =>{
+        setName(e.target.value);
+    }
+    const chkPrice = (e) =>{
+        setPrice(e.target.value);
+    }
+    const resetVal = () =>{
+        setName('');
+        setPrice('');
+    }
+    */
     return (
         <div>
             <h3> RewriteStock </h3>
