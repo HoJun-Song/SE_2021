@@ -5,12 +5,16 @@ from .views import createMenu, browseMenu, browseStaffProfile, stock, login, ord
 
 urlpatterns = [
     # create menu
-    path('createMenu/', createMenu.post),
+    path('createMenu/', createMenu.createMenu),
 
     # browse menu (all)
-    path('browseMenu/', browseMenu.post),
+    path('browseMenu/', browseMenu.browseMenu),
     # browse menu (selected)
     path('getSelectedMenu/', browseMenu.getSelectedMenu),
+    # modify menu
+    path('modifyMenu/', browseMenu.modifyMenu),
+    # delete menu
+    path('deleteMenu/', browseMenu.deleteMenu),
 
     # browse staff profile
     path('browseStaffProfile/', browseStaffProfile.post),
@@ -30,16 +34,20 @@ urlpatterns = [
 
     # manager login
     path('manager/login/', login.loginManager),
-
     # staff login
     path('staff/login/', login.loginStaff),
-
     # find password (staff)
     path('findPW/', login.findPW),
     
+    # show menu
+    path('showMenu/', orderMenu.showMenu),
     # order menu
     path('orderMenu/', orderMenu.orderMenu),
+    # finish menu
+    path('finishMenu/', orderMenu.finishMenu),
 
     # show table
     path('showTable/', showTable.showTable),
+    # show table detail
+    path('detailTable/', showTable.detailTable),
 ]
