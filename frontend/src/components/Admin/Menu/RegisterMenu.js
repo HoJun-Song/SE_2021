@@ -2,7 +2,6 @@ import React, {useState } from 'react';
 import Axios from 'axios';
 
 const RegisterMenu = ( { history } ) => {
-    const [id] = useState('')
     const [name,setName] = useState('');
     const [category,setCate] = useState('');
     const [price,setPrice] = useState('');
@@ -13,7 +12,6 @@ const RegisterMenu = ( { history } ) => {
     const onSubmit = (e) => {
     e.preventDefault();
     const user = {
-        id: id,
         name: name,
         category: category,
         price: price,
@@ -23,7 +21,6 @@ const RegisterMenu = ( { history } ) => {
        
     Axios.post('http://127.0.0.1:8000/post/createMenu/',user)
         .then(res =>{
-        localStorage.clear()
         localStorage.setItem('token', res.data.key)
         alert('메뉴가 등록되었습니다.')
         })
@@ -64,13 +61,13 @@ const RegisterMenu = ( { history } ) => {
             onChange={e => setName(e.target.value)} />
             <select>
 			<option id="category" key="pasta" value="pasta"
-            onChange={e => setCate(e.target.value)}>파스타</option>
+            onChange={e => setCate(e.target.value)}>Pasta</option>
 			<option id="category" key="pizza" value="pizza"
-            onChange={e => setCate(e.target.value)}>피자</option>
+            onChange={e => setCate(e.target.value)}>Pizza</option>
 			<option id="category" key="steak" value="steak"
-            onChange={e => setCate(e.target.value)}>스테이크</option>
+            onChange={e => setCate(e.target.value)}>Steak</option>
             <option id="category" key="all" value="all"
-            onChange={e => setCate(e.target.value)}>전체</option>
+            onChange={e => setCate(e.target.value)}>All</option>
 		    </select><br/>
             가격<br/>
             <input id="price" name="price"
@@ -81,7 +78,8 @@ const RegisterMenu = ( { history } ) => {
                 <container>
                 <input id="stock_name" name="stock_name"
                 onChange={e => setStockName(e.target.value)}/>
-                <input id="amount" name="stock_amount" text="int"/>
+                <input id="amount" name="amount"
+                onChange={e => setStockAmount(e.target.value)}/>
                 <button name="inc" onClick={Increase}>
                 +
                 </button>
