@@ -10,7 +10,7 @@ const RewriteMenu = ( { history } ) => {
         const [amount,setStockAmount] = useState('');
         const [errors, setErrors] = useState(false)
            
-        const onSubmit = (e) => {
+        const onSubmit = (e) => {//수정
         e.preventDefault();
         const user = {
             id: id,
@@ -30,15 +30,10 @@ const RewriteMenu = ( { history } ) => {
             .catch(err =>{
             console.clear()
             alert('입력이 잘못되었습니다.')
-            setName('')
-            setCate('')
-            setPrice('')
-            setStockName('')
-            setStockAmount('')
             })
         };
         
-    const onSubmit2 = (e) => {
+    const onSubmit2 = (e) => {//삭제
         e.preventDefault();
         const user = {
             id: id,
@@ -58,22 +53,25 @@ const RewriteMenu = ( { history } ) => {
         .catch(err =>{
         console.clear()
         alert('입력이 잘못.')
-        setName('')
-        setCate('')
-        setPrice('')
-        setStockName('')
-        setStockAmount('')
         }) 
     };
-    
-    console.log('rebuild');
-    const [num, setNum] = useState(0);
-    
-    const Increase = () => {
-        setNum(num + 10);
+    const chkName = (e) =>{
+        setName(e.target.value);
     }
-    const Decrease = () => {
-        setNum(num - 10);
+    const chkPrice = (e) =>{
+        setPrice(e.target.value);
+    }
+    const chkStockName = (e) =>{
+        setStockName(e.target.value);
+    }
+    const chkStockAmount = (e) =>{
+        setStockAmount(e.target.value);
+    }
+    const resetVal = () =>{
+        setName('');
+        setPrice('');
+        setStockName('');
+        setStockAmount('');
     }
     //기능 변경 필요 => 재료 입력 칸 증감
     return (
@@ -87,7 +85,7 @@ const RewriteMenu = ( { history } ) => {
             <hr/>
             메뉴 이름<br/>
             <input id="name" name="m_name" 
-            onChange={e => setName(e.target.value)}/>
+            onChange={e => setName(e.target.value)} onChange={chkName} value={name}/>
             <select>
 			<option id="category" key="pasta" value="pasta"
             onChange={e => setCate(e.target.value)}>파스타</option>
@@ -100,30 +98,31 @@ const RewriteMenu = ( { history } ) => {
 		    </select>
             <br/>가격<br/>
             <input id="price" name="price"
-            onChange={e => setPrice(e.target.value)}/><br/>
+            onChange={e => setPrice(e.target.value)} onChange={chkPrice} value={price}/><br/>
             <br/>
             재료<br/>
             <hr/>
                 <container>
                 <input id="stock_name" name="name"
-                onChange={e => setStockName(e.target.value)}/>
+                onChange={e => setStockName(e.target.value)} onChange={chkStockName} value={stock_name}/>
                 <input id="amount" name="amount" text="int"
-                onChange={e => setStockAmount(e.target.value)}/>
-                <button name="inc" onClick={Increase}>
+                onChange={e => setStockAmount(e.target.value)} onChange={chkStockAmount} value={amount}/>
+                <button>
                 +
                 </button>
-                <button name="dec" onClick={Decrease}>
+                <button>
                 -
                 </button>
                 </container>
                 <br/>
-            <button>초기화</button>
+            
             <form onSubmit={onSubmit}>
             <input type='submit' size="large" value='수정'/>
             </form>
             <form onSubmit={onSubmit2}>
             <input type='submit' size="large" value='삭제'/>
             </form>
+            <button onClick={resetVal}>초기화</button>
         </div>
     );
 }

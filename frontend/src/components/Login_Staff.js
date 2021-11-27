@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import Axios from 'axios';
 import FindPW from './FindPW';
+import './btn.css';
+import RASZAS from './img/RASZAS.jpg';
 
 const Login_Admin = ( { history } ) => {
  const [staff_id,setID] = useState('');
@@ -50,8 +52,8 @@ const Login_Admin = ( { history } ) => {
           placeholder="비밀번호를 입력해주세요"
           onChange={e => setPassword(e.target.value)}
         /><br/>
-        <input type='submit' size="large" value='로그인'/>
-        <button onClick={ () => {history.push("./FindPW")} }>PW 찾기</button>
+        <input className="btn" type='submit' size="large" value='로그인'/>
+        <button className="btn" onClick={ () => {history.push("./FindPW")} }>PW 찾기</button>
        </form>
     </div>
   );
