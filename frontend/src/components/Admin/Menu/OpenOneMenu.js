@@ -1,28 +1,32 @@
-import React, {useState} from 'react';
-import Axios from 'axios';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 //DB에서 요청 후 받아오는 작업 필요
 
 const OpenOneMenu = ( { history } ) => {
-    const [id] = useState('')
-    const [name,setName] = useState('');
-    const [category,setCate] = useState('');
-    const [price,setPrice] = useState('');
-    const [stock_name,setStockName] = useState('');
-    const [amount,setStockAmount] = useState('');
-    const [errors, setErrors] = useState(false)
+    //const [id] = useState('')
+    const [menu,setMenu] = useState("")
        
-    const onSubmit = (e) => {
+    //const onSubmit = (e) => {
     e.preventDefault();
-    const user = {
+    /*const user = {
         id: id,
         name: name,
         category: category,
         price: price,
         stock_name: stock_name,
         amount: amount
-    };
+    };*/
        
-    Axios.get('http://127.0.0.1:8000/post/createMenu/',user)
+    const getOneMenu = async () => {
+        const {data} = await axios.get('http://127.0.0.1:8000/post/createMenu/')
+        console.log(data)
+        setMenu(data)
+    }
+    useEffect(()=>{
+        getOneMenu();
+    },[])
+    
+    /*Axios.get('http://127.0.0.1:8000/post/createMenu/',user)
         .then(res =>{
         localStorage.clear()
         localStorage.setItem('token', res.data.key)
@@ -38,7 +42,7 @@ const OpenOneMenu = ( { history } ) => {
         setStockAmount('')
         })
         
-    };
+    }; */
 
 
 
@@ -48,24 +52,15 @@ const OpenOneMenu = ( { history } ) => {
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
-            <container>
-            메뉴<br/>
-            <hr/>
-            메뉴 이름<br/>
-            <input id="m_name" name="m_name" /><br/>
-            가격<br/>
-            <input id="price" name="price"/><br/>
-            <br/>
-            재료<br/>
-            <hr/>
-                <container>
-                <input id="s_name" name="name"/>
-                <input text="int"/>
-                </container>
-                <br/>
-            <button>초기화</button>
+           <div>
+               {menu.name}<br/>
+               {menu.category}<br/>
+               {menu.price}<br/>
+               {menu.stock_name}<br/>
+               {menu.amount}<br/>
+               <button>초기화</button>
             <button onClick={()=> {history.push("./RewriteMenu")}}> 수정 </button>
-            </container>
+           </div>
         </div>
     );
 }
