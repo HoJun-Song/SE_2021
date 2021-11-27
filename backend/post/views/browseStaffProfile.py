@@ -19,7 +19,6 @@ def post(request):
     2021-11-20 1차
     
     - /post/browseStaffProfile/ 로 빈 request가 넘어오면 전체 직원 반환 (완료-1차)
-    
     '''
     try:
         staff_list = Staff.objects.all()
@@ -31,7 +30,7 @@ def post(request):
         JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
 
-    output_data = staff_list #.only('name')
+    output_data = staff_list
     serialized_output_data = serializers.StaffSerializer(output_data, many=True)
 
     return Response(serialized_output_data.data, status=200)
