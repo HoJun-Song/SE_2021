@@ -124,16 +124,13 @@ class DjangoSession(models.Model):
 
 class Menu(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(unique=True, max_length=50, blank=True, null=True)
     category = models.CharField(max_length=30, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'menu'
-
-    # def __str__(self):
-    #     return self.name
 
 
 class MenuTimer(models.Model):
@@ -195,7 +192,7 @@ class Staff(models.Model):
 
 class Stock(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=30, blank=True, null=True)
+    name = models.CharField(unique=True, max_length=30, blank=True, null=True)
     unit = models.CharField(max_length=10, blank=True, null=True)
     amount = models.IntegerField(blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
