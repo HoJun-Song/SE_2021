@@ -12,49 +12,57 @@ import json
 from ..models import Menu, MenuToStock, Stock
 
 @api_view(['POST'])
-def post(request):
+def createMenu(request):
     '''
     새로운 메뉴 생성
 
     2021-11-19 1차
     2021-11-20 2차
+    2021-11-27 3차
 
     - 메뉴이름, 가격, 카테고리를 입력받아 DB에 저장 (완료-1차)
     - 재고이름, 메뉴당재고를 입력받아 DB에 저장 (완료-2차)
     - 메뉴-재고 연동 (완료-2차)
+    - 추가되는 재고 개수만큼 MenuToStock 객체 증가 (완료-3차)
+    - ID값을 입력받지 않고 table의 instance 개수 파악 후 자동 증가 (완료-3차)
 
-    - ID값을 입력받지 않고 table의 instance 개수 파악 후 자동 증가 (미완료)
-    - 추가되는 재고 개수만큼 MenuToStock 객체 증가 (미완료)
+    - 입력 오류에 대한 예외 처리는 포함하지 않음; front에서 처리할 예정 (3차)
+    
     '''
+    
+    # Menu id 자동 생성
     if not Menu.objects.exists():
-        id = 0
+        menu_id = 0
     else:
         max_id = Menu.objects.aggregate(id = Max('id'))
-        id = max_id['id']
+        menu_id = max_id['id']
+
+    # MenuToStock id 자동 생성
+    if not MenuToStock.objects.exists():
+        menu_to_stock_id = 0
+    else:
+        max_id = MenuToStock.objects.aggregate(id = Max('id'))
+        menu_to_stock_id = max_id['id']
     
     try:
         data = json.loads(request.body)
-        print(data)
 
-        if len(data['name']) > 50 or len(data['category']) > 30:
-            return JsonResponse({'MESSAGE' : 'DATA_TOO_LONG'}, status=400)
-        if int(data['price']) < 0:
-            return JsonResponse({'MESSAGE' : 'INVALID_PRICE'}, status=401)
-        #if not Stock.objects.filter(name=data['stock_name']).exists():
-        #    return JsonResponse({'MESSAGE' : 'INVALID_STOCK_NAME'}, status=402)
-
+        # Menu instance(object)는 하나만 생성
         Menu.objects.create(
-            id        = id + 1,
+            id        = menu_id + 1,
             name      = data['name'],
             category  = data['category'],
             price     = int(data['price']),
         )
-        MenuToStock.objects.create(
-            id        = 2,
-            menu      = Menu.objects.get(name=data['name']),
-            stock     = Stock.objects.get(name=data['stock_name']),
-            amount_per_menu = int(data['amount'])
-        )
+
+        # 입력받은 만큼 Stock instance(object) 생성
+        for i, (st, amt) in enumerate(zip(data['stock'], data['amount'])):
+            MenuToStock.objects.create(
+                id        = menu_to_stock_id + i,
+                menu      = Menu.objects.get(name=data['name']),
+                stock     = Stock.objects.get(name=st),
+                amount_per_menu = int(amt)
+            )
     
     except json.decoder.JSONDecodeError:
         return JsonResponse({'MESSAGE' : 'REQUEST_WITHOUT_DATA'}, status=410)

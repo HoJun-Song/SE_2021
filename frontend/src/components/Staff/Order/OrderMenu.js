@@ -1,16 +1,48 @@
-import React, {useState} from 'react';
-let init = 0;
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import Axios from 'axios';
+
 
 const OrderMenu = ( { history } ) => {
     console.log('rebuild');
-    const [num, setNum] = useState(0);
-    
-    const Increase = () => {
-        setNum(num + 10);
+   
+    const [menus, setMenus] = useState([])
+    const [count, setCount] = useState('')
+    const [price, setPrice] = useState('')
+
+    const getMenus = async () => {
+        const response = await axios.get('http://127.0.0.1:8000/post/browseMenu/')
+        setMenus(response.data)
+    }
+    /*const Increase = async ()=> {
+        const res = await axios.post('http://127.0.0.1:8000/post/orderMenu/')
+        setCount(res.data)
+        count + 1 ;
+    }*/
+    Axios.post('http://127.0.0.1:8000/post/orderMenu/',user)
+    .then(res =>{
+      localStorage.clear()
+      localStorage.Increase(res.data)
+    })
+    const Decrease = async ()=> {
+        const res = await axios.post('http://127.0.0.1:8000/post/orderMenu/')
+        setCount(res.data)
+    }
+    /*const getPrice = async () => {
+        const response = await axios.get(('http://127.0.0.1:8000/post/finishMenu/')
+        setPrice(response.data)
+    }*/
+
+    useEffect(() => {
+        getMenus();
+    }, [])
+
+    /*const Increase = () => {
+        setCount(count + 1);
     }
     const Decrease = () => {
-        setNum(num - 10);
-    }
+        setCount(count - 1);
+    }*/
     return (
         <div>
             <h3> OrderMenu </h3>
@@ -19,33 +51,20 @@ const OrderMenu = ( { history } ) => {
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <button onClick={()=> {history.push("./Main_Staff")}}> 홈버튼 </button>
             <container><br/>
-            파스타<br/>
             <hr/>
-                <container>
-                <input id="pasta_name" name="pasta_name" />
-                <input text="int"/>
-                <button name="inc" onClick={Increase}>
-                +
+                {
+                menus.map((menu) => (
+                    <div>
+                        {menu.name}<br/>
+                    </div>
+                ))}
+                <button name="inc" onClick={Increase} value='+'>
                 </button>
-                <button name="dec" onClick={Decrease}>
-                -
+                <button name="dec" onClick={Decrease} value='-'>
                 </button>
-                </container>
                 <br/>
             <hr/>
-            피자<br/>
-            <hr/>
-                <container>
-                <input id="pizza_name" name="pizza_name"/>
-                <input text="int"/>
-                <button name="inc" onClick={Increase}>
-                +
-                </button>
-                <button name="dec" onClick={Decrease}>
-                -
-                </button>
-                </container>
-                <br/>
+            
             총금액 <input id="price" name="price"/>
             <button>초기화</button>
             <button onClick={()=> {history.push("./ConfirmOrderMenu")}}> 선택완료 </button><br/>
