@@ -122,16 +122,6 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class LoginPost(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=200)
-    content = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'login_post'
-
-
 class Menu(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=50, blank=True, null=True)
@@ -189,7 +179,7 @@ class Orders(models.Model):
 
 class Staff(models.Model):
     id = models.IntegerField(primary_key=True)
-    staff_id = models.CharField(max_length=10, blank=True, null=True)
+    staff_id = models.CharField(unique=True, max_length=10, blank=True, null=True)
     staff_pw = models.CharField(max_length=10, blank=True, null=True)
     name = models.CharField(max_length=20, blank=True, null=True)
     phone_num = models.CharField(max_length=11, blank=True, null=True)
