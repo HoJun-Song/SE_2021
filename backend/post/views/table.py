@@ -6,7 +6,7 @@ from rest_framework.response import Response
 import json
 
 # from ..serializers import MenuSerializer
-from ..models import Tables, Orders, Menu
+from ..models import Tables, Orders, Menu, MenuToStock
 from .. import serializers
 
 @api_view(['POST'])
