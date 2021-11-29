@@ -183,7 +183,6 @@ class Staff(models.Model):
     staff_pw = models.CharField(max_length=10, blank=True, null=True)
     name = models.CharField(max_length=20, blank=True, null=True)
     phone_num = models.CharField(max_length=11, blank=True, null=True)
-    order = models.ForeignKey(Orders, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -205,6 +204,7 @@ class Stock(models.Model):
 class Tables(models.Model):
     id = models.IntegerField(primary_key=True)
     order = models.ForeignKey(Orders, models.DO_NOTHING, blank=True, null=True)
+    table_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
