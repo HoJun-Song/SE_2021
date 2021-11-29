@@ -1,7 +1,7 @@
 from django.urls import path
 
 # from . import views
-from .views import createMenu, browseMenu, createStaffProfile, browseStaffProfile, stock, login, orderMenu, showTable
+from .views import createMenu, browseMenu, createStaffProfile, browseStaffProfile, stock, login, orderMenu, table, timeInfo
 
 urlpatterns = [
     ### 1. 로그인
@@ -38,6 +38,8 @@ urlpatterns = [
     #추가) 메뉴 정보 삭제
     path('deleteMenu/', browseMenu.deleteMenu),
 
+    ### 7. 시간 정보 열람
+    path('browseTimeInfo/', timeInfo.browse),
 
     ### 9. 재고 추적
     # 9-1. 재고 현황
@@ -53,8 +55,9 @@ urlpatterns = [
 
     ### 10. 재고 주문
     # 10-1. 주문할 재고와 수량 선택
-    path('orderStock/', stock.order),
-
+    path('orderStock/', stock.orderStock),
+    # 10-2. 주문할 재고 정보 확인
+    path('finishStock/', stock.finishStock),
 
     ### 11. 메뉴 주문
     # 11-1. 메뉴 선택
@@ -63,11 +66,13 @@ urlpatterns = [
     path('orderMenu/', orderMenu.orderMenu),
     # 11-.
     path('finishMenu/', orderMenu.finishMenu),
+    # 11-2. 매장 식사 선택 시 테이블 선택
+    path('orderTable/', orderMenu.orderTable),
 
     ### 13. 테이블 관리
     # 13-1. 현재 테이블 목록 확인
-    path('showTable/', showTable.showTable),
+    path('showTable/', table.showTable),
     # 13-2. 테이블 별 정보 열람
-    path('detailTable/', showTable.detailTable),
-    
+    path('detailTable/', table.detailTable),
+
 ]
