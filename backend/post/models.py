@@ -136,7 +136,7 @@ class Menu(models.Model):
 class MenuTimer(models.Model):
     id = models.IntegerField(primary_key=True)
     menu = models.ForeignKey(Menu, models.DO_NOTHING, blank=True, null=True)
-    start_time = models.ForeignKey('OrderTimer', models.DO_NOTHING, db_column='start_time', blank=True, null=True)
+    order_timer = models.ForeignKey('OrderTimer', models.DO_NOTHING, blank=True, null=True)
     end_time = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
