@@ -12,8 +12,8 @@ const Login_Admin = ( { history } ) => {
  const onSubmit = (e) => {
   e.preventDefault();
   const user = {
-    id: staff_id,
-    password: staff_pw
+    staff_id: staff_id,
+    staff_pw: staff_pw
   };
 
   Axios.post('http://127.0.0.1:8000/post/staff/login/',user)

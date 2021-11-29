@@ -2,6 +2,27 @@ import React, { useState } from 'react';
 
 const MakeSprofile = ( { history } ) => {
     
+        //초기화 버튼 구현 
+    /*
+    const chkName = (e) =>{
+        setName(e.target.value);
+    }
+    const chkPrice = (e) =>{
+        setPrice(e.target.value);
+    }
+    const chkPW = (e) =>{
+        setStockName(e.target.value);
+    }
+    const chkPnum = (e) =>{
+        setStockAmount(e.target.value);
+    }
+    const resetVal = () =>{
+        setName('');
+        setPrice('');
+        setPW('');
+        setPnum('');
+    }
+    */
     return (
         <div>
             <h3> MakeSprofile </h3>
