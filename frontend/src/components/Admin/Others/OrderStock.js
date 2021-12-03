@@ -1,31 +1,57 @@
-import React, {useState } from 'react';
-let init = 0;
+import React, {useState, useEffect } from 'react';
+import Axios from 'axios';
+import axios from 'axios';
 
 const OrderStock = ( { history } ) => {
-                //초기화 버튼 구현 
-    /*
-    const chkName = (e) =>{
-        setName(e.target.value);
-    }
-    const chkPrice = (e) =>{
-        setPrice(e.target.value);
-    }
-    const resetVal = () =>{
-        setName('');
-        setPrice('');
-    }
-    */
-    console.log('rebuild');
-    const [num, setNum] = useState(0);
+    const [stock, setStocks] = useState([])
+    const [name, setName] = useState('')
+    const [amount, setAmount] = useState(0)
+    const [price, setPrice] = useState('')
 
+    const getStocks = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/post/browseStock/')
+        setStocks(response.data)
+        setName(response.data.menu_name)
+    }
     
-    const Increase = () => {
-        setNum(num + 10);
-    }
-    const Decrease = () => {
-        setNum(num - 10);
-    }
-    //기능 변경 필요 => 재료 입력 칸 증감
+    const Increase = (e) => {
+        e.preventDefault();
+        const orderStock = {
+            name: name,
+            amount: 10,
+        };
+        console.log(orderStock)
+        Axios.post('http://127.0.0.1:8000/post/orderStock/',orderStock)
+            .then(res =>{
+            localStorage.setItem('token', res.data.key)
+            alert('재고가 증가되었습니다.')
+            setPrice(res.data.total_stock_price)
+            })
+            .catch(err =>{
+            alert('입력이 잘못되었습니다.')
+            })
+        };
+    const Decrease = (e) => {
+        e.preventDefault();
+        const orderStock = {
+            name: name,
+            amount: -10,
+        };
+        console.log(orderStock)
+        Axios.post('http://127.0.0.1:8000/post/orderStock/',orderStock)
+            .then(res =>{
+            localStorage.setItem('token', res.data.key)
+            alert('재고가 감소되었습니다.')
+            setPrice(res.data.total_stock_price)
+            })
+            .catch(err =>{
+            alert('입력이 잘못되었습니다.')
+            })
+        };
+    useEffect(() => {
+        getStocks();
+    }, [])
+
     return (
         <div>
             <h3> OrderStock </h3>
@@ -35,19 +61,22 @@ const OrderStock = ( { history } ) => {
             <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
             재고 주문<br/>
             <hr/>
-            <container>
-            <input id="s_name" name="name"/>
-            <input text="int"/>
-            <button name="inc" onClick={Increase}>
-            +
-            </button>
-            <button name="dec" onClick={Decrease}>
-            -
-            </button>
-            </container>
+            {
+                stock.map((stocks) => (
+                    <div>
+                        {stocks.name}<br/>
+                        <form onSubmit={Increase} >
+                        <input type='submit' size="large" value='+' onClick={e => setName(stocks.name)}/>
+                        </form>
+                        <form onSubmit={Decrease}>
+                        <input type='submit' size="large" value='-' onClick={e => setName(stocks.name)}/>
+                        </form>
+                        
+                    </div>
+                ))}
             <br/>
             <hr/>
-            <button>초기화</button>
+            총금액 {price}<br/>
             <button onClick={()=> {history.push("./ConfirmOrderStock")}}> 선택 완료 </button><br/>
         </div>
     );

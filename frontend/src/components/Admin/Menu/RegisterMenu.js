@@ -1,6 +1,8 @@
 import React, {useState, useEffect } from 'react';
 import Axios from 'axios';
 
+//12월 2일 : 초기화 버튼 구현
+
 const RegisterMenu = ( { history } ) => {
     const [name,setName] = useState('');
     const [category,setCate] = useState('');
@@ -41,7 +43,26 @@ const RegisterMenu = ( { history } ) => {
     const Decrease = () => {
         setNum(num - 10);
     }
+    
     //기능 변경 필요 => 재료 입력 칸 증감*/
+    const chkName = (e) =>{
+        setName(e.target.value);
+    }
+    const chkPrice = (e) =>{
+        setPrice(e.target.value);
+    }
+    const chkStockName = (e) =>{
+        setStockName(e.target.value);
+    }
+    const chkStockAmount = (e) =>{
+        setStockAmount(e.target.value);
+    }
+    const resetVal = () =>{
+        setName('');
+        setPrice('');
+        setStockName('');
+        setStockAmount('');
+    }
     return (
         <div>
             <h3> RegisterMenu </h3><br/>
@@ -52,8 +73,8 @@ const RegisterMenu = ( { history } ) => {
             <form onSubmit={onSubmit}>
             <hr/>
             메뉴 이름<br/>
-            <input id="name" name="name" 
-            onChange={e => setName(e.target.value)} />
+            <input id="name" name="name" onChange={e => setName(e.target.value)} 
+            onChange={chkName} value={name}/>
             <select>
          <option id="category" key="pasta" value="pasta"
             onChange={e => setCate(e.target.value)}>파스타</option>
@@ -65,15 +86,16 @@ const RegisterMenu = ( { history } ) => {
             onChange={e => setCate(e.target.value)}>전체</option>
           </select><br/>
             가격<br/>
-            <input id="price" name="price"
-            onChange={e => setPrice(e.target.value)}/>
+            <input id="price" name="price" onChange={e => setPrice(e.target.value)}
+            onChange={chkPrice} value={price}/>
             <br/>
             재료<br/>
             <hr/>
                 <container>
-                <input id="stock_name" name="stock_name"
-                onChange={e => setStockName(e.target.value)}/>
-                <input id="amount" name="stock_amount" text="int"/>
+                <input id="stock_name" name="stock_name" onChange={e => setStockName(e.target.value)}
+                onChange={chkStockName} value={stock_name}/>
+                <input id="amount" name="amount" onChange={e => setStockAmount(e.target.value)}
+                onChange={chkStockAmount} value={amount}/>
                 <button>
                 +
                 </button>
@@ -82,7 +104,7 @@ const RegisterMenu = ( { history } ) => {
                 </button>
                 </container>
                 <br/>
-            <button>초기화</button>
+            <button onClick={resetVal}>초기화</button>
             <input type='submit' size="large" value='등록'/>
             </form>
         </div>
