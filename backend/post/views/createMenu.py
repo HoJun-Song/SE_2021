@@ -58,7 +58,7 @@ def createMenu(request):
         # 입력받은 만큼 Stock instance(object) 생성
         for i, (st, amt) in enumerate(zip(data['stock'], data['amount'])):
             MenuToStock.objects.create(
-                id        = menu_to_stock_id + i,
+                id        = menu_to_stock_id + i + 1,
                 menu      = Menu.objects.get(name=data['name']),
                 stock     = Stock.objects.get(name=st),
                 amount_per_menu = int(amt)
