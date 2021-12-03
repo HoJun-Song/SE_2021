@@ -136,7 +136,8 @@ class Menu(models.Model):
 class MenuTimer(models.Model):
     id = models.IntegerField(primary_key=True)
     menu = models.ForeignKey(Menu, models.DO_NOTHING, blank=True, null=True)
-    start_time = models.ForeignKey('OrderTimer', models.DO_NOTHING, db_column='start_time', blank=True, null=True)
+    order_id = models.IntegerField(blank=True, null=True)
+    start_time = models.CharField(max_length=20, blank=True, null=True)
     end_time = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
@@ -157,9 +158,9 @@ class MenuToStock(models.Model):
 
 class OrderTimer(models.Model):
     id = models.IntegerField(primary_key=True)
-    start_time = models.CharField(unique=True, max_length=20, blank=True, null=True)
+    start_time = models.CharField(max_length=20, blank=True, null=True)
     end_time = models.CharField(max_length=20, blank=True, null=True)
-    order = models.ForeignKey('Orders', models.DO_NOTHING, blank=True, null=True)
+    order_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -183,7 +184,6 @@ class Staff(models.Model):
     staff_pw = models.CharField(max_length=10, blank=True, null=True)
     name = models.CharField(max_length=20, blank=True, null=True)
     phone_num = models.CharField(max_length=11, blank=True, null=True)
-    order = models.ForeignKey(Orders, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -205,6 +205,7 @@ class Stock(models.Model):
 class Tables(models.Model):
     id = models.IntegerField(primary_key=True)
     order = models.ForeignKey(Orders, models.DO_NOTHING, blank=True, null=True)
+    table_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

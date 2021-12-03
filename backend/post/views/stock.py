@@ -10,6 +10,15 @@ import json
 # from ..serializers import MenuSerializer
 from ..models import Stock, MenuToStock, Menu
 from .. import serializers
+from collections import OrderedDict
+
+global selected_stock
+selected_stock = None
+
+global order_stock_list
+order_stock_list = []
+global total_stock_price
+total_stock_price = 0
 
 @api_view(['POST'])
 def browse(request):
@@ -31,9 +40,8 @@ def browse(request):
         Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
 
 
-    output_data = stock_list #.only('name')
+    output_data = stock_list
     serialized_output_data = serializers.StockSerializer(output_data, many=True)
-
     return Response(serialized_output_data.data, status=200)
 
 @api_view(['POST'])
@@ -53,9 +61,7 @@ def detail(request):
         
         detail_stock = Stock.objects.get(name = data['name'])
         amount_list = MenuToStock.objects.filter(stock = detail_stock.id)
-        print(amount_list)
         menu_name = Menu.objects.filter(id__in = amount_list.values('menu')).values_list('name')
-        print(menu_name)
         
         output_data = {
             'name' : detail_stock.name,
@@ -64,14 +70,15 @@ def detail(request):
             'menu_name' : [i[0] for i in list(menu_name)],
             'amount_per_menu' : [i[0] for i in list(amount_list.values_list('amount_per_menu'))]
         }
+        
+        global selected_stock
+        selected_stock = detail_stock
     
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
 
-
-    #output_data = detail_stock #.only('name')
-    #serialized_output_data = serializers.StockSerializer(output_data, many=True)
-
+    output_data = json.dumps(output_data)
+    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
     return Response(output_data, status=200)
 
 @api_view(['POST'])
@@ -97,7 +104,7 @@ def create(request):
             return Response({'MESSAGE' : 'STOCK_IS_ALREADY_EXIST'}, status=401)
         if len(data['name']) > 30 or len(data['unit']) > 10:
             return Response({'MESSAGE' : 'DATA_TOO_LONG'}, status=402)
-        if data['price'] < 0:
+        if int(data['price']) < 0:
             return Response({'MESSAGE' : 'INVALID_PRICE'}, status=403)
 
         Stock.objects.create(
@@ -126,8 +133,8 @@ def delete(request):
     - 재고 수정화면에서 삭제버튼 클릭시 해당 이름 데이터 삭제
     '''
     try:
-        data = json.loads(request.body)
-        Stock.objects.filter(name = data['name']).delete()
+        global selected_stock
+        Stock.objects.filter(name = selected_stock.name).delete()
     
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
@@ -144,6 +151,7 @@ def modify(request):
     - 재고 수정화면에서 내용 수정 후 수정 버튼을 누르면 데이터 업데이트
     '''
     try:
+        global selected_stock
         data = json.loads(request.body)
         
         if Stock.objects.filter(name = data["name"]).count() > 1:
@@ -153,7 +161,7 @@ def modify(request):
         if data['price'] < 0:
             return Response({'MESSAGE' : 'INVALID_PRICE'}, status=403)
         
-        modify_stock = Stock.objects.get(name = data['name'])
+        modify_stock = selected_stock
         modify_stock.name = data['name']
         modify_stock.unit = data['unit']
         modify_stock.price = data['price']
@@ -165,39 +173,80 @@ def modify(request):
     return Response({'MESSAGE' : 'SUCCESS'}, status=200)
 
 @api_view(['POST'])
-def order(request):
+def orderStock(request):
     '''
     재고 주문 
-
-    2021-11-23 1차
+    2021-11-29 1차
     
-    - 재고 주문에서 수량에 따라 총 금액을 계산하여 전달해주고, 주문 완료 시 재고량 증가
+    - +, - 버튼 눌를 때마다 총 계산 가격 및 주문 정보 저장
     '''
     try:
+        flag = 0
+        global order_stock_list
+        global total_stock_price
         data = json.loads(request.body)
-        total_order_stock_price = 0
-        order_list = []
-        for i in data:
-            order_stock = Stock.objects.get(name = i['name'])
-            order_stock.amount = order_stock.amount + int(i['amount'])
-            order_stock.save()
-            order_stock_price = order_stock.price * (int(i['amount']) / 10)
-            total_order_stock_price = total_order_stock_price + order_stock_price
+        stock_name = Stock.objects.get(name = data['name']).name
+        stock_price = Stock.objects.get(name = data['name']).price
+        max = len(order_stock_list)
+        for i in order_stock_list:
+            if max == 0:
+                break
             
-            order_list.append({
-                'name' : order_stock.name,
-                'amount' : int(i['amount']),
-                'price' : order_stock_price
-            })
-        print(total_order_stock_price)
+            if i[0] == stock_name:
+                i[1] = int(i[1]) + int(data['amount'])
+                i[2] = int(i[2]) + (data['amount'] // 10) * stock_price
+                flag = 1
+                break
+        
+        if flag == 0:
+            order_stock = stock_name
+            order_amount = data['amount']
+            order_price = int(data['amount'] // 10) * stock_price
+            order_stock_list.append(list([order_stock, order_amount, order_price]))
+              
+        total_stock_price = 0
+        for i in order_stock_list:
+            total_stock_price = total_stock_price + i[2]
         
     except KeyError:
         return Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
 
-    output_data = order_list
-    #print(output_data)
-    #serialized_output_data = serializers.OrderingSerializer(output_data, many = True)
-    #print(serialized_output_data.data)
+    output_data = {
+        'total_stock_price' : total_stock_price
+    }
+    
+    output_data = json.dumps(output_data)
+    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
+    return Response(output_data, status=200)
+
+@api_view(['POST'])
+def finishStock(request):
+    '''
+    재고 주문 선택 완료 
+
+    2021-11-29 1차
+    
+    - 재고 주문에서 수량에 따라 총 금액을 계산하여 전달해주고, 주문 완료 시 재고량 증가
+    '''
+    try:
+        global order_stock_list
+        global total_stock_price
+        for i in order_stock_list:
+            order_stock = Stock.objects.get(name = i[0])
+            order_stock.amount = order_stock.amount + int(i[1])
+            order_stock.save()
+        
+    except KeyError:
+        return Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
+
+    ouput_data = {
+        'name' : [i[0] for i in order_stock_list],
+        'amount' :  [i[1] for i in order_stock_list],
+        'price' : [i[2] for i in order_stock_list],
+        'total_price' : total_stock_price
+    }
+    output_data = json.dumps(ouput_data)
+    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
     return Response(output_data, status=200)
 
 

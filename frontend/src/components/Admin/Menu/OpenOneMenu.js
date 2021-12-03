@@ -1,66 +1,72 @@
 import React, {useState, useEffect} from 'react';
+import Axios from 'axios';
 import axios from 'axios';
-//DB에서 요청 후 받아오는 작업 필요
 
 const OpenOneMenu = ( { history } ) => {
-    //const [id] = useState('')
-    const [menu,setMenu] = useState("")
-       
-    //const onSubmit = (e) => {
-    e.preventDefault();
-    /*const user = {
-        id: id,
-        name: name,
-        category: category,
-        price: price,
-        stock_name: stock_name,
-        amount: amount
-    };*/
-       
-    const getOneMenu = async () => {
-        const {data} = await axios.get('http://127.0.0.1:8000/post/createMenu/')
-        console.log(data)
-        setMenu(data)
-    }
-    useEffect(()=>{
-        getOneMenu();
-    },[])
+    const [menu_name, setMenuName] = useState([])
+    const [menu_category, setMenuCategory] = useState([])
+    const [menu_price, setMenuPrice] = useState([])
+    const [amount_per_menu, setAmount] = useState([])
+    const [stock_per_menu, setStock] = useState([])
     
-    /*Axios.get('http://127.0.0.1:8000/post/createMenu/',user)
+    const [menu, setMenu] = useState('')
+
+    const current = decodeURI(window.location.href);
+    const search = current.split("?")[1];
+    console.log(search)
+    const onSubmit = (e) => {
+        const user = {
+            name: search,
+        };
+        Axios.post('http://127.0.0.1:8000/post/getSelectedMenu/',user)
         .then(res =>{
-        localStorage.clear()
-        localStorage.setItem('token', res.data.key)
-        alert('메뉴가 등록되었습니다.')
+        console.log(res.data);
+        setMenuName(res.data.menu_name)
+        setMenuCategory(res.data.menu_category)
+        setMenuPrice(res.data.menu_price)
+        setAmount(res.data.amount_per_menu)
+        setStock(res.data.stock_per_menu)
         })
         .catch(err =>{
         console.clear()
-        alert('입력이 잘못되었습니다.')
-        setName('')
-        setCate('')
-        setPrice('')
-        setStockName('')
-        setStockAmount('')
+        alert('잘못된 접근입니다.')
         })
         
-    }; */
-
-
+    };
+    useEffect(() => {
+        onSubmit();
+    }, [])
+    const onSubmit2 = (d) => {
+        d.preventDefault();
+        const user = {
+            name: search,
+        };
+        Axios.post('http://127.0.0.1:8000/post/getSelectedMenu/',user)
+        .then(res =>{
+        console.log(res.data); //얘를 가공해서 저장한다음에 원메뉴로 넘긴다
+        window.location.replace(`../RewriteMenu/?${res.data.menu_name}`)
+        alert('메뉴 수정 창으로 이동합니다..')
+        })
+        .catch(err =>{
+        console.clear()
+        alert('잘못된 접근입니다.')
+        })
+    };
 
     return (
         <div>
             <h3> OpenOneMenu </h3>
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
-           <div>
-               {menu.name}<br/>
-               {menu.category}<br/>
-               {menu.price}<br/>
-               {menu.stock_name}<br/>
-               {menu.amount}<br/>
-               <button>초기화</button>
-            <button onClick={()=> {history.push("./RewriteMenu")}}> 수정 </button>
-           </div>
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>     
+            {menu_name}<br/>
+            {menu_category}<br/>
+            {menu_price}<br/>
+            {stock_per_menu}<br/>
+            {amount_per_menu}<br/> 
+            <form onSubmit={onSubmit2}>
+                <input type='submit' size="large" value='수정' onClick={d => setMenu(menu_name)}/>
+            </form>
         </div>
     );
 }

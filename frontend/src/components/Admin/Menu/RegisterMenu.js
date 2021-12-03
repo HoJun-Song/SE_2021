@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import Axios from 'axios';
-import axios from 'axios';
+
+//12월 2일 : 초기화 버튼 구현
 
 const RegisterMenu = ( { history } ) => {
     const [name,setName] = useState('');
@@ -8,37 +9,10 @@ const RegisterMenu = ( { history } ) => {
     const [price,setPrice] = useState('');
     const [stock_name,setStockName] = useState('');
     const [amount,setStockAmount] = useState('');
-    
-    const AddMenuInfo = async () => {
-        let formField = new FormData()
 
-        formField.append('name',name)
-        formField.append('category',category)
-        formField.append('price',price)
-        formField.append('stock_name',stock_name)
-        formField.append('amount',amount)
-    }
-
-    await axios({
-        method:'post',
-        url: 'http://127.0.0.1:8000/post/createMenu/',
-        data: formField
-    }).then((res)=>{
-        console.log(res.data)
-        alert('메뉴가 등록되었습니다.')
-    }).catch(err=>{
-        console.clear()
-        alert('입력이 잘못되었습니다.')
-        setName('')
-        setCate('')
-        setPrice('')
-        setStockName('')
-        setStockAmount('')
-    })
-    /*const onSubmit = (e) => {
+    const onSubmit = (e) => {
     e.preventDefault();
     const user = {
-        id: id,
         name: name,
         category: category,
         price: price,
@@ -55,14 +29,9 @@ const RegisterMenu = ( { history } ) => {
         .catch(err =>{
         console.clear()
         alert('입력이 잘못되었습니다.')
-        setName('')
-        setCate('')
-        setPrice('')
-        setStockName('')
-        setStockAmount('')
         })
-    };*/
-
+    };
+    /*
     let init = 0;
     //증감
     console.log('rebuild');
@@ -74,7 +43,8 @@ const RegisterMenu = ( { history } ) => {
     const Decrease = () => {
         setNum(num - 10);
     }
-
+    
+    //기능 변경 필요 => 재료 입력 칸 증감*/
     const chkName = (e) =>{
         setName(e.target.value);
     }
@@ -93,7 +63,6 @@ const RegisterMenu = ( { history } ) => {
         setStockName('');
         setStockAmount('');
     }
-    //기능 변경 필요 => 재료 입력 칸 증감
     return (
         <div>
             <h3> RegisterMenu </h3><br/>
@@ -101,10 +70,11 @@ const RegisterMenu = ( { history } ) => {
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
             메뉴 등록<br/>
+            <form onSubmit={onSubmit}>
             <hr/>
             메뉴 이름<br/>
-            <input id="name" name="name" 
-            onChange={e => setName(e.target.value)} onChange={chkName} value={name} />
+            <input id="name" name="name" onChange={e => setName(e.target.value)} 
+            onChange={chkName} value={name}/>
             <select>
          <option id="category" key="pasta" value="pasta"
             onChange={e => setCate(e.target.value)}>파스타</option>
@@ -116,25 +86,27 @@ const RegisterMenu = ( { history } ) => {
             onChange={e => setCate(e.target.value)}>전체</option>
           </select><br/>
             가격<br/>
-            <input id="price" name="price"
-            onChange={e => setPrice(e.target.value)} onChange={chkPrice} value={price}/>
+            <input id="price" name="price" onChange={e => setPrice(e.target.value)}
+            onChange={chkPrice} value={price}/>
             <br/>
             재료<br/>
             <hr/>
                 <container>
-                <input id="stock_name" name="stock_name"
-                onChange={e => setStockName(e.target.value)} onChange={chkStockName} value={stock_name}/>
-                <input id="amount" name="stock_amount" text="int" onChange={chkStockAmount} value={amount}/>
-                <button name="inc" onClick={Increase}>
+                <input id="stock_name" name="stock_name" onChange={e => setStockName(e.target.value)}
+                onChange={chkStockName} value={stock_name}/>
+                <input id="amount" name="amount" onChange={e => setStockAmount(e.target.value)}
+                onChange={chkStockAmount} value={amount}/>
+                <button>
                 +
                 </button>
-                <button name="dec" onClick={Decrease}>
+                <button>
                 -
                 </button>
                 </container>
                 <br/>
             <button onClick={resetVal}>초기화</button>
-            <button onClick={AddMenuInfo}>등록</button>
+            <input type='submit' size="large" value='등록'/>
+            </form>
         </div>
     );
 }

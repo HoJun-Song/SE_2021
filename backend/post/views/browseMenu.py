@@ -5,6 +5,7 @@ from django.db.models import Q
 from rest_framework import serializers, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from collections import OrderedDict
 import json
 
 # from ..serializers import MenuSerializer
@@ -36,7 +37,7 @@ def browseMenu(request):
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
 
-    output_data = menu_list #.only('id', 'name')
+    output_data = menu_list
     serialized_output_data = serializers.MenuSerializer(output_data, many=True)
     return Response(serialized_output_data.data, status=200)
 
@@ -54,7 +55,7 @@ def getSelectedMenu(request):
     
     '''
     try:
-        data = json.loads(request.body)
+        data = json.loads(request.body, object_pairs_hook=OrderedDict) 
 
         # request받은 id와 일치하는 전체 menu object
         menu_info = Menu.objects.filter(name=data['name']) 
@@ -65,20 +66,21 @@ def getSelectedMenu(request):
         # MenuToStock에 저장된 stock(id)를 통해 stock object 추출
         stock_info = Stock.objects.filter(id__in=menu_stock) 
 
-        menu_list = [{
+        menu_list = {
             "menu_name"        : list(menu_info.values_list('name'))[0][0],
             "menu_category"    : list(menu_info.values_list('category'))[0][0],
             "menu_price"       : list(menu_info.values_list('price'))[0][0],
             "amount_per_menu"  : [i[0] for i in list(menu_stock.values_list('amount_per_menu'))], 
             "stock_per_menu"   : [i[0] for i in list(stock_info.values_list('name'))]
-        }]
+        }
 
         global selected_menu; selected_menu = menu_info
 
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-    output_data = menu_list
+    output_data = json.dumps(menu_list)
+    output_data = json.loads(output_data, object_pairs_hook=OrderedDict) 
     return Response(output_data, status=200)
     
 @api_view(['POST'])
@@ -99,9 +101,9 @@ def modifyMenu(request):
     try:
         global selected_menu
         data = json.loads(request.body)
-
+        
         # Menu 수정
-        modify_menu = selected_menu.first() # Menu.objects.get(name=data['name'])
+        modify_menu = selected_menu.first()
         modify_menu.name = data['name']
         modify_menu.category = data['category']
         modify_menu.price = int(data['price'])
@@ -130,6 +132,8 @@ def modifyMenu(request):
             modify_menu_to_stock = modify_menu_to_stock.first()
             modify_menu_to_stock.amount_per_menu = int(amt)
             modify_menu_to_stock.save()
+            
+        selected_menu = modify_menu
 
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
@@ -153,7 +157,7 @@ def deleteMenu(request):
     '''
     try:
         global selected_menu
-
+        
         # MenuToStock 삭제
         MenuToStock.objects.filter(menu=selected_menu.first()).delete()
 
@@ -164,4 +168,3 @@ def deleteMenu(request):
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
     return Response({'MESSAGE' : 'SUCCESS'}, status=200)   
-

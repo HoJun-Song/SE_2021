@@ -3,51 +3,36 @@ import Axios from 'axios';
 import axios from 'axios';
 
 const OpenMenu = ( { history } ) => {
-    /*const [id,setId] = useState('')
-    const [name,setName] = useState('');
-    const [errors, setErrors] = useState(false)*/
-    
+
+    const [name, setName] = useState('');
     const [menus, setMenus] = useState([])
-    const [errors, setErrors] = useState(false)
 
     const getMenus = async () => {
-        const response = await axios.get('http://127.0.0.1:8000/post/createMenu/')
+        const response = await axios.post('http://127.0.0.1:8000/post/browseMenu/')
         setMenus(response.data)
+        console.log(response.data)
     }
-
     useEffect(() => {
         getMenus();
     }, [])
 
-    /*const onSubmit = (e) => {
-    e.preventDefault();
-    const user = {
-        id: id,
-        name: name,
-    };
-    const OpenMenu = async () => {
-        const {data} = await axios.get('http://127.0.0.1:8000/post/browseMenu/');
-        console.log(data)
-    }*/
-       
-    /*Axios.get('http://127.0.0.1:8000/post/browseMenu/',user)
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const user = {
+            name: name,
+        };
+        Axios.post('http://127.0.0.1:8000/post/getSelectedMenu/',user)
         .then(res =>{
-        console.log(res.data);
-        //localStorage.setItem('token', res.data.key)
-        //localStorage.getItem('token')
-        //window.location.replace('./OpenOneMenu')
-        //alert('메뉴가 선택되었습니다.')
+        console.log(res.data); //얘를 가공해서 저장한다음에 원메뉴로 넘긴다
+        window.location.replace(`./OpenOneMenu/?${res.data.menu_name}`)
+        alert('메뉴가 선택되었습니다.')
         })
         .catch(err =>{
         console.clear()
         alert('잘못된 접근입니다.')
-        setId('')
-        setName('')
         })
-        //.then(()=>{
-        //console.log(user)
-        //})
-    };*/
+    };
+    
 
     return (
         <div>
@@ -57,19 +42,22 @@ const OpenMenu = ( { history } ) => {
             <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
             <hr/>
             메뉴 ID <br/>
+           
             <div>
             {
                 menus.map((menu) => (
                     <div>
                         {menu.id}<br/>
                         {menu.name}<br/>
+                        <form onSubmit={onSubmit}>
+                        <input type='submit' size="large" value='선택' onClick={e => setName(menu.name)}/>
+                        </form>
                     </div>
                 )
                 )
             }
-            <input type='submit' size="large" value='선택'/>
+                </div>
             </div>
-        </div>
     );
 }
 export default OpenMenu;

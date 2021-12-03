@@ -58,7 +58,7 @@ import CompletePay from './components/Staff/Pay/CompletePay';
 class App extends Component {
   render() {
     return(
-      <div>
+      <div>  
         <BrowserRouter>
           <Route path="/" exact component={Home} />
           <Route path="/Login_Admin" component={Login_Admin} />
@@ -72,18 +72,18 @@ class App extends Component {
           <Route path="/RegisterMenu" component={RegisterMenu} />
           <Route path="/TrackStock" component={TrackStock} />
           <Route path="/AnalyzeSale" component={AnalyzeSale} />
-          <Route path="/RewriteProfile" component={RewriteProfile} />
-          <Route path="/RewriteMenu" component={RewriteMenu} />
-          <Route path="/OpenOne" component={OpenOne} />
-          <Route path="/OpenOneMenu" component={OpenOneMenu} />
+          <Route path="/RewriteProfile/:staff_id?" component={RewriteProfile} />
+          <Route path="/RewriteMenu/:menu_name?" component={RewriteMenu} />
+          <Route path="/OpenOne/:staff_id?" component={OpenOne} />
+          <Route path="/OpenOneMenu/:menu_name?" component={OpenOneMenu} />
           <Route path="/Main_Staff" component={Main_Staff} />
           <Route path="/OrderMenu" component={OrderMenu} />
           <Route path="/TableManage" component={TableManage} />
           <Route path="/OrderStock" component={OrderStock} />
           <Route path="/OpenOneAnalyze" component={OpenOneAnalyze} />
           <Route path="/RegisterStock" component={RegisterStock} />
-          <Route path="/AnalyzeStock" component={AnalyzeStock} />
-          <Route path="/RewriteStock" component={RewriteStock} />
+          <Route path="/AnalyzeStock/:name?" component={AnalyzeStock} />
+          <Route path="/RewriteStock/:name?" component={RewriteStock} />
           <Route path="/ConfirmOrderStock" component={ConfirmOrderStock} />
           <Route path="/ConfirmOrderMenu" component={ConfirmOrderMenu} />
           <Route path="/SelectTable" component={SelectTable} />

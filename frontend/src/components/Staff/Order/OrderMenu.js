@@ -3,46 +3,55 @@ import axios from 'axios';
 import Axios from 'axios';
 
 
-const OrderMenu = ( { history } ) => {
-    console.log('rebuild');
-   
+const OrderMenu = ( { history } ) => { 
     const [menus, setMenus] = useState([])
-    const [count, setCount] = useState('')
+    const [name, setName] = useState('')
+    const [amount, setAmount] = useState(0)
     const [price, setPrice] = useState('')
 
     const getMenus = async () => {
-        const response = await axios.get('http://127.0.0.1:8000/post/browseMenu/')
+        const response = await axios.post('http://127.0.0.1:8000/post/browseMenu/')
         setMenus(response.data)
+        setName(response.data.menu_name)
     }
-    /*const Increase = async ()=> {
-        const res = await axios.post('http://127.0.0.1:8000/post/orderMenu/')
-        setCount(res.data)
-        count + 1 ;
-    }*/
-    Axios.post('http://127.0.0.1:8000/post/orderMenu/',user)
-    .then(res =>{
-      localStorage.clear()
-      localStorage.Increase(res.data)
-    })
-    const Decrease = async ()=> {
-        const res = await axios.post('http://127.0.0.1:8000/post/orderMenu/')
-        setCount(res.data)
-    }
-    /*const getPrice = async () => {
-        const response = await axios.get(('http://127.0.0.1:8000/post/finishMenu/')
-        setPrice(response.data)
-    }*/
-
+    
+    const Increase = (e) => {
+        e.preventDefault();
+        const order = {
+            name: name,
+            amount: 1,
+        };
+        console.log(order)
+        Axios.post('http://127.0.0.1:8000/post/orderMenu/',order)
+            .then(res =>{
+            localStorage.setItem('token', res.data.key)
+            alert('메뉴가 증가되었습니다.')
+            setPrice(res.data.total_price)
+            })
+            .catch(err =>{
+            alert('입력이 잘못되었습니다.')
+            })
+        };
+    const Decrease = (e) => {
+        e.preventDefault();
+        const order = {
+            name: name,
+            amount: -1,
+        };
+        console.log(order)
+        Axios.post('http://127.0.0.1:8000/post/orderMenu/',order)
+            .then(res =>{
+            localStorage.setItem('token', res.data.key)
+            alert('메뉴가 감소되었습니다.')
+            setPrice(res.data.total_price)
+            })
+            .catch(err =>{
+            alert('입력이 잘못되었습니다.')
+            })
+        };
     useEffect(() => {
         getMenus();
     }, [])
-
-    /*const Increase = () => {
-        setCount(count + 1);
-    }
-    const Decrease = () => {
-        setCount(count - 1);
-    }*/
     return (
         <div>
             <h3> OrderMenu </h3>
@@ -56,16 +65,18 @@ const OrderMenu = ( { history } ) => {
                 menus.map((menu) => (
                     <div>
                         {menu.name}<br/>
+                        <form onSubmit={Increase} >
+                        <input type='submit' size="large" value='+' onClick={e => setName(menu.name)}/>
+                        </form>
+                        <form onSubmit={Decrease}>
+                        <input type='submit' size="large" value='-' onClick={e => setName(menu.name)}/>
+                        </form>
+                        
                     </div>
                 ))}
-                <button name="inc" onClick={Increase} value='+'>
-                </button>
-                <button name="dec" onClick={Decrease} value='-'>
-                </button>
                 <br/>
             <hr/>
-            
-            총금액 <input id="price" name="price"/>
+            총금액 {price}<br/>
             <button>초기화</button>
             <button onClick={()=> {history.push("./ConfirmOrderMenu")}}> 선택완료 </button><br/>
             </container>
