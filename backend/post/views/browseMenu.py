@@ -1,16 +1,15 @@
-#browseMenu.py
+import json
+from collections import OrderedDict
+
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.db.models import Q
-from rest_framework import serializers, generics
+from rest_framework import generics, serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from collections import OrderedDict
-import json
 
-# from ..serializers import MenuSerializer
-from ..models import Menu, MenuToStock, Stock
 from .. import serializers
+from ..models import Menu, MenuToStock, Stock, Orders
 
 global selected_menu
 selected_menu = None
@@ -21,25 +20,23 @@ def browseMenu(request):
     메뉴 열람 (전체)
 
     2021-11-20 1차
+    2021-12-04 1차 검수 (완료)
     
     - /post/browseMenu/ 로 빈 request가 넘어오면 전체 메뉴 반환 (완료-1차)
-      ==> menu id, menu name만 묶어서 반환 (미완료)
 
-    - MenuToStock, Stock table 묶어서 반환 (미완료)
     '''
     try:
         menu_list = Menu.objects.all()
 
         if not menu_list.exists():
             return Response({'MESSAGE' : 'MENU_TALBE_IS_EMPTY'}, status=400)
+
+        output_data = menu_list
+        serialized_output_data = serializers.MenuSerializer(output_data, many=True)
+        return Response(serialized_output_data.data, status=200)
     
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
-
-
-    output_data = menu_list
-    serialized_output_data = serializers.MenuSerializer(output_data, many=True)
-    return Response(serialized_output_data.data, status=200)
 
 @api_view(['POST'])
 def getSelectedMenu(request):
@@ -66,13 +63,15 @@ def getSelectedMenu(request):
         # MenuToStock에 저장된 stock(id)를 통해 stock object 추출
         stock_info = Stock.objects.filter(id__in=menu_stock) 
 
-        menu_list = {
-            "menu_name"        : list(menu_info.values_list('name'))[0][0],
-            "menu_category"    : list(menu_info.values_list('category'))[0][0],
-            "menu_price"       : list(menu_info.values_list('price'))[0][0],
-            "amount_per_menu"  : [i[0] for i in list(menu_stock.values_list('amount_per_menu'))], 
-            "stock_per_menu"   : [i[0] for i in list(stock_info.values_list('name'))]
-        }
+        menu_list = []
+        for apm, spm in zip(list(menu_stock.values_list('amount_per_menu')), list(stock_info.values_list('name'))):
+            menu_list.append({
+                "menu_name"        : list(menu_info.values_list('name'))[0][0],
+                "menu_category"    : list(menu_info.values_list('category'))[0][0],
+                "menu_price"       : list(menu_info.values_list('price'))[0][0],        
+                "amount_per_menu"  : apm[0],
+                "stock_per_menu"   : spm[0]        
+            })
 
         global selected_menu; selected_menu = menu_info
 
@@ -135,11 +134,11 @@ def modifyMenu(request):
             
         selected_menu = modify_menu
 
+        return Response({'MESSAGE' : 'SUCCESS'}, status=200)  
+
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-    return Response({'MESSAGE' : 'SUCCESS'}, status=200)   
-    
 @api_view(['POST'])
 def deleteMenu(request):
     '''
@@ -161,10 +160,15 @@ def deleteMenu(request):
         # MenuToStock 삭제
         MenuToStock.objects.filter(menu=selected_menu.first()).delete()
 
+        # 선택된 Menu를 가진 Order 삭제
+        Orders.objects.filter(menu=selected_menu.first()).delete()
+
         # Menu 삭제
         selected_menu.delete()
 
+        return Response({'MESSAGE' : 'SUCCESS'}, status=200)   
+        
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-    return Response({'MESSAGE' : 'SUCCESS'}, status=200)   
+    

@@ -1,13 +1,13 @@
+import json
+from collections import OrderedDict
+from datetime import datetime, timedelta
+
+from django.db.models import Max, Q
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.db.models import Q
-from django.db.models import Max
-from rest_framework import serializers, generics
+from rest_framework import generics, serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import json
-from datetime import datetime, timedelta
-from collections import OrderedDict
 
 from ..models import Menu, MenuTimer, OrderTimer
 
@@ -69,19 +69,22 @@ def browse(request):
                 menu_time_info_i.append(end_mt - start_mt)
 
             avg_menu_time_i = sum(menu_time_info_i, timedelta(0)) / len(menu_time_i)
-            menu_time.append(str(avg_menu_time_i))
+            menu_time.append(avg_menu_time_i)
             menu_name.append(list(menu_i.values_list('name'))[0][0])
 
-        time_list = {
-            "average_order_time"  : str(avg_order_time),
-            "menu_name"           : [i for i in list(menu_name)],
-            "menu_time"           : [i for i in list(menu_time)]
-        }
+        time_list = []
+        for mn, mt in zip(list(menu_name), list(menu_time)):
+            time_list.append({
+                "average_order_time" : str(avg_order_time),
+                "menu_name"          : mn,
+                "menu_time"          : str(mt)
+            })
+            
+        output_data = json.dumps(time_list)
+        output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
+        return Response(output_data, status=200)
 
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-    output_data = json.dumps(time_list)
-    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
-    return Response(output_data, status=200)
     
