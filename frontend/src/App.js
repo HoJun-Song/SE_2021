@@ -58,7 +58,7 @@ import CompletePay from './components/Staff/Pay/CompletePay';
 class App extends Component {
   render() {
     return(
-      <div>
+      <div>  
         <BrowserRouter>
           <Route path="/" exact component={Home} />
           <Route path="/Login_Admin" component={Login_Admin} />
@@ -73,9 +73,9 @@ class App extends Component {
           <Route path="/TrackStock" component={TrackStock} />
           <Route path="/AnalyzeSale" component={AnalyzeSale} />
           <Route path="/RewriteProfile" component={RewriteProfile} />
-          <Route path="/RewriteMenu" component={RewriteMenu} />
+          <Route path="/RewriteMenu/:menu_name?" component={RewriteMenu} />
           <Route path="/OpenOne" component={OpenOne} />
-          <Route path="/OpenOneMenu" component={OpenOneMenu} />
+          <Route path="/OpenOneMenu/:menu_name?" component={OpenOneMenu} />
           <Route path="/Main_Staff" component={Main_Staff} />
           <Route path="/OrderMenu" component={OrderMenu} />
           <Route path="/TableManage" component={TableManage} />

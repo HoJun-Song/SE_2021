@@ -2,6 +2,19 @@ import React, {useState } from 'react';
 let init = 0;
 
 const OrderStock = ( { history } ) => {
+                //초기화 버튼 구현 
+    /*
+    const chkName = (e) =>{
+        setName(e.target.value);
+    }
+    const chkPrice = (e) =>{
+        setPrice(e.target.value);
+    }
+    const resetVal = () =>{
+        setName('');
+        setPrice('');
+    }
+    */
     console.log('rebuild');
     const [num, setNum] = useState(0);
 

@@ -19,11 +19,12 @@ const OrderMenu = ( { history } ) => {
         setCount(res.data)
         count + 1 ;
     }*/
+    /*
     Axios.post('http://127.0.0.1:8000/post/orderMenu/',user)
     .then(res =>{
       localStorage.clear()
       localStorage.Increase(res.data)
-    })
+    })*/
     const Decrease = async ()=> {
         const res = await axios.post('http://127.0.0.1:8000/post/orderMenu/')
         setCount(res.data)
@@ -58,7 +59,7 @@ const OrderMenu = ( { history } ) => {
                         {menu.name}<br/>
                     </div>
                 ))}
-                <button name="inc" onClick={Increase} value='+'>
+                <button>
                 </button>
                 <button name="dec" onClick={Decrease} value='-'>
                 </button>

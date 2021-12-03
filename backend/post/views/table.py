@@ -4,6 +4,7 @@ from rest_framework import serializers, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
+from collections import OrderedDict
 
 # from ..serializers import MenuSerializer
 from ..models import Tables, Orders, Menu, MenuToStock
@@ -12,22 +13,25 @@ from .. import serializers
 @api_view(['POST'])
 def showTable(request):
     '''
-    테이블 열람
+    전체 테이블 출력
+
+    2021-12-03 1차
+    
+    - 전체 테이블 중 table객체가 만들어진 table_id만을 반환
     '''
     try:
-        table_list = Tables.objects.all()
-
-        if not table_list.exists():
-            return Response({'MESSAGE' : 'TABLE_IS_EMPTY'}, status=401)
+        table_list = Tables.objects.all().order_by('table_id')
+        table_list = table_list.values_list('table_id').distinct()
     
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
 
-
-    output_data = table_list
-    print(list(output_data))
-    serialized_output_data = serializers.TablesSerializer(output_data, many=True)
-    return Response(serialized_output_data.data, status=200)
+    output_data = {
+        'table_id' : [i[0] for i in table_list]
+    }
+    output_data = json.dumps(output_data)
+    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
+    return Response(output_data, status=200)
 
 @api_view(['POST'])
 def detailTable(request):
@@ -41,7 +45,7 @@ def detailTable(request):
     try:
         data = json.loads(request.body)
         detail_table = Tables.objects.filter(table_id = data["table_id"])
-        table_order = Orders.objects.filter(id = detail_table.order.id)
+        table_order = Orders.objects.filter(id = detail_table.values('order_id'))
         print(table_order)
         
         if not table_order.exists():
@@ -74,11 +78,4 @@ def detailTable(request):
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
 
-
-    #output_data = detail_stock #.only('name')
-    #serialized_output_data = serializers.StockSerializer(output_data, many=True)
-
     return Response(output_data, status=200)
-
-
-    
