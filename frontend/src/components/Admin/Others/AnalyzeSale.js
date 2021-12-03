@@ -1,6 +1,34 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
+import axios from 'axios';
+import Axios from 'axios';
 
 const AnalyzeSale = ( { history } ) => {
+    const [analyze, setAnalyze] = useState([])
+    const [total, setTotal] = useState([])
+    const [name, setName] = useState([])
+    const getAnalyze = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/post/browseAnalyze/')
+        setAnalyze(response.data)
+        setTotal(response.data[0].total_sales)
+    }
+    useEffect(() => {
+        getAnalyze();
+    }, [])
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const user = {
+            name: name,
+        };
+        Axios.post('http://127.0.0.1:8000/post/detailAnalyze/',user)
+        .then(res =>{
+        window.location.replace(`./OpenOneAnalyze/?${name}`)
+        alert('메뉴가 선택되었습니다.')
+        })
+        .catch(err =>{
+        alert('잘못된 접근입니다.')
+        })
+    };
     return (
         <div>
             <h3> AnalyzeSale </h3>
@@ -11,16 +39,18 @@ const AnalyzeSale = ( { history } ) => {
             <container>
             판매 분석 <br/><hr/>
             총 매출
-            <input id="analyzer" plackholder= '10,000' name="analyzer" />
-            <select>
-			<option key="date" value="date">2021년 11월</option>
-			<option key="date" value="date">2021년 10월</option>
-			<option key="date" value="date">2021년 9월</option>
-            <option key="date_all" value="date_all">전체</option>
-		    </select><br/>
-            1st
-            <input id="m_name" plackholder= '12:00' name="m_name" />
-            <button onClick={()=> {history.push("./OpenOneAnalyze")}}> 선택 </button>
+            {total}<br/>
+            {
+                analyze.map((analyzes)=>(
+                    <div>
+                        {analyzes.menu_name}
+                        <form onSubmit={onSubmit}>
+                        <input type='submit' size="large" value='선택' onClick={e => setName(analyzes.menu_name)}/>
+                        </form>
+                    </div>
+                ))
+            }
+            <br/>
             </container>
 
 

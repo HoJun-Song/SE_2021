@@ -7,8 +7,6 @@ const OpenMenu = ( { history } ) => {
     const [name, setName] = useState('');
     const [menus, setMenus] = useState([])
 
-    const [menud, setMenu] = useState([])
-
     const getMenus = async () => {
         const response = await axios.post('http://127.0.0.1:8000/post/browseMenu/')
         setMenus(response.data)
@@ -35,15 +33,6 @@ const OpenMenu = ( { history } ) => {
         })
     };
     
-   /*
-    const getOneMenu = async () => {
-        const response = await axios.post('http://127.0.0.1:8000/post/getSelectedMenu/')
-        setMenu(response.data)
-        console.log(response.data)
-    }/${res.data.menu_name}
-    useEffect(()=>{
-        getOneMenu();
-    },[])*/
 
     return (
         <div>
