@@ -38,12 +38,22 @@ const TrackStock = ( { history } ) => {
 
     return (
         <div>
-            <h3> TrackStock </h3>
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-            
-            재고 ID 재고 이름 현재 재고량<br/><hr/>
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <div class="outbox">
+            <h2>재고 현황</h2>
+            <container>
+            <h3>&emsp;재고 ID 
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                재고 이름 
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                현재 재고량<p/>
             {
                 stock.map((stocks) => (
                     <div>
@@ -51,14 +61,17 @@ const TrackStock = ( { history } ) => {
                         {stocks.name}
                         {stocks.amount}
                         <form onSubmit={onSubmit}>
-                        <input type='submit' size="large" value='선택' onClick={e => setName(stocks.name)}/>
+                        <input class="btn" type='submit' size="large" value='선택' onClick={e => setName(stocks.name)}/>
                         </form>
                     </div>
-                )
-                )
+                ))
             }
-            <button onClick={()=> {history.push("./RegisterStock")}}> 재고등록 </button>
-            <button onClick={()=> {history.push("./OrderStock")}}> 재고주문 </button>
+            </h3></container>
+            <div class="btn_loc">
+            <button class="btn" onClick={()=> {history.push("./RegisterStock")}}> 재고등록 </button>&emsp;&emsp;
+            <button class="btn" onClick={()=> {history.push("./OrderStock")}}> 재고주문 </button>
+            </div>
+            </div>
         </div>
     );
 }

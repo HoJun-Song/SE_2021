@@ -54,18 +54,35 @@ const AnalyzeStock = ( { history } ) => {
   };
     return (
         <div>
-            <h3> AnlayzeStock </h3>
+            <div>
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <div class="outbox">
+            <container>
+            <h2>재고 정보</h2>
+            <h3>재고 이름
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            재고 단위<br/>
             {name}<br/>
-            {unit}<br/>
-            {price}<br/>
+            {unit}<p/>
+            단위 당 가격<br/>
+            {price}<p/>
+            <div class="innerbox">
             {menu_name}<br/>
             {amount_per_menu}<br/>
+            </div><br/>
+            <div class="btn_loc">
             <form onSubmit={onSubmit2}>
-                <input type='submit' size="large" value='수정' onClick={d => setName(name)}/>
+                <input className="btn" type='submit' size="large" value='수정' onClick={d => setName(name)}/>
             </form>
+            </div></h3></container></div>
+        </div>
         </div>
     );
 }

@@ -38,24 +38,32 @@ const OpenSprofile = ( { history } ) => {
 
     return (
         <div>
-            <h3> OpenSprofile </h3>
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-            직원 프로필 <br/>
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <container>
+            <div className="outbox">
+            <h2>직원 프로필</h2> <br/>
             {
                 staff.map((staffs) => (
                     <div>
-                        이름<br/>
+                        <h3>직원 no.<br/>
                         {staffs.id}<br/>
                         {staffs.name}<br/>
                         <form onSubmit={onSubmit}>
-                        <input type='submit' size="large" value='선택' onClick={e => setID(staffs.staff_id)}/>
-                        </form>
+                        <input class="btn" type='submit' size="large" value='선택' onClick={e => setID(staffs.staff_id)}/>
+                        </form></h3>
                     </div>
                 )
                 )
             }
+        </div>
+        </container>
         </div>
     );
 }

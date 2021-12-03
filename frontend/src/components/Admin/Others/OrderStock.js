@@ -51,16 +51,36 @@ const OrderStock = ( { history } ) => {
     useEffect(() => {
         getStocks();
     }, [])
-
+    const chkName=(e)=>{
+        setName(e.target.value);
+    }
+    const chkAmount=(e) => {
+        setAmount(e.target.value);
+    }
+    const chkPrice=(e)=>{
+        setPrice(e.target.value);
+    }
+    const resetVal = () =>{
+        setName('');
+        setAmount('');
+    }
     return (
         <div>
-            <h3> OrderStock </h3>
-            <br/>
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-            재고 주문<br/>
-            <hr/>
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <div class="outbox">
+            <h2>재고 주문</h2>
+            <container><h3>
+            <div class="innerbox">
+            &ensp;재고 이름
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            재고 단위<br/>
             {
                 stock.map((stocks) => (
                     <div>
@@ -71,13 +91,17 @@ const OrderStock = ( { history } ) => {
                         <form onSubmit={Decrease}>
                         <input type='submit' size="large" value='-' onClick={e => setName(stocks.name)}/>
                         </form>
-                        
                     </div>
                 ))}
-            <br/>
-            <hr/>
-            총금액 {price}<br/>
-            <button onClick={()=> {history.push("./ConfirmOrderStock")}}> 선택 완료 </button><br/>
+            </div><br/><br/>
+            총금액<br/><br/><input class="input" name="price" val={price}
+            onChange={chkPrice}/>
+            <div style={{display:'inline'}} class="btn_loc">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
+            <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;
+            <button class="btn" onClick={()=> {history.push("./ConfirmOrderStock")}}> 선택 완료 </button><br/>
+            </div></h3></container>
+        </div>
         </div>
     );
 }
