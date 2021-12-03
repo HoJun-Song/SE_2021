@@ -104,7 +104,7 @@ def create(request):
             return Response({'MESSAGE' : 'STOCK_IS_ALREADY_EXIST'}, status=401)
         if len(data['name']) > 30 or len(data['unit']) > 10:
             return Response({'MESSAGE' : 'DATA_TOO_LONG'}, status=402)
-        if data['price'] < 0:
+        if int(data['price']) < 0:
             return Response({'MESSAGE' : 'INVALID_PRICE'}, status=403)
 
         Stock.objects.create(
@@ -194,14 +194,14 @@ def orderStock(request):
             
             if i[0] == stock_name:
                 i[1] = int(i[1]) + int(data['amount'])
-                i[2] = int(i[2]) + (data['amount'] / 10) * stock_price
+                i[2] = int(i[2]) + (data['amount'] // 10) * stock_price
                 flag = 1
                 break
         
         if flag == 0:
             order_stock = stock_name
             order_amount = data['amount']
-            order_price = int(data['amount'] / 10) * stock_price
+            order_price = int(data['amount'] // 10) * stock_price
             order_stock_list.append(list([order_stock, order_amount, order_price]))
               
         total_stock_price = 0
