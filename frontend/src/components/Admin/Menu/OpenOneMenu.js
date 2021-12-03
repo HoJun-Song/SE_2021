@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Axios from 'axios';
 import axios from 'axios';
 
-const OpenOneMenu = ( { history }, props ) => {
+const OpenOneMenu = ( { history } ) => {
     const [menu_name, setMenuName] = useState([])
     const [menu_category, setMenuCategory] = useState([])
     const [menu_price, setMenuPrice] = useState([])

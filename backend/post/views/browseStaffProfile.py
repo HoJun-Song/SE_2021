@@ -1,15 +1,15 @@
-#browseMenu.py
+import json
+from collections import OrderedDict
+
 from django.db.models.query import QuerySet
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from rest_framework import serializers, generics
+from rest_framework import generics, serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from collections import OrderedDict
-import json
 
-from ..models import Staff
 from .. import serializers
+from ..models import Staff
 
 global selected_staff
 selected_staff = None
@@ -29,13 +29,12 @@ def browse(request):
         if not staff_list.exists():
             return JsonResponse({'MESSAGE' : 'STAFF_TABLE_IS_EMPTY'}, status=400)
     
+        output_data = staff_list
+        serialized_output_data = serializers.StaffSerializer(output_data, many=True)
+        return Response(serialized_output_data.data, status=200)
+    
     except KeyError:
         JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=410)
-
-
-    output_data = staff_list
-    serialized_output_data = serializers.StaffSerializer(output_data, many=True)
-    return Response(serialized_output_data.data, status=200)
 
 @api_view(['POST'])
 def detail(request):
@@ -59,19 +58,21 @@ def detail(request):
             return Response({'MESSAGE' : 'STAFF_ID_NOT_EXISTS'}, status=420)   
 
         global selected_staff; selected_staff = staff_info
+
+        staff_info = staff_info.first()
+        output_data = {
+            "staff_id" : staff_info.staff_id,
+            "name" : staff_info.name,
+            "phone_num" : staff_info.phone_num
+        }
+        output_data = json.dumps(output_data)
+        output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
+        return Response(output_data, status=200)
     
     except KeyError:
         JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-    staff_info = staff_info.first()
-    output_data = {
-        "staff_id" : staff_info.staff_id,
-        "name" : staff_info.name,
-        "phone_num" : staff_info.phone_num
-    }
-    output_data = json.dumps(output_data)
-    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
-    return Response(output_data, status=200)
+    
 
 @api_view(['POST'])
 def modify(request):
@@ -86,6 +87,11 @@ def modify(request):
     try:
         global selected_staff
         data = json.loads(request.body)
+
+        if not data:
+            return JsonResponse({'MESSAGE' : 'EMPTY_INPUT'}, status=400)
+        if not selected_staff:
+            return JsonResponse({'MESSAGE' : 'WORNG_ROUTE'}, status=401)
         
         modify_staff = selected_staff.first()
         modify_staff.name = data['name']
@@ -94,13 +100,16 @@ def modify(request):
         modify_staff.phone_num = data['phone_num']
         modify_staff.save()
         
-        # if not data.exists():
-        #     return JsonResponse({'MESSAGE' : 'STAFF_TABLE_IS_EMPTY'}, status=400)
+        staff_objs = Staff.objects.get(staff_id=data['staff_id'])
+        if staff_objs:
+            return Response({'MESSAGE' : 'STAFF_ID_ALREADY_EXISTS'}, status=402)
+
+        return Response({'MESSAGE' : 'SUCCESS'}, status=200)       
 
     except KeyError:
         JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-    return Response({'MESSAGE' : 'SUCCESS'}, status=200)   
+    
 
 @api_view(['POST'])
 def delete(request):
@@ -116,10 +125,15 @@ def delete(request):
     try:
         global selected_staff
 
+        if not selected_staff:
+            return JsonResponse({'MESSAGE' : 'WORNG_ROUTE'}, status=401)
+
         delete_staff = selected_staff.first()
         delete_staff.delete()
+
+        return Response({'MESSAGE' : 'SUCCESS'}, status=200)   
 
     except KeyError:
         JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-    return Response({'MESSAGE' : 'SUCCESS'}, status=200)   
+    
