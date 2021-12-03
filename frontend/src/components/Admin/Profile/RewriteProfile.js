@@ -75,30 +75,37 @@ const RewriteProfile = ( { history } ) => {
     
     return (
         <div>
-            <h3> Rewriteprofile </h3>
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
-            직원 프로필 수정<br/>
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <container>
+            <div className="outbox">
+            <h2>직원 프로필 수정</h2><br/>
             <form onSubmit={onSubmit}>
-            이름<br/>
-            <input id="name" name="name" onChange={e => setName(e.target.value)} 
+            <h3>이름<br/>
+            <input class="input" style={{width:"700px"}} id="name" name="name" onChange={e => setName(e.target.value)} 
             onChange={chkName} value={name}/><br/>
             ID<br/>
-            <input id="ID" name="ID" onChange={e => setID(e.target.value)} 
+            <input class="input" style={{width:"700px"}} id="ID" name="ID" onChange={e => setID(e.target.value)} 
             onChange={chkID} value={staff_id}/><br/>
             PW<br/>
-            <input id="PW" name="PW" onChange={e => setPW(e.target.value)} 
+            <input class="input" style={{width:"700px"}} id="PW" type="password" name="PW" onChange={e => setPW(e.target.value)} 
             onChange={chkPW} value={staff_pw}/><br/>
             PW 확인<br/>
-            <input id="pw" placeholder="123456789" name="pw"/><br/>
+            <input class="input" style={{width:"700px"}} id="pw" type="password" name="pw"/><br/>
             전화번호<br/>
-            <input id="pnum" name="pnum" onChange={e => setPnum(e.target.value)} 
-            onChange={chkPnum} value={phone_num}/><br/>
-            <hr/>
-            <button onClick={resetVal}>초기화</button>
-            <input type='submit' size="large" value='수정'/>
-            </form>
+            <input class="input" id="pnum" name="pnum" onChange={e => setPnum(e.target.value)} 
+            onChange={chkPnum} style={{width:"700px"}} value={phone_num}/><br/>
+            <div className="btn_loc">
+            <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;
+            <input className="btn" type='submit' size="large" value='수정'/>
+            </div></h3></form>
+            </div></container>
         </div>
     );
 }

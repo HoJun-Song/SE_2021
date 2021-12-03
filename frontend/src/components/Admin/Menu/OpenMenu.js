@@ -32,32 +32,35 @@ const OpenMenu = ( { history } ) => {
         alert('잘못된 접근입니다.')
         })
     };
-    
 
     return (
         <div>
-            <h3> OpenMenu </h3>
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
             <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
-            <hr/>
-            메뉴 ID <br/>
-           
+            </div>
+            <div class="outbox">
+            <h2>메뉴 ID</h2> <br/>
+            </div>
             <div>
             {
                 menus.map((menu) => (
                     <div>
-                        {menu.id}<br/>
+                        <div className="input">{menu.id}</div><br/>
                         {menu.name}<br/>
                         <form onSubmit={onSubmit}>
-                        <input type='submit' size="large" value='선택' onClick={e => setName(menu.name)}/>
+                        <input class="btn" type='submit' size="large" value='선택' onClick={e => setName(menu.name)}/>
                         </form>
                     </div>
                 )
                 )
             }
-                </div>
             </div>
+        </div>
     );
 }
 export default OpenMenu;

@@ -33,29 +33,30 @@ const Login_Admin = ( { history } ) => {
 
   return (
     <div>
-      <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-      <h3> Login_Admin </h3>
+      <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+      <h1 style={{color:"white", textAlign:"center"}}> RASZAS </h1>
       <img
             src={ RASZAS }
-            width='400'
-            height='200'
+            width='500'
+            height='300'
             textAlign="center"
-            alt='RASZAS' /><br/>
-      {errors === true && <h3>Cannot log in with provided credentials</h3>}
-      <form onSubmit={onSubmit}>
-        <button className="btn">ID</button><input 
+            alt='RASZAS' /><p/><br/>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button className="btn" style={{display:'inline'}}>ID</button>
+        <input class="input"
           id="id" 
           name="id" 
           placeholder="아이디를 입력해주세요"
           onChange={e => setID(e.target.value)}
-        /><br/>
-        <button className="btn">PW</button><input
+        /><br/><br/>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button className="btn" style={{display:'inline'}}>PW</button>
+        <input class="input"
           id="password"
           name="password"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           onChange={e => setPassword(e.target.value)}
-        /><br/>
+        /><br/><br/>
+        <form className="btn_loc" onSubmit={onSubmit}>
         <input className="btn" type='submit' size="large" value='로그인'/>
        </form>
     </div>

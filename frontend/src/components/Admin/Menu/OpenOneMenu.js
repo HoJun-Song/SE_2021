@@ -55,18 +55,25 @@ const OpenOneMenu = ( { history } ) => {
 
     return (
         <div>
-            <h3> OpenOneMenu </h3>
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>     
-            {menu_name}<br/>
-            {menu_category}<br/>
-            {menu_price}<br/>
-            {stock_per_menu}<br/>
-            {amount_per_menu}<br/> 
-            <form onSubmit={onSubmit2}>
-                <input type='submit' size="large" value='수정' onClick={d => setMenu(menu_name)}/>
-            </form>
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <div className="outbox">
+            <h2>메뉴</h2>
+                {menu_name}<br/>
+                {menu_category}<br/>
+                {menu_price}<br/>
+                {stock_per_menu}<br/>
+                {amount_per_menu}<br/> 
+                <form className="btn_loc" onSubmit={onSubmit2}>
+                    <input class="btn" type='submit' size="large" value='수정' onClick={d => setMenu(menu_name)}/>
+                </form>
+            </div>
         </div>
     );
 }

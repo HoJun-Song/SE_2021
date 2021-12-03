@@ -38,19 +38,30 @@ const FindPW = ({history}) =>{
 
     return(
     <div>
-    <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-    {errors === true && <h3>Cannot log in with provided credentials</h3>}
-    <form onSubmit={onSubmit}>
-        PW찾기<br/>
-        이름<br/>
-        <input id="name" name="name" onChange={e => setName(e.target.value)} /><br/>
-        ID<br/>
-        <input id="staff_id" name="staff_id" onChange={e => setStaff_ID(e.target.value)} /><br/>
-        전화번호<br/>
-        <input id="phone_num" name="phone_num" onChange={e => setPhone_Num(e.target.value)} /><br/>
-        <input className="btn" type='submit' size="large" value='PW 찾기'/>
-    </form>
-    </div>
+    <div className="btn_left">
+            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button> &ensp;&ensp;
+            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <container>
+            <div class="outbox">
+        <form onSubmit={onSubmit}>
+          <h2>PW찾기</h2><br/>
+          <h3>이름<br/>
+          <input style={{width:'700px', marginBottom:'10px'}} class="input" id="name" name="name" onChange={e => setName(e.target.value)} /><br/>
+          ID<br/>
+          <input style={{width:'700px', marginBottom:'10px'}} class="input" id="staff_id" name="staff_id" onChange={e => setStaff_ID(e.target.value)} /><br/>
+          전화번호<br/>
+        <input style={{width:'700px', marginBottom:'10px'}} class="input" id="phone_num" name="phone_num" onChange={e => setPhone_Num(e.target.value)} /><br/><br/><br/>
+          <div className="btn_loc">
+          <input className="btn" type='submit' size="large" value='PW 찾기'/>
+          </div>
+        </h3></form>
+        </div></container>
+      </div>
         );
     }
 

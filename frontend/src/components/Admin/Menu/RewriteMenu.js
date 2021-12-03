@@ -6,8 +6,11 @@ const RewriteMenu = ( { history } ) => {
         const [name,setName] = useState('');
         const [category,setCate] = useState('');
         const [price,setPrice] = useState('');
-        const [stock_name,setStockName] = useState('');
-        const [amount,setStockAmount] = useState('');
+        //const [stock_name,setStockName] = useState('');
+        //const [amount,setStockAmount] = useState('');
+        const [inputList,setStockList] = useState([{
+            stock_name:"", amount:""
+        }]);
        
            
         const [menu_name, setMenuName] = useState([])
@@ -39,6 +42,12 @@ const RewriteMenu = ( { history } ) => {
         onSubmit3();
     }, [])
 
+    const handleChange = (e, index) => {
+        const {name, value} = e.target;   
+        const list = [...inputList];
+        list[index][name] = value;
+        setStockList(list);
+    }
 
         const onSubmit = (e) => {//수정
         e.preventDefault();
@@ -46,8 +55,8 @@ const RewriteMenu = ( { history } ) => {
             name: name,
             category: category,
             price: price,
-            stock_name: stock_name,
-            amount: amount
+            stock_name: inputList.stock_name,
+            amount: inputList.amount
         };
            
         Axios.post('http://127.0.0.1:8000/post/modifyMenu/',user)
@@ -85,31 +94,40 @@ const RewriteMenu = ( { history } ) => {
     const chkPrice = (e) =>{
         setPrice(e.target.value);
     }
-    const chkStockName = (e) =>{
-        setStockName(e.target.value);
-    }
-    const chkStockAmount = (e) =>{
-        setStockAmount(e.target.value);
+    const chkStockList = (e) =>{
+        setStockList(e.target.value);
     }
     const resetVal = () =>{
-        setMenuName('');
-        setMenuPrice('');
-        setStock('');
-        setAmount('');
+        setName('');
+        setPrice('');
+        //setStockList(['','']);
     }
+    const handleRemoveClick = index => {
+        const list = [...inputList];
+        list.splice(index, 1);
+        setStockList(list);
+      };
+    const handleAddClick = () => {
+        setStockList([...inputList, { stock_name: "", amount: "" }]);
+        };
     //기능 변경 필요 => 재료 입력 칸 증감
     return (
-        <div>
-            <h3> RewriteMenu</h3>
-            <br/>
+        <div>  
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button><br/>
-            메뉴 수정<br/>
-            <hr/>
-            메뉴 이름<br/>
-            <input id="name" name="m_name" 
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <div class="outbox">
+            <h2>메뉴 수정</h2>
+            <h3>메뉴 이름
+            <div class="select_text">카테고리</div><br/>
+            <input class="input" id="name" name="m_name"
             onChange={e => setName(e.target.value)} onChange={chkName} value={name} />
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             <select>
 			<option id="category" key="pasta" value="pasta"
             onChange={e => setCate(e.target.value)}>파스타</option>
@@ -119,34 +137,42 @@ const RewriteMenu = ( { history } ) => {
             onChange={e => setCate(e.target.value)}>스테이크</option>
             <option id="category" key="all" value="all"
             onChange={e => setCate(e.target.value)}>전체</option>
-		    </select>
+		    </select><br/>
             <br/>가격<br/>
-            <input id="price" name="price" 
+            <input class="input" id="price" name="price" 
             onChange={e => setPrice(e.target.value)} onChange={chkPrice} value={price} /><br/>
             <br/>
-            재료<br/>
-            <hr/>
-                <container>
-                <input id="stock_name" name="name"
-                onChange={e => setStockName(e.target.value)} onChange={chkStockName} value={stock_name} />
-                <input id="amount" name="amount" text="int"
-                onChange={e => setStockAmount(e.target.value)} onChange={chkStockAmount} value={amount} />
-                <button>
-                +
-                </button>
-                <button>
-                -
-                </button>
-                </container>
-                <br/>
-            
+            <div className="innerbox">
+            {inputList.map((x,i)=>{
+                return(
+                    <div>
+                    <output class="input"
+                    id="stock_name" name="stock_name" 
+                    onChange={e => setStockList(e.target.value)} 
+                    onChange={e => handleChange(e, i)}
+                    value={inputList.stock_name}/>&ensp;&ensp;
+                    <output class="input"
+                    id="amount" name="amount" 
+                    onChange={e => setStockList(e.target.value)}
+                    onChange={e => handleChange(e, i)}
+                    value={inputList.amount}/>&ensp;&ensp;
+                    {inputList.length !== 1 &&
+                    <button style={{marginRight:'5px'}} class="btn" onClick={() => handleRemoveClick(i)}>-</button>}
+                    {inputList.length - 1 === i &&
+                    <button class="btn" onClick={handleAddClick}>+</button>}<p/>
+                    </div>
+                )}
+            )}</div></h3>
+            <div class="btn_loc">
+            <button class="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;
             <form onSubmit={onSubmit}>
-            <input type='submit' size="large" value='수정'/>
+            <input class="btn" type='submit' size="large" value='수정'/>&emsp;&emsp;
             </form>
             <form onSubmit2={onSubmit2}>
-            <input type='submit' size="large" value='삭제'/>
+            <input class="btn" type='submit' size="large" value='삭제'/>
             </form>
-            <button onClick={resetVal}>초기화</button>
+            </div>
+            </div>
         </div>
     );
 }
