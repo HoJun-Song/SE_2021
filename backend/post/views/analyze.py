@@ -47,9 +47,9 @@ def browse(request):
             
             menu.append([m.name, m.price, menu_per_amount])
 
-        ### 인기도 계산 및 정렬 (매출 기준)
+        ### 인기도 계산 및 정렬 (판매량 기준)
         for m in menu: m.append(m[1] * m[2])
-        menu = sorted(menu, key=lambda m : -m[3])
+        menu = sorted(menu, key=lambda m : -m[2])
         total_sales = sum(i[3] for i in menu)
         
         menu_list = {
