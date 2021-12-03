@@ -1,4 +1,3 @@
-#browseMenu.py
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.db.models import Q
@@ -8,11 +7,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
 from datetime import datetime, timedelta
+from collections import OrderedDict
 
-from ..models import Menu, Orders, MenuTimer, OrderTimer
-
-def total_seconds(timedelta):
-    return  (timedelta.seconds + timedelta.days * 24 * 3600) * 10 ** 6
+from ..models import Menu, MenuTimer, OrderTimer
 
 
 @api_view(['POST'])
@@ -21,10 +18,12 @@ def browse(request):
     시간 정보 열람
 
     2021-11-29 1차
+    2021-12-03 2차
     
     * orderMenu.finishMenu 에서 OrderTimer에 start_time 저장 필요 (미완료)
+    ** menuTimer, orderTime schema 변경 (완료-2차)
 
-    - /post/browseTimeInfo/ 로 빈 request가 넘어오면 고객 평균 체류 시간, 메뉴 별 소요 시간 반환 (미완료)
+    - /post/browseTimeInfo/ 로 빈 request가 넘어오면 고객 평균 체류 시간, 메뉴 별 소요 시간 반환 (완료-2차)
 
     '''
     try:
@@ -43,8 +42,7 @@ def browse(request):
         avg_order_time = sum(order_time, timedelta(0)) / len(order_time_list)
 
         # 메뉴 별 소요시간
-        menu_objs = Menu.objects.all()
-        menu_time_objs = MenuTimer.objects.all()
+        menu_name = []
         menu_time = []
         
         for i in range(1, Menu.objects.aggregate(id=Max('id'))['id'] + 1):
@@ -53,28 +51,37 @@ def browse(request):
             # 각각의 Menu object(instance)
             menu_i = Menu.objects.filter(id=i)
 
+            if not menu_i.exists(): 
+                continue 
+
             # 각 Menu에 따른 timer 객체
             menu_time_i = MenuTimer.objects.filter(menu_id__in=menu_i)
 
-            if not menu_time_i.exists(): continue # Menu 이름 추가 필요
+            # 저장된 time 정보가 없을 경우 00:00으로 설정
+            if not menu_time_i.exists(): 
+                menu_name.append(list(menu_i.values_list('name'))[0][0])
+                menu_time.append(str(timedelta(0)))
+                continue
             
-            # for i_obj in menu_time_i:
-            #     start_mt = list(OrderTimer.objects.filter(id__in=i_obj).values_list('start_time'))[0][0]
-            #     start_mt = datetime.strptime(start_mt, time_format)
-            #     end_mt = MenuTimer.objects.filter(Q(menu_id__in=menu_i) & ).values_list('end_time')[0][0]
-            #     end_mt = datetime.strptime(end_mt, time_format)
-            #     menu_time_info_i.append(start_mt - end_mt)
+            for i_obj in menu_time_i:
+                start_mt = datetime.strptime(i_obj.start_time, time_format)
+                end_mt = datetime.strptime(i_obj.end_time, time_format)
+                menu_time_info_i.append(end_mt - start_mt)
 
-            # avg_menu_time_i = sum(menu_time_info_i, timedelta(0)) / len(order_time_list)
+            avg_menu_time_i = sum(menu_time_info_i, timedelta(0)) / len(menu_time_i)
+            menu_time.append(str(avg_menu_time_i))
+            menu_name.append(list(menu_i.values_list('name'))[0][0])
 
-            
-
-        
-
+        time_list = {
+            "average_order_time"  : str(avg_order_time),
+            "menu_name"           : [i for i in list(menu_name)],
+            "menu_time"           : [i for i in list(menu_time)]
+        }
 
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-    output_data = None
+    output_data = json.dumps(time_list)
+    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
     return Response(output_data, status=200)
     
