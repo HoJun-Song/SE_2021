@@ -36,10 +36,16 @@ def loginStaff(request):
     '''
     try:
         data = json.loads(request.body)
+
+        # id 존재하지 않는 경우
+        if not Staff.objects.filter(staff_id=data['staff_id']).exists():
+            return Response({'MESSAGE' : 'id가 존재하지 않습니다.'}, status=402)
+
         login_user = Staff.objects.get(staff_id=data['staff_id'])
 
-        if not login_user.staff_id or login_user.staff_pw != data['staff_pw']:
-            return Response({'MESSAGE' : 'id 혹은 password가 다릅니다.'}, status=401)
+        # pw 다른 경우
+        if login_user.staff_pw != data['staff_pw']:
+            return Response({'MESSAGE' : 'password가 다릅니다.'}, status=401)
 
     except KeyError:
         return Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
@@ -56,22 +62,18 @@ def findPW(request):
     '''
     try:
         input_data = json.loads(request.body)
-        print(input_data)
-        pw_user = Staff.objects.filter(staff_id=input_data['staff_id'])
+        pw_user = Staff.objects.get(staff_id=input_data['staff_id'])
 
-        if not pw_user.exists():
-            return Response({'MESSAGE' : '존재하지 않는 id입니다.'}, status=401)
-        elif pw_user[0].name != input_data['name']:
-            return Response({'MESSAGE' : '존재하지 않는 이름입니다.'}, status = 402)
-        elif pw_user[0].phone_num != input_data['phone_num']:
-            return Response({'MESSAGE' : '존재하지 않는 전화번호입니다.'}, status = 403)
+        # if not pw_user.exists():
+        #     return Response({'MESSAGE' : '존재하지 않는 id입니다.'}, status=401)
+        # elif pw_user[0].name != input_data['name']:
+        #     return Response({'MESSAGE' : '존재하지 않는 이름입니다.'}, status = 402)
+        # elif pw_user[0].phone_num != input_data['phone_num']:
+        #     return Response({'MESSAGE' : '존재하지 않는 전화번호입니다.'}, status = 403)
         
-        output_data = pw_user.all()
-        print(output_data)
-        serialized_output_data = serializers.StaffSerializer(output_data, many=True)
-        print(serialized_output_data)
+        output_data = pw_user
+        serialized_output_data = serializers.StaffSerializer(output_data)
         
-
     except KeyError:
         return Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
 

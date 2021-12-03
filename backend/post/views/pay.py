@@ -132,7 +132,7 @@ def payment(request):
         order_timer.save()
         print(order_timer.end_time)
         # 현재 Order, Table object(instance) 삭제
-        # order.delete()
+        order.delete()
 
         output_data = {
             'menu_name' : [i[0] for i in cur_order_list],

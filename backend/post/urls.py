@@ -86,8 +86,8 @@ urlpatterns = [
     ### 14. 메뉴 준비시간 체크
     # 14-1. 모든 메뉴 목록 확인
     path('showOrderMenu/', checkMenuTime.showOrderMenu),
-    # 14-1. 메뉴 준비시간 체크
-    path('checkMenuTime/', checkMenuTime.checkMenuTime)
+    # 14-2. 메뉴 준비시간 체크
+    path('checkMenuTime/', checkMenuTime.checkMenuTime),
 
     ### 0. 결제
     # 0-1. 결제 (결제 정보 확인)
