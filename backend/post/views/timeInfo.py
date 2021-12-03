@@ -20,7 +20,7 @@ def browse(request):
     2021-11-29 1차
     2021-12-03 2차
     
-    * orderMenu.finishMenu 에서 OrderTimer에 start_time 저장 필요 (미완료)
+    * orderMenu.finishMenu 에서 OrderTimer에 start_time 저장 필요 (완료)
     ** menuTimer, orderTime schema 변경 (완료-2차)
 
     - /post/browseTimeInfo/ 로 빈 request가 넘어오면 고객 평균 체류 시간, 메뉴 별 소요 시간 반환 (완료-2차)
@@ -36,7 +36,7 @@ def browse(request):
 
         for ot in order_time_list:
             start_ot = datetime.strptime(ot[1], time_format)
-            end_ot = datetime.strptime(ot[2], time_format)
+            end_ot = datetime.strptime(ot[2], time_format) if ot[2] else ""
             order_time.append(end_ot - start_ot)
             
         avg_order_time = sum(order_time, timedelta(0)) / len(order_time_list)
@@ -65,7 +65,7 @@ def browse(request):
             
             for i_obj in menu_time_i:
                 start_mt = datetime.strptime(i_obj.start_time, time_format)
-                end_mt = datetime.strptime(i_obj.end_time, time_format)
+                end_mt = datetime.strptime(i_obj.end_time, time_format) if i_obj.end_time else ""
                 menu_time_info_i.append(end_mt - start_mt)
 
             avg_menu_time_i = sum(menu_time_info_i, timedelta(0)) / len(menu_time_i)

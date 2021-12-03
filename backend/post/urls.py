@@ -1,7 +1,7 @@
 from django.urls import path
 
 # from . import views
-from .views import createMenu, browseMenu, createStaffProfile, browseStaffProfile, stock, login, orderMenu, table, timeInfo, analyze
+from .views import createMenu, browseMenu, createStaffProfile, browseStaffProfile, stock, login, orderMenu, table, timeInfo, analyze, pay, checkMenuTime
 
 urlpatterns = [
     ### 1. 로그인
@@ -66,13 +66,13 @@ urlpatterns = [
     path('finishStock/', stock.finishStock),
 
     ### 11. 메뉴 주문
-    # 11-1. 메뉴 선택
+    # 11-1. 메뉴 선택 (전체 메뉴 반환)
     path('showMenu/', orderMenu.showMenu),
-    # 11-. 
+    # 11-1. 메뉴 선택 (수량 선택)
     path('orderMenu/', orderMenu.orderMenu),
-    # 11-.
+    # 11-2. 주문 정보 확인 및 포장/매장 식사 여부 선택
     path('finishMenu/', orderMenu.finishMenu),
-    # 11-2. 매장 식사 선택 시 테이블 선택
+    # 11-3. 매장 식사 선택 시 테이블 선택
     path('orderTable/', orderMenu.orderTable),
 
     ### 13. 테이블 관리
@@ -80,5 +80,21 @@ urlpatterns = [
     path('showTable/', table.showTable),
     # 13-2. 테이블 별 정보 열람
     path('detailTable/', table.detailTable),
+    # 13-3. 테이블 이동
+    path('moveTable/', table.moveTable),
+    
+    ### 14. 메뉴 준비시간 체크
+    # 14-1. 모든 메뉴 목록 확인
+    path('showOrderMenu/', checkMenuTime.showOrderMenu),
+    # 14-1. 메뉴 준비시간 체크
+    path('checkMenuTime/', checkMenuTime.checkMenuTime)
+
+    ### 0. 결제
+    # 0-1. 결제 (결제 정보 확인)
+    path('checkPay/', pay.check),
+    # 0-2. 전체 결제 금액 확인
+    path('totalPay/', pay.total),
+    # 0-3. 결제 (현금&카드 결제)
+    path('payment/', pay.payment),
 
 ]
