@@ -80,7 +80,7 @@ class App extends Component {
           <Route path="/OrderMenu" component={OrderMenu} />
           <Route path="/TableManage" component={TableManage} />
           <Route path="/OrderStock" component={OrderStock} />
-          <Route path="/OpenOneAnalyze" component={OpenOneAnalyze} />
+          <Route path="/OpenOneAnalyze/:menu_name?" component={OpenOneAnalyze} />
           <Route path="/RegisterStock" component={RegisterStock} />
           <Route path="/AnalyzeStock/:name?" component={AnalyzeStock} />
           <Route path="/RewriteStock/:name?" component={RewriteStock} />

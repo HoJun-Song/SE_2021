@@ -1,14 +1,11 @@
-#browseMenu.py
-from django.db.models.query import QuerySet
-from rest_framework import serializers, generics
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 import json
 from collections import OrderedDict
-from datetime import datetime, timedelta
+from datetime import datetime
 
-# from ..serializers import MenuSerializer
-from ..models import Tables, Orders, Menu, OrderTimer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from ..models import Menu, Orders, OrderTimer, Tables
 
 global selected_table
 selected_table = None
@@ -16,25 +13,27 @@ selected_table = None
 @api_view(['POST'])
 def showTable(request):
     '''
-    전체 테이블 출력
+    전체 테이블 중 테이블 객체가 있는 테이블 id만을 반환
 
     2021-12-03 1차
-    
-    - 전체 테이블 중 table객체가 만들어진 table_id만을 반환
+    2021-12-04 1차 검수 (완료)
     '''
     try:
         table_list = Tables.objects.all().order_by('table_id')
         table_list = table_list.values_list('table_id').distinct()
+        
+        output_data = []
+        for i in table_list:
+            output_data.append({
+                'table_id' : i[0]
+            })
+            
+        output_data = json.dumps(output_data)
+        output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
+        return Response(output_data, status=200)
     
     except KeyError:
         Response({'MESSAGE' : 'KEY_ERROR'}, status=400)
-
-    output_data = {
-        'table_id' : [i[0] for i in table_list]
-    }
-    output_data = json.dumps(output_data)
-    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
-    return Response(output_data, status=200)
 
 @api_view(['POST'])
 def detailTable(request):
@@ -42,8 +41,7 @@ def detailTable(request):
     테이블 상세 정보 열람 
 
     2021-12-03 1차
-    
-    - 특정 테이블 선택 시 해당 테이블의 주문 확인
+    2021-12-04 1차 검수 (완료)
     '''
     try:
         global selected_table
@@ -71,12 +69,15 @@ def detailTable(request):
             table_menu.append(menu_name)
             table_menu_amount.append(int(menu_amount))
         
-        ouput_data = {
-            'name' : [i for i in table_menu],
-            'amount' : [i for i in table_menu_amount],
-            'delay_time' : str(delay_time)
-        }
-        output_data = json.dumps(ouput_data)
+        output_data = []
+        for mn, amt in zip(list(table_menu), list(table_menu_amount)):
+            output_data.append({
+                "name" : str(mn),
+                "amount" : amt,
+                "delay_time" : str(delay_time)
+            })
+        
+        output_data = json.dumps(output_data)
         output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
         return Response(output_data, status=200)
     
@@ -86,11 +87,10 @@ def detailTable(request):
 @api_view(['POST'])
 def moveTable(request):
     '''
-    테이블 이동
+    이동할 테이블 선택 시 기존 테이블 객체 정보의 table_id를 새로운 table_id로 변경
 
     2021-12-03 1차
-    
-    - 이동할 테이블 선택 시 기존 테이블 객체 정보의 table_id를 새로운 table_id로 변경
+    2021-12-04 1차 검수 (완료)
     '''
     try:
         global selected_table
