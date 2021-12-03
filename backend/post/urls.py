@@ -1,7 +1,7 @@
 from django.urls import path
 
 # from . import views
-from .views import createMenu, browseMenu, createStaffProfile, browseStaffProfile, stock, login, orderMenu, table, timeInfo
+from .views import createMenu, browseMenu, createStaffProfile, browseStaffProfile, stock, login, orderMenu, table, timeInfo, analyze
 
 urlpatterns = [
     ### 1. 로그인
@@ -40,6 +40,12 @@ urlpatterns = [
 
     ### 7. 시간 정보 열람
     path('browseTimeInfo/', timeInfo.browse),
+
+    ### 8. 판매 분석
+    # 8-1. 메뉴 별 인기도 목록
+    path('browseAnalyze/', analyze.browse),
+    # 8-2. 메뉴 별 주문량, 매출 비율, 총 매출액 확인
+    path('detailAnalyze/', analyze.detail),
 
     ### 9. 재고 추적
     # 9-1. 재고 현황
