@@ -104,7 +104,7 @@ def create(request):
             return Response({'MESSAGE' : 'STOCK_IS_ALREADY_EXIST'}, status=401)
         if len(data['name']) > 30 or len(data['unit']) > 10:
             return Response({'MESSAGE' : 'DATA_TOO_LONG'}, status=402)
-        if data['price'] < 0:
+        if int(data['price']) < 0:
             return Response({'MESSAGE' : 'INVALID_PRICE'}, status=403)
 
         Stock.objects.create(
