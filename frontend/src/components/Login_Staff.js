@@ -35,24 +35,31 @@ const Login_Admin = ( { history } ) => {
 
   return (
     <div>
-      <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-      <h3> Login_Staff </h3>
-      {errors === true && <h3>Cannot log in with provided credentials</h3>}
-      <form onSubmit={onSubmit}>
-        <input 
-          id="staff_id" 
-          name="staff_id" 
+      <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+      <h1 style={{color:"white", textAlign:"center"}}> RASZAS </h1>
+      <img
+            src={ RASZAS }
+            width='500'
+            height='300'
+            textAlign="center"
+            alt='RASZAS' /><p/><br/>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button className="btn" style={{display:'inline'}}>ID</button>
+        <input class="input"
+          id="id" 
+          name="id" 
           placeholder="아이디를 입력해주세요"
           onChange={e => setID(e.target.value)}
-        />
-        <input
-          id="staff_pw"
-          name="staff_pw"
+        /><br/><br/>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button className="btn" style={{display:'inline'}}>PW</button>
+        <input class="input"
+          id="password"
+          name="password"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           onChange={e => setPassword(e.target.value)}
-        /><br/>
-        <input className="btn" type='submit' size="large" value='로그인'/>
+        /><br/><br/><br/>
+        <form className="btn_loc" onSubmit={onSubmit}>
+        <input className="btn" type='submit' value='로그인'/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
         <button className="btn" onClick={ () => {history.push("./FindPW")} }>PW 찾기</button>
        </form>
     </div>

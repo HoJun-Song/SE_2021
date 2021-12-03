@@ -50,20 +50,26 @@ const OpenOne = ( { history } ) => {
     
     return (
         <div>
-            <h3> OpenOne </h3>
+            <div className="btn_left">
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
-            직원 프로필<br/>
-            
-            이름<br/>
-            {name}<br/>
-            {staff_id}<br/>
-            {phone_num}
-            <form onSubmit={onSubmit2}>
-            <input type='submit' size="large" value='수정' onClick={d => setID(staff_id)}/>
-            </form>
-            
+            </div>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <div className="btn_right">
+            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            </div>
+            <container>
+            <div className="outbox">
+            <h2>직원 프로필</h2><br/>
+            <h3>이름<br/>
+            <input style={{width:'700px'}} className="input" id="name" name="name" value={name}/><br/><br/>
+            ID<br/><input style={{width:'700px'}} className="input" id="staff_id" name="staff_id" value={staff_id}/><br/><br/>
+            전화번호<br/><input style={{width:'700px'}} className="input" id="phone_num" name="phone_num" value={phone_num}/><br/><br/><br/><br/>
+            <form className="btn_loc" onSubmit={onSubmit2}>
+            <input className="btn" type='submit' size="large" value='수정' onClick={d => setID(staff_id)}/>
+            </form></h3>
+            </div>
+            </container>
         </div>
     );
 }
