@@ -1,14 +1,11 @@
 #createMenu.py
-from django.db.models.query import QuerySet
-from django.http.response import JsonResponse
-from django.shortcuts import render
-from django.db.models import Max
-from rest_framework import serializers, generics
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 import json
 
-# from ..serializers import MenuSerializer
+from django.db.models import Max
+from django.http.response import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from ..models import Staff
 
 @api_view(['POST'])
@@ -17,6 +14,7 @@ def create(request):
     새로운 Staff 생성
 
     2021-11-27 1차
+    2021-12-04 1차 검수 (완료)
 
     - /post/createStaffProfile/ 로 새로운 Staff의 정보가 넘어오면 Staff instance(object)를 생성하여 DB에 저장 (완료-1차)
     - ID값을 입력받지 않고 table의 instance 개수 파악 후 자동 증가 (완료-1차)
@@ -43,11 +41,11 @@ def create(request):
             staff_pw  = data['staff_pw'],
             phone_num = data['phone_num'],
         )
+        
+        return Response({'MESSAGE' : 'SUCCESS'}, status=200)
     
     except json.decoder.JSONDecodeError:
         return JsonResponse({'MESSAGE' : 'REQUEST_WITHOUT_DATA'}, status=410)
 
     except KeyError:
         JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=410)
-    
-    return Response({'MESSAGE' : 'SUCCESS'}, status=200)
