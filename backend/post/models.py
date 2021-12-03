@@ -1,5 +1,5 @@
 # This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
+# You'll have to do the following manually to clean this up:  
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
@@ -157,7 +157,7 @@ class MenuToStock(models.Model):
 
 class OrderTimer(models.Model):
     id = models.IntegerField(primary_key=True)
-    start_time = models.CharField(unique=True, max_length=20, blank=True, null=True)
+    start_time = models.CharField(max_length=20, blank=True, null=True)
     end_time = models.CharField(max_length=20, blank=True, null=True)
     order_id = models.IntegerField(blank=True, null=True)
 
@@ -203,7 +203,7 @@ class Stock(models.Model):
 
 class Tables(models.Model):
     id = models.IntegerField(primary_key=True)
-    order = models.ForeignKey(Orders, models.DO_NOTHING, blank=True, null=True)
+    order = models.ForeignKey(Orders, on_delete=models.CASCADE, blank=True, null=True)
     table_id = models.IntegerField(blank=True, null=True)
 
     class Meta:

@@ -5,6 +5,7 @@ from django.shortcuts import render
 from rest_framework import serializers, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from collections import OrderedDict
 import json
 
 from ..models import Staff
@@ -34,7 +35,6 @@ def browse(request):
 
     output_data = staff_list
     serialized_output_data = serializers.StaffSerializer(output_data, many=True)
-
     return Response(serialized_output_data.data, status=200)
 
 @api_view(['POST'])
@@ -43,26 +43,35 @@ def detail(request):
     직원 프로필 열람 (선택한 직원)
 
     2021-11-27 1차
+    2021-12-03 2차
     
     - /post/detailStaffProfile/ 로 선택한 Staff의 id가 넘어오면 전체 직원 반환 (완료-1차)
+    - staff_id, name, phone_num만 반환 (완료-2차)
 
     '''
     try:
         data = json.loads(request.body)
 
         # request받은 id와 일치하는 Staff instance(object)
-        staff_info = Staff.objects.filter(staff_id=data['staff_id']) 
+        staff_info = Staff.objects.filter(staff_id=data['staff_id'])
+
+        if not staff_info.exists():
+            return Response({'MESSAGE' : 'STAFF_ID_NOT_EXISTS'}, status=420)   
 
         global selected_staff; selected_staff = staff_info
     
     except KeyError:
         JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status=410)
 
-
-    output_data = staff_info
-    serialized_output_data = serializers.StaffSerializer(output_data, many=True)
-
-    return Response(serialized_output_data.data, status=200)
+    staff_info = staff_info.first()
+    output_data = {
+        "staff_id" : staff_info.staff_id,
+        "name" : staff_info.name,
+        "phone_num" : staff_info.phone_num
+    }
+    output_data = json.dumps(output_data)
+    output_data = json.loads(output_data, object_pairs_hook=OrderedDict)
+    return Response(output_data, status=200)
 
 @api_view(['POST'])
 def modify(request):
