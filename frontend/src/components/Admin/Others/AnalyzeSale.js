@@ -31,29 +31,29 @@ const AnalyzeSale = ( { history } ) => {
     };
     return (
         <div>
-            <h3> AnalyzeSale </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
             <container>
-            판매 분석 <br/><hr/>
-            총 매출
-            {total}<br/>
+            <h2>판매 분석</h2>
+            <h3>총 매출</h3>
+            <textbox class="txtbox">{total}</textbox><p/><br/>
             {
                 analyze.map((analyzes)=>(
                     <div>
-                        {analyzes.menu_name}
-                        <form onSubmit={onSubmit}>
-                        <input type='submit' size="large" value='선택' onClick={e => setName(analyzes.menu_name)}/>
-                        </form>
+                        <textbox class="txtbox">{analyzes.menu_name}</textbox>&emsp;&emsp;&emsp;
+                        <form style={{display:'inline'}}onSubmit={onSubmit}>
+                        <input class="btn" type='submit' size="large" value='선택' onClick={e => setName(analyzes.menu_name)}/>
+                        </form><br/>
                     </div>
                 ))
             }
             <br/>
             </container>
 
-
+            </div>
         </div>
     );
 }

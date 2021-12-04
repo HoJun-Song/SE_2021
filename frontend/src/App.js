@@ -87,12 +87,12 @@ class App extends Component {
           <Route path="/ConfirmOrderStock" component={ConfirmOrderStock} />
           <Route path="/ConfirmOrderMenu" component={ConfirmOrderMenu} />
           <Route path="/SelectTable" component={SelectTable} />
-          <Route path="/Payment" component={Payment} />
+          <Route path="/Payment/:table_id?" component={Payment} />
           <Route path="/Cash" component={Cash} />
           <Route path="/Card" component={Card} />
           <Route path="/CompletePay" component={CompletePay} />
           <Route path="/CompleteOrder" component={CompleteOrder} />
-          <Route path="/TableInfo" component={TableInfo} />
+          <Route path="/TableInfo/:table_id?" component={TableInfo} />
           <Route path="/MoveTable" component={MoveTable} />
         </BrowserRouter>
       </div>

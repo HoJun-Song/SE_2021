@@ -1,7 +1,7 @@
 from django.urls import path
 
 # from . import views
-from .views import createMenu, browseMenu, createStaffProfile, browseStaffProfile, stock, login, orderMenu, table, timeInfo, analyze, pay, checkMenuTime
+from .views import createMenu, browseMenu, createStaffProfile, browseStaffProfile, stock, login, orderMenu, table, timeInfo, analyze, checkMenuTime
 
 urlpatterns = [
     ### 1. 로그인
@@ -91,10 +91,10 @@ urlpatterns = [
 
     ### 0. 결제
     # 0-1. 결제 (결제 정보 확인)
-    path('checkPay/', pay.check),
+    path('checkPay/', orderMenu.check),
     # 0-2. 전체 결제 금액 확인
-    path('totalPay/', pay.total),
+    path('totalPay/', orderMenu.total),
     # 0-3. 결제 (현금&카드 결제)
-    path('payment/', pay.payment),
+    path('payment/', orderMenu.payment),
 
 ]

@@ -7,8 +7,17 @@ const RegisterMenu = ( { history } ) => {
     const [name,setName] = useState('');
     const [category,setCate] = useState('');
     const [price,setPrice] = useState('');
-    const [stock_name,setStockName] = useState('');
-    const [amount,setStockAmount] = useState('');
+    const [inputList,setStockList] = useState([{
+        stock_name:"", amount:0
+    }]);
+    const selectList = ["pasta", "pizza", "steak"];
+
+    const handleChange = (e, index) => {
+        const {name, value} = e.target;   
+        const list = [...inputList];
+        list[index][name] = value;
+        setStockList(list);
+    }
 
     const onSubmit = (e) => {
     e.preventDefault();
@@ -16,9 +25,9 @@ const RegisterMenu = ( { history } ) => {
         name: name,
         category: category,
         price: price,
-        stock_name: stock_name,
-        amount: amount
+        stock_list: inputList
     };
+    
        
     Axios.post('http://127.0.0.1:8000/post/createMenu/',user)
         .then(res =>{
@@ -51,62 +60,78 @@ const RegisterMenu = ( { history } ) => {
     const chkPrice = (e) =>{
         setPrice(e.target.value);
     }
-    const chkStockName = (e) =>{
+    /*const chkStockName = (e) =>{
         setStockName(e.target.value);
     }
     const chkStockAmount = (e) =>{
         setStockAmount(e.target.value);
-    }
+    }*/
     const resetVal = () =>{
         setName('');
         setPrice('');
-        setStockName('');
-        setStockAmount('');
     }
+
+    const handleRemoveClick = index => {
+        const list = [...inputList];
+        list.splice(index, 1);
+        setStockList(list);
+      };
+    const handleAddClick = () => {
+        setStockList([...inputList, { stock_name: "", amount: 0 }]);
+        };
+    const handleSelect = (e) => {
+        setCate(e.target.value);
+        };
     return (
         <div>
-            <h3> RegisterMenu </h3><br/>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-            메뉴 등록<br/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
+            <h2>메뉴 등록</h2><p/>
             <form onSubmit={onSubmit}>
-            <hr/>
-            메뉴 이름<br/>
-            <input id="name" name="name" onChange={e => setName(e.target.value)} 
-            onChange={chkName} value={name}/>
-            <select>
-         <option id="category" key="pasta" value="pasta"
-            onChange={e => setCate(e.target.value)}>파스타</option>
-         <option id="category" key="pizza" value="pizza"
-            onChange={e => setCate(e.target.value)}>피자</option>
-         <option id="category" key="steak" value="steak"
-            onChange={e => setCate(e.target.value)}>스테이크</option>
-            <option id="category" key="all" value="all"
-            onChange={e => setCate(e.target.value)}>전체</option>
-          </select><br/>
+            <h3>메뉴 이름
+            <div class="select_text">카테고리</div><br/>
+            <input class="input" id="name" name="name" 
+            onChange={e => setName(e.target.value)} onChange={chkName} value={name} />
+            <select class="select_cate" onChange={handleSelect}>
+            <option value="pasta" >pasta</option>
+            <option value="pizza">pizza</option>
+            <option value="steak">steak</option>
+            </select>
+            <p/>
             가격<br/>
-            <input id="price" name="price" onChange={e => setPrice(e.target.value)}
-            onChange={chkPrice} value={price}/>
-            <br/>
+            <input class="input" id="price" name="price"
+            onChange={e => setPrice(e.target.value)} onChange={chkPrice} value={price}/><p/>
             재료<br/>
-            <hr/>
-                <container>
-                <input id="stock_name" name="stock_name" onChange={e => setStockName(e.target.value)}
-                onChange={chkStockName} value={stock_name}/>
-                <input id="amount" name="amount" onChange={e => setStockAmount(e.target.value)}
-                onChange={chkStockAmount} value={amount}/>
-                <button>
-                +
-                </button>
-                <button>
-                -
-                </button>
-                </container>
-                <br/>
-            <button onClick={resetVal}>초기화</button>
-            <input type='submit' size="large" value='등록'/>
-            </form>
+            <div className="innerbox">
+            {inputList.map((x,i)=>{
+                return(
+                    <div>
+                    <input class="input"
+                    id="stock_name" name="stock_name" 
+                    onChange={e => setStockList(e.target.value)} 
+                    onChange={e => handleChange(e, i)} 
+                    value={inputList.stock_name}/>&ensp;&ensp;
+                    <input class="input"
+                    id="amount" name="amount" 
+                    onChange={e => setStockList(e.target.value)}
+                    onChange={e => handleChange(e, i)}
+                    value={inputList.amount}/>&ensp;&ensp;
+                    {inputList.length !== 1 &&
+                    <button class="btn" onClick={() => handleRemoveClick(i)}>-</button>}&ensp;&emsp;
+                    {inputList.length - 1 === i &&
+                    <button class="btn" onClick={handleAddClick}>+</button>}
+                    <br/></div>
+                )}
+            )}</div></h3>
+            <div className="btn_loc">
+                    <button className="btn" onClick={resetVal}>초기화</button> &emsp;
+                    <input className="btn" type='submit' size="large" value='등록'/>
+            </div>
+                </form>
+            </div>
         </div>
     );
 }

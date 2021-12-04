@@ -9,6 +9,7 @@ const RegisterStock = ( { history } ) => {
     const [unit,setUnit] = useState('');
     const [price,setPrice] = useState('');
 
+const selectList = ["10ml", "10g", "10ea"];
     const onSubmit = (e) => {
     e.preventDefault();
     const stock = {
@@ -38,36 +39,42 @@ const RegisterStock = ( { history } ) => {
         setName('');
         setPrice('');
     }
+    const handleSelect = (e) => {
+        setUnit(e.target.value);
+        };
     //기능 변경 필요 => 메뉴 입력 칸 증감
     return (
         <div>
-            <h3> RegisterStock </h3>
-            <br/>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-            
-            재고 등록<br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
+            <h2>재고 등록</h2><br/>
             <form onSubmit={onSubmit}>
-            재고 이름 재고 단위<br/>
-            <input id="name" name="name" onChange={e => setName(e.target.value)} 
-            onChange={chkName} value={name}/>
-            <select>
-            <option id="category" key="ml" value="ml"
-            onChange={e => setUnit(e.target.value)}>10ml</option>
-            <option id="category" key="gram" value="gram"
-            onChange={e => setUnit(e.target.value)}>10g</option>
-            <option id="category" key="ea" value="ea"
-            onChange={e => setUnit(e.target.value)}>10개</option>
-            </select><br/>
-            단위 당 가격<br/>
-            <input id="price" name="price"onChange={e => setPrice(e.target.value)}
+            <h3>재고 이름 
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
+                재고 단위<br/>
+
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            <div class="select_text"></div><br/>
+            <input class="input" id="name" name="name" 
+            onChange={e => setName(e.target.value)} onChange={chkName} value={name} />
+            <select class="select_cate" onChange={handleSelect}>
+            <option value="10ml" >10ml</option>
+            <option value="10g">10g</option>
+            <option value="10ea">10개</option>
+            </select><p/>
+            단위 당 가격<p/>
+            <input className="input" id="price" name="price"onChange={e => setPrice(e.target.value)}
             onChange={chkPrice} value={price}/>
-            <br/>
-            <button onClick={resetVal}>초기화</button>
-            <input type='submit' size="large" value='등록'/>
-            </form>
+            <p/>
+            </h3>
+            <div className="btn_loc">
+            <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;
+            <input className="btn" type='submit' size="large" value='등록'/>
+            </div></form>
+            </div>
         </div>
     );
 }

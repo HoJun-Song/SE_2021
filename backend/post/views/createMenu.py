@@ -54,8 +54,14 @@ def createMenu(request):
             price     = int(data['price']),
         )
 
+        stock = []
+        amount = []
+        for i in data['stock_list']:
+            stock.append(i['stock_name'])
+            amount.append(i['amount'])
+        
         # 입력받은 만큼 Stock instance(object) 생성
-        for i, (st, amt) in enumerate(zip(data['stock'], data['amount'])):
+        for i, (st, amt) in enumerate(zip(stock, amount)):
             MenuToStock.objects.create(
                 id        = menu_to_stock_id + i + 1,
                 menu      = Menu.objects.get(name=data['name']),

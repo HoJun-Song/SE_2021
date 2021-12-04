@@ -35,22 +35,23 @@ const OpenOneAnalyze = ( { history } ) => {
     }, [])
     return (
         <div>
-            <h3> OpenOneAnalyze </h3>
-            <button onClick={() => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div className="outbox">
             <container>
-            판매 분석 <br/><hr/>
-            메뉴이름
-            {menu_name}<br/>
-            주문량
-            {menu_sales}<br/>
-            매출
-            {menu_price}<br/>
-            매출 비율
-            {menu_rate}<br/>
-            </container>
+            <h2>판매 분석</h2><br/>
+            <h3>메뉴이름&emsp;
+            <textbox class="txtbox">{menu_name}</textbox><p/>
+            주문량&emsp;&emsp;
+            <textbox class="txtbox">{menu_sales}</textbox><p/>
+            매출&emsp;&emsp;
+            <textbox class="txtbox">{menu_price}</textbox><p/>
+            매출 비율&emsp;&emsp;
+            <textbox class="txtbox">{menu_rate}</textbox><p/>
+            </h3></container>
+        </div>
         </div>
     );
 }
