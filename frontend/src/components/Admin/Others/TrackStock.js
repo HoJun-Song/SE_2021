@@ -26,26 +26,20 @@ const TrackStock = ( { history } ) => {
         };
         Axios.post('http://127.0.0.1:8000/post/detailStock/',user)
         .then(res =>{
-        console.log(res.data); //얘를 가공해서 저장한다음에 원메뉴로 넘긴다
-        window.location.replace(`./AnalyzeStock/?${res.data.name}`)
+        window.location.replace(`./AnalyzeStock/?${res.data[0].name}`)
         alert('재고가 선택되었습니다.')
         })
         .catch(err =>{
-        console.clear()
         alert('잘못된 접근입니다.')
         })
     };
 
     return (
         <div>
-            <div className="btn_left">
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            </div>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <div className="btn_right">
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
-            </div>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <div class="outbox">
             <h2>재고 현황</h2>
             <container>
@@ -57,10 +51,10 @@ const TrackStock = ( { history } ) => {
             {
                 stock.map((stocks) => (
                     <div>
-                        {stocks.id}
-                        {stocks.name}
-                        {stocks.amount}
-                        <form onSubmit={onSubmit}>
+                        &emsp;&emsp;{stocks.id}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        &emsp;&emsp;&emsp;&emsp;<textbox class="input">{stocks.name}</textbox>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        &emsp;&emsp;<textbox class="input">{stocks.amount}</textbox>&emsp;&emsp;&emsp;
+                        <form style={{display:'inline'}} onSubmit={onSubmit}>
                         <input class="btn" type='submit' size="large" value='선택' onClick={e => setName(stocks.name)}/>
                         </form>
                     </div>
@@ -68,8 +62,8 @@ const TrackStock = ( { history } ) => {
             }
             </h3></container>
             <div class="btn_loc">
-            <button class="btn" onClick={()=> {history.push("./RegisterStock")}}> 재고등록 </button>&emsp;&emsp;
-            <button class="btn" onClick={()=> {history.push("./OrderStock")}}> 재고주문 </button>
+            <button class="btn" onClick={()=> {history.push("./RegisterStock")}}> 재고 등록 </button>&emsp;&emsp;
+            <button class="btn" onClick={()=> {history.push("./OrderStock")}}> 재고 주문 </button>
             </div>
             </div>
         </div>

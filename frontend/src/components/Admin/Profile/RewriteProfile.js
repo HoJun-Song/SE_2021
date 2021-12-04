@@ -24,7 +24,6 @@ const RewriteProfile = ( { history } ) => {
         setPnum(res.data.phone_num)
         })
         .catch(err =>{
-        console.clear()
         alert('잘못된 접근입니다.')
         })
     }
@@ -43,12 +42,9 @@ const RewriteProfile = ( { history } ) => {
            
         Axios.post('http://127.0.0.1:8000/post/modifyStaffProfile/',staff)
             .then(res =>{
-            localStorage.clear()
-            localStorage.setItem('token', res.data.key)
             alert('직원 프로필이 수정되었습니다.')
             })
             .catch(err =>{
-            console.clear()
             alert('입력이 잘못되었습니다.')
             })
         };
@@ -75,17 +71,13 @@ const RewriteProfile = ( { history } ) => {
     
     return (
         <div>
-            <div className="btn_left">
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            </div>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <div className="btn_right">
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
-            </div>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <container>
             <div className="outbox">
-            <h2>직원 프로필 수정</h2><br/>
+            <h2>직원 프로필 수정</h2>
             <form onSubmit={onSubmit}>
             <h3>이름<br/>
             <input class="input" style={{width:"700px"}} id="name" name="name" onChange={e => setName(e.target.value)} 
@@ -102,9 +94,11 @@ const RewriteProfile = ( { history } ) => {
             <input class="input" id="pnum" name="pnum" onChange={e => setPnum(e.target.value)} 
             onChange={chkPnum} style={{width:"700px"}} value={phone_num}/><br/>
             <div className="btn_loc">
-            <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;
-            <input className="btn" type='submit' size="large" value='수정'/>
+            <input className="btn" type='submit' size="large" value='수정'/>&emsp;&emsp;
             </div></h3></form>
+            <div class="btn_loc">
+            <button className="btn" onClick={resetVal}>초기화</button>
+            </div>
             </div></container>
         </div>
     );

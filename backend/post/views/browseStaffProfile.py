@@ -92,7 +92,6 @@ def modify(request):
             return JsonResponse({'MESSAGE' : 'EMPTY_INPUT'}, status=400)
         if not selected_staff:
             return JsonResponse({'MESSAGE' : 'WORNG_ROUTE'}, status=401)
-        
         modify_staff = selected_staff.first()
         modify_staff.name = data['name']
         modify_staff.staff_id = data['staff_id']
@@ -100,9 +99,7 @@ def modify(request):
         modify_staff.phone_num = data['phone_num']
         modify_staff.save()
         
-        staff_objs = Staff.objects.get(staff_id=data['staff_id'])
-        if staff_objs:
-            return Response({'MESSAGE' : 'STAFF_ID_ALREADY_EXISTS'}, status=402)
+        
 
         return Response({'MESSAGE' : 'SUCCESS'}, status=200)       
 

@@ -33,9 +33,9 @@ const Login_Admin = ( { history } ) => {
 
   return (
     <div>
-      <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-      <h1 style={{color:"white", textAlign:"center"}}> RASZAS </h1>
-      <img
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+        <img
             src={ RASZAS }
             width='500'
             height='300'

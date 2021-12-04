@@ -64,34 +64,35 @@ const OrderMenu = ( { history } ) => {
     }
     return (
         <div>
-            <div className="btn_left">
-            <button onClick={() => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            </div>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <button className="btn_right" onClick={()=> {history.push("./Main_Staff")}}> 홈버튼 </button>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <container>
             <div className="outbox">
-            <h2>메뉴 주문</h2><br/>
+            <h2>메뉴 주문</h2>
             <div className="innerbox">
+            <h3>메뉴 이름</h3>
                 {
                 menus.map((menu) => (
                     <div>
-                        {menu.name}<br/>
-                        <form onSubmit={Increase} >
-                        <input type='submit' size="large" value='+' onClick={e => setName(menu.name)}/>
+                        <textbox class="txtbox">{menu.name}</textbox>&emsp;&emsp;&emsp;
+                        <form style={{display:'inline'}} onSubmit={Increase} >
+                        <input className="btn" type='submit' size="large" value='+' onClick={e => setName(menu.name)}/>&emsp;&emsp;
                         </form>
-                        <form onSubmit={Decrease}>
-                        <input type='submit' size="large" value='-' onClick={e => setName(menu.name)}/>
+                        <form style={{display:'inline'}}s onSubmit={Decrease}>
+                        <input className="btn" type='submit' size="large" value='-' onClick={e => setName(menu.name)}/>
                         </form>      
                     </div>
                 ))}
             </div><br/>
-            <h3>&emsp;총금액</h3>&emsp;<input class="input" id="price" name="price" onChange={chkPrice} val={price}/>
+            <h3>총금액</h3>
+            <textbox class="txtbox">{price}</textbox>
             <div style={{display:'inline'}} class="btn_loc">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
+            <div className="btn_loc">    
             <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;
             <button className="btn" onClick={()=> {history.push("./ConfirmOrderMenu")}}> 선택완료 </button><br/>
+            </div>
             </div></div>
             </container>
         </div>
