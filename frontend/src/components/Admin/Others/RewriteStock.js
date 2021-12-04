@@ -14,15 +14,11 @@ const RewriteStock = ( { history } ) => {
             unit: unit,
             price: price,
         };
-           
         Axios.post('http://127.0.0.1:8000/post/modifyStock/',stock)
             .then(res =>{
-            localStorage.clear()
-            localStorage.setItem('token', res.data.key)
             alert('재고가 수정되었습니다.')
             })
             .catch(err =>{
-            console.clear()
             alert('입력이 잘못되었습니다.')
             })
         };
@@ -40,17 +36,19 @@ const RewriteStock = ( { history } ) => {
     
     return (
         <div>
-            <h3> RewriteStock </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-            재고 정보 수정<br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
             <form onSubmit={onSubmit}>
-            재고 이름 재고 단위<br/>
-            <input id="name" name="name" onChange={e => setName(e.target.value)} 
+            <h2>재고 정보 수정</h2>
+            <h3>재고 이름 
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            재고 단위<br/>
+            <input class="input" id="name" name="name" onChange={e => setName(e.target.value)} 
             onChange={chkName} value={name}/>
-            <select>
+            <select className="select_cate">
             <option id="category" key="ml" value="ml"
             onChange={e => setUnit(e.target.value)}>10ml</option>
             <option id="category" key="gram" value="gram"
@@ -59,12 +57,13 @@ const RewriteStock = ( { history } ) => {
             onChange={e => setUnit(e.target.value)}>10개</option>
             </select><br/>
             단위 당 가격<br/>
-            <input id="price" name="price"onChange={e => setPrice(e.target.value)}
+            <input class="input" id="price" name="price"onChange={e => setPrice(e.target.value)}
             onChange={chkPrice} value={price}/>
             <br/>
-            <button onClick={resetVal}>초기화</button>
-            <input type='submit' size="large" value='수정'/>
-            </form>
+            <div class="btn_loc">
+            <button class="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;
+            <input class="btn" type='submit' size="large" value='수정'/>
+            </div></h3></form></div>
         </div>
     );
 }

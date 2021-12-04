@@ -54,6 +54,7 @@ def detail(request):
         amount_list = MenuToStock.objects.filter(stock = detail_stock.id)
         menu_name = Menu.objects.filter(id__in = amount_list.values('menu')).values_list('name')
         selected_stock = detail_stock
+        print(selected_stock)
         
         output_data = []
         for mn, amt in zip(list(menu_name), list(amount_list.values_list('amount_per_menu'))):
@@ -142,7 +143,7 @@ def modify(request):
             return Response({'MESSAGE' : 'STOCK_IS_ALREADY_EXIST'}, status=401)
         if len(data['name']) > 30 or len(data['unit']) > 10:
             return Response({'MESSAGE' : 'DATA_TOO_LONG'}, status=402)
-        if data['price'] < 0:
+        if int(data['price']) < 0:
             return Response({'MESSAGE' : 'INVALID_PRICE'}, status=403)
         
         modify_stock = selected_stock

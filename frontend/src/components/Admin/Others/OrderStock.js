@@ -51,33 +51,54 @@ const OrderStock = ( { history } ) => {
     useEffect(() => {
         getStocks();
     }, [])
-
+    const chkName=(e)=>{
+        setName(e.target.value);
+    }
+    const chkAmount=(e) => {
+        setAmount(e.target.value);
+    }
+    const chkPrice=(e)=>{
+        setPrice(e.target.value);
+    }
+    const resetVal = () =>{
+        setName('');
+        setAmount('');
+    }
     return (
         <div>
-            <h3> OrderStock </h3>
-            <br/>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-            재고 주문<br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
+            <h2>재고 주문</h2>
+            <container><h3>
+            <div class="innerbox">
+            &ensp;재고 이름
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            재고 단위<p/>
             {
                 stock.map((stocks) => (
                     <div>
-                        {stocks.name}<br/>
-                        <form onSubmit={Increase} >
-                        <input type='submit' size="large" value='+' onClick={e => setName(stocks.name)}/>
+                        <textbox class="txtbox">{stocks.name}</textbox>&emsp;&emsp;&emsp;&emsp;
+                        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        <form style={{display:'inline'}} onSubmit={Increase} >
+                        <input class="btn" type='submit' size="large" value='+' onClick={e => setName(stocks.name)}/>&emsp;
                         </form>
-                        <form onSubmit={Decrease}>
-                        <input type='submit' size="large" value='-' onClick={e => setName(stocks.name)}/>
+                        <form style={{display:'inline'}} onSubmit={Decrease}>
+                        <input class="btn" type='submit' size="large" value='-' onClick={e => setName(stocks.name)}/><p/>
                         </form>
-                        
                     </div>
                 ))}
-            <br/>
-            <hr/>
-            총금액 {price}<br/>
-            <button onClick={()=> {history.push("./ConfirmOrderStock")}}> 선택 완료 </button><br/>
+            </div><br/><br/>
+            총금액<br/><br/>
+            <textbox class="txtbox">{price}</textbox>
+            <div style={{display:'inline'}} class="btn_loc">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
+            <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;
+            <button class="btn" onClick={()=> {history.push("./ConfirmOrderStock")}}> 선택 완료 </button><br/>
+            </div></h3></container>
+        </div>
         </div>
     );
 }

@@ -20,6 +20,8 @@ def showTable(request):
     '''
     try:
         table_list = Tables.objects.all().order_by('table_id')
+        if not table_list.exists():
+            return Response({'MESSAGE' : 'TABLE_IS_NOT_EXISTS'}, status=401)
         table_list = table_list.values_list('table_id').distinct()
         
         output_data = []
@@ -48,15 +50,15 @@ def detailTable(request):
         time_format = "%Y-%m-%d %H:%M:%S"
         
         data = json.loads(request.body)
-        selected_table = data["table_id"]
-        detail_table = Tables.objects.filter(table_id = data["table_id"])
+        selected_table = int(data["table_id"])
+        detail_table = Tables.objects.filter(table_id = int(data["table_id"]))
         
         if not detail_table.exists():
             return Response({'MESSAGE' : 'TABLE_IS_EMPTY'}, status=401)
     
-        table_order = Orders.objects.filter(order_id = detail_table[0].order.id)
+        table_order = Orders.objects.filter(order_id = detail_table[0].order.order_id)
         
-        table_time = OrderTimer.objects.get(id = detail_table[0].order.id).start_time
+        table_time = OrderTimer.objects.get(id = detail_table[0].order.order_id).start_time
         table_time = datetime.strptime(table_time, time_format)
         current_time = datetime.now().replace(microsecond=0)
         delay_time = current_time-table_time
