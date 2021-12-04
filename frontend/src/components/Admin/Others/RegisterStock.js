@@ -45,19 +45,15 @@ const selectList = ["10ml", "10g", "10ea"];
     //기능 변경 필요 => 메뉴 입력 칸 증감
     return (
         <div>
-            <div className="btn_left">
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            </div>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <div className="btn_right">
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
-            </div>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <div class="outbox">
             <h2>재고 등록</h2><br/>
             <form onSubmit={onSubmit}>
             <h3>재고 이름 
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
                 재고 단위<br/>
 
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
@@ -69,7 +65,7 @@ const selectList = ["10ml", "10g", "10ea"];
             <option value="10g">10g</option>
             <option value="10ea">10개</option>
             </select><p/>
-            단위 당 가격<br/>
+            단위 당 가격<p/>
             <input className="input" id="price" name="price"onChange={e => setPrice(e.target.value)}
             onChange={chkPrice} value={price}/>
             <p/>

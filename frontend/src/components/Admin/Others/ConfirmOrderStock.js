@@ -23,23 +23,35 @@ const ConfirmOrderStock = ( { history } ) => {
 
     return (
         <div>
-            <h3> ConfirmOrderStock </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
-            재고 주문<br/>
-            재고이름 수량 단위 당 가격
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div className="outbox">
+            <h2>재고 주문</h2><br/>
+            <div className="innerbox">
+            <h3>재고이름
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                수량
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                단위 당 가격<p/>
             {
                 stocks.map((stock)=>(
                     <div>
-                    {stock.name}
-                    {stock.amount}
-                    {stock.price}
+                    <textbox class="txtbox">{stock.name}</textbox>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <textbox class="txtbox">{stock.amount}</textbox>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <textbox class="txtbox">{stock.price}</textbox><p/>
                     </div>
                 ))
-            }<br/>
-            총금액:{price}
-            <button onClick={()=>{alert("재고 주문이 완료되었습니다.")}}> 주문 </button>
+            }<br/></h3>
+            </div><br/><br/><br/><br/>
+            <h3>총금액:<textbox style={{display:'inline'}}class="txtbox">{price}</textbox></h3>
+            <div className="btn_loc">
+            <button style={{display:'inline'}} className="btn" onClick={()=>{alert("재고 주문이 완료되었습니다.")}}> 주문 </button>   
+            </div>
+        </div>
         </div>
     );
 }

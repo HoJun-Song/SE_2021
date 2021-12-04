@@ -36,12 +36,10 @@ const TableManage = ( { history } ) => {
 
     return (
         <div>
-            <div class="btn_left">
-            <button onClick={() => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            </div>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <button className="btn_right" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <div class="outbox">
             <container>
             <h2>테이블 관리</h2>
@@ -50,7 +48,8 @@ const TableManage = ( { history } ) => {
             </div>
             </container>
             &emsp;&emsp;<h3 style={{display:'inline'}}>테이블 번호</h3>
-            &emsp;&emsp;{index}
+            &emsp;&emsp;
+            <textbox class="txtbox">{index}</textbox>
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             <button class="btn" onClick={onSubmit2}> 선택완료 </button>
             </div>        

@@ -16,26 +16,31 @@ const OpenTime = ( { history } ) => {
     
     return (
         <div>
-            <h3> OpenTime </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
-            
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
             <container>
-            고객 평균 체류 시간 <br/>
-            {average}
-            <hr/><br/>
-            메뉴 별 소요시간
+            <h2>고객 평균 체류 시간</h2> <br/>
+            <textbox class="txtbox">{average}</textbox><p/>
+            <h2>메뉴 별 소요시간</h2>
+            <h3>&emsp;&emsp;메뉴 이름
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                평균 소요 시간
+                &emsp;&emsp;&emsp;&emsp;&emsp;
+            </h3>
             {
                 times.map((time)=>(
                     <div>
-                    {time.menu_name}
-                    {time.menu_time}
+                    <textbox class="txtbox">{time.menu_name}</textbox>
+                    <textbox class="txtbox">{time.menu_time}</textbox>
                     </div>
                 ))
             }<br/>
             </container>
-            <br/><hr/>
+            <br/>
+        </div>
         </div>
     );
 }

@@ -35,7 +35,7 @@ const OpenMenu = ( { history } ) => {
     return (
         <div>
             <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button className="btn_left2" onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
             <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <div class="outbox">
@@ -47,9 +47,9 @@ const OpenMenu = ( { history } ) => {
                     <div>
                         &emsp;&emsp;<div style={{display:'inline'}}>{menu.id}</div>
                         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                        <div style={{width:'700px',display:'inline'}}>{menu.name}</div>
+                        <div style={{display:'inline'}}>{menu.name}</div>&emsp;&emsp;&emsp;
                         <form class="btn_loc" style={{display:'inline'}} onSubmit={onSubmit}>
-                        <input class="btn" type='submit' size="large" value='선택' onClick={e => setName(menu.name)}/>
+                        <input class="btn_cate" class="btn" type='submit' size="large" value='선택' onClick={e => setName(menu.name)}/><br/>
                         </form>
                     </div>
                 )

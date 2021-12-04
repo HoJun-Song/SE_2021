@@ -21,23 +21,24 @@ const Cash = ( { history } ) => {
     }, [])
     return (
         <div>
-            <h3> Cash현금 </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button><br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
             <container>
-            현금 결제<br/><hr/>
-            총 금액
-            {total_pay}<br/>
-            받은 금액
+            <h2>현금 결제</h2><br/>
+            <h3>총 금액&emsp;&emsp;
+            <textbox class="txtbox"> {total_pay}</textbox><p/>
+            받은 금액&emsp;&emsp;
             <input class="input" id="price" name="price"
-            onChange={e => setPay(e.target.value)}/><br/>
-            거스름돈
-            {pay-total_pay}<br/>
-            <br/>
-            <button onClick={()=> {history.push("./CompletePay")}}> 결제 완료 </button><br/>
+            onChange={e => setPay(e.target.value)}/><p/>
+            거스름돈&emsp;&emsp;
+            <textbox class="txtbox"> {pay-total_pay}</textbox><p/>
+            <br/></h3>
+            <button class="btn" onClick={()=> {history.push("./CompletePay")}}> 결제 완료 </button><br/>
             </container>
+            </div>
         </div>
     );
 }

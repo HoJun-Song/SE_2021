@@ -52,7 +52,7 @@ const MakeSprofile = ( { history } ) => {
     return (
         <div>
             <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button className="btn_left2" onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
             <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <container>

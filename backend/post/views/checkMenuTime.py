@@ -16,7 +16,7 @@ def showOrderMenu(request):
     2021-12-04 1차 검수 (완료)
     '''
     try:
-        menu = MenuTimer.objects.filter(end_time = None)
+        menu = MenuTimer.objects.filter(end_time = "")
         if not menu.exists():
             return Response({'MESSAGE' : 'MENU_TIMER_IS_EMPTY'}, status=401)
         

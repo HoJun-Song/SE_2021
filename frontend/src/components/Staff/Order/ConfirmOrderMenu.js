@@ -30,28 +30,39 @@ const ConfirmOrderMenu = ( { history } ) => {
     };
     return (
         <div>
-            <h3> ConfirmOrderMenu </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button><br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <container>
-            메뉴 주문<br/><hr/>
-            메뉴 이름 수량 금액
+            <div className="outbox">
+            <h2>메뉴 주문</h2>
+            <div className="innerbox">
+            <h3>메뉴 이름 
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            수량 
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            금액</h3>
             <br/>
             {
                 menus.map((menu)=>(
                     <div>
-                    {menu.menu_name}
-                    {menu.amount_per_menu}
-                    {menu.price_per_menu}
+                    <textbox class="txtbox">{menu.menu_name}</textbox>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <textbox class="txtbox">{menu.amount_per_menu}</textbox>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <textbox class="txtbox">{menu.price_per_menu}</textbox><p/>
                     </div>
                 ))
-            }<br/>
-            총금액{total_price}<br/>
-            <button onClick={()=> {history.push("./SelectTable")}}> 테이블 주문 </button><br/>
-            <button onClick={onSubmit2}> 포장 주문 </button><br/>
-            </container>
+            }
+            </div><br/>
+            <h3>총금액</h3>
+            <textbox className="txtbox"> {total_price}</textbox>
+            <div class="btn_loc">
+            <button className="btn" onClick={()=> {history.push("./SelectTable")}}> 테이블 주문 </button> &emsp;&emsp;
+            <button className="btn" onClick={onSubmit2}> 포장 주문 </button><br/>
+            </div>
+            </div></container>
         </div>
     );
 }

@@ -84,14 +84,10 @@ const RegisterMenu = ( { history } ) => {
         };
     return (
         <div>
-            <div className="btn_left">
-            <button onClick={ () => {history.goBack()} }>뒤로가기</button>&ensp;&ensp;
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
-            </div>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <div className="btn_right">
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button><br/>
-            </div>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <div class="outbox">
             <h2>메뉴 등록</h2><p/>
             <form onSubmit={onSubmit}>
@@ -124,10 +120,10 @@ const RegisterMenu = ( { history } ) => {
                     onChange={e => handleChange(e, i)}
                     value={inputList.amount}/>&ensp;&ensp;
                     {inputList.length !== 1 &&
-                    <button class="btn" onClick={() => handleRemoveClick(i)}>-</button>}&ensp;
+                    <button class="btn" onClick={() => handleRemoveClick(i)}>-</button>}&ensp;&emsp;
                     {inputList.length - 1 === i &&
                     <button class="btn" onClick={handleAddClick}>+</button>}
-                    </div>
+                    <br/></div>
                 )}
             )}</div></h3>
             <div className="btn_loc">

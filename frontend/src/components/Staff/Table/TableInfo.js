@@ -60,28 +60,33 @@ const TableInfo = ( { history } ) => {
     };
     return (
         <div>
-            <h3> TableInfo </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button><br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
             <container>
-            #번 테이블<br/><hr/>
-            메뉴 수량
+            <h2>{search}번 테이블</h2><br/>
+            <h3>메뉴 
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                수량
             {
                 tableinfo.map((table)=>(
                     <div>
-                    {table.name}
-                    {table.amount}
+                    <textbox class="txtbox">{table.name}</textbox>
+                    <textbox class="txtbox">{table.amount}</textbox>
                     </div>
                 ))
             }<br/>
             소요 시간
             {delay_time}<br/>
-            <hr/>
-            <button onClick={onSubmit2}> 테이블이동 </button>
-            <button onClick={onSubmit3}> 결제 </button>
+            </h3>
+            <div class="btn_loc">
+            <button class="btn" onClick={onSubmit2}> 테이블이동 </button>&emsp;&emsp;
+            <button class="btn" onClick={onSubmit3}> 결제 </button>
+            </div>
             </container>
+            </div>
         </div>
     );
 }

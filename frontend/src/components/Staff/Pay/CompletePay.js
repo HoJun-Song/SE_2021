@@ -24,33 +24,48 @@ const CompletePay = ( { history } ) => {
     }, [])
     return (
         <div>
-            <h3> CompletePay </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button><br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
             <container>
-            결제 완료<br/><hr/>
-            메뉴명 수량 금액<br/>
+            <h2>결제 완료</h2><br/>
+            <h3>메뉴명
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;
+                 수량
+                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;      
+                 금액   
+                 <p/>
             {
                 complete.map((comp)=>(
                     <div>
-                    {comp.menu_name}
-                    {comp.amount_per_menu}
-                    {comp.price_per_menu}<br/>
-                    
+                    <textbox class="txtbox">{comp.menu_name}</textbox>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+                    <textbox class="txtbox">{comp.amount_per_menu}</textbox>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <textbox class="txtbox">{comp.price_per_menu}</textbox><p/>
                     </div>
                 ))
             }
-            포장여부<br/>
-            테이블 번호{table}
-            <br/>
-            총 금액{total}<br/>
-            결제 금액{total}<br/>
-            <br/>
-            <button onClick={()=> {history.push("../Main_Staff")}}> 영수증 출력 </button><br/>
-            <button onClick={()=> {history.push("../Main_Staff")}}> 돌아가기 </button><br/>
-            </container>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            포장여부
+            &emsp;&emsp;&emsp;
+            테이블 번호&emsp;&emsp;
+            <textbox class="txtbox">{table}</textbox>
+            <br/><br/><br/>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;총 금액&emsp;&emsp;&emsp;
+            <textbox class="txtbox">{total}</textbox><p/>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;결제 금액&emsp;&emsp;&emsp;
+            <textbox class="txtbox">{total}</textbox><br/>
+            </h3><br/>
+            <div class="btn_loc">
+            <button  class="btn" onClick={()=> {history.push("../Main_Staff")}}> 영수증 출력 </button>&emsp;&emsp;<br/>
+            <button class="btn" onClick={()=> {history.push("../Main_Staff")}}> 돌아가기 </button>
+            </div></container>
+            </div>
         </div>
     );
 }

@@ -66,35 +66,33 @@ const OrderStock = ( { history } ) => {
     }
     return (
         <div>
-            <div className="btn_left">
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            </div>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <div className="btn_right">
-            <button onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
-            </div>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <div class="outbox">
             <h2>재고 주문</h2>
             <container><h3>
             <div class="innerbox">
             &ensp;재고 이름
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-            재고 단위<br/>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            재고 단위<p/>
             {
                 stock.map((stocks) => (
                     <div>
-                        {stocks.name}<br/>
-                        <form onSubmit={Increase} >
-                        <input type='submit' size="large" value='+' onClick={e => setName(stocks.name)}/>
+                        <textbox class="txtbox">{stocks.name}</textbox>&emsp;&emsp;&emsp;&emsp;
+                        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        <form style={{display:'inline'}} onSubmit={Increase} >
+                        <input class="btn" type='submit' size="large" value='+' onClick={e => setName(stocks.name)}/>&emsp;
                         </form>
-                        <form onSubmit={Decrease}>
-                        <input type='submit' size="large" value='-' onClick={e => setName(stocks.name)}/>
+                        <form style={{display:'inline'}} onSubmit={Decrease}>
+                        <input class="btn" type='submit' size="large" value='-' onClick={e => setName(stocks.name)}/><p/>
                         </form>
                     </div>
                 ))}
             </div><br/><br/>
-            총금액<br/><br/>{price}
+            총금액<br/><br/>
+            <textbox class="txtbox">{price}</textbox>
             <div style={{display:'inline'}} class="btn_loc">
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
             <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;

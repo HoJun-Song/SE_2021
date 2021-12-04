@@ -27,29 +27,37 @@ const Payment = ( { history } ) => {
     }, [])
     return (
         <div>
-            <h3> Payment </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button><br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <div class="outbox">
             <container>
-            메뉴 주문<br/><hr/>
-            메뉴명 수량 금액<br/>
+            <h2>결제</h2>
+            <div class="innerbox">
+            <h3>메뉴명
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;  
+            수량 
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            금액<br/></h3>
             {
                 pay.map((pays)=>(
                     <div>
-                    {pays.menu_name}
-                    {pays.amount_per_menu}
-                    {pays.price_per_menu}
+                    <textbox class="txtbox">{pays.menu_name}</textbox>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <textbox class="txtbox">{pays.amount_per_menu}</textbox>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&emsp;
+                    <textbox class="txtbox">{pays.price_per_menu}</textbox><p/>
                     </div>
                 ))
-            }
-            총 금액<br/>
-            {total}
+            }</div>
+            <h3>총 금액</h3><br/>
+            <textbox class="txtbox">{total}</textbox>
             <br/>
-            <button onClick={()=> {history.push("../Cash")}}> 현금결제 </button><br/>
-            <button onClick={()=> {history.push("../Card")}}> 카드결제 </button><br/>
+            <div className="btn_loc">
+            <button class="btn" onClick={()=> {history.push("../Cash")}}> 현금결제 </button><br/>&emsp;&emsp;
+            <button class="btn" onClick={()=> {history.push("../Card")}}> 카드결제 </button><br/>
+            </div>
             </container>
+        </div>
         </div>
     );
 }

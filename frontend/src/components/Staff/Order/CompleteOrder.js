@@ -31,27 +31,30 @@ const CompleteOrder = ( { history } ) => {
     };
     return (
         <div>
-            <h3> CompleteOrder </h3>
-            <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button><br/>
-            <hr/>
+            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
+            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
+            <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
+            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
             <container>
-            주문표<br/><hr/>
-            메뉴명 주문번호<br/>
+            <div class="outbox">
+            <h2>주문표</h2><br/>
+            <div class="innerbox">
+                <h3>메뉴명
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 
+                    주문번호</h3><br/>
             {
                 menus.map((menu)=>(
                     <div>
-                        {menu.menu_name}
-                        {menu.order_id}
-                        <form class="btn_loc" style={{display:'inline'}} onSubmit={onSubmit}>
+                        <textbox class="txtbox">{menu.menu_name}</textbox>
+                        <textbox class="txtbox">{menu.order_id}</textbox>
+                        <form style={{display:'inline'}} onSubmit={onSubmit}>
                         <input class="btn" type='submit' size="large" value='준비 완료' onClick={e => setMenu(menu)}/>
                         </form>
 
                     </div>
                 ))
-            }
-            
+            }</div>
+            </div>
             </container>
         </div>
     );
