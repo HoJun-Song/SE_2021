@@ -27,7 +27,7 @@ const TrackStock = ( { history } ) => {
         Axios.post('http://127.0.0.1:8000/post/detailStock/',user)
         .then(res =>{
         console.log(res.data); //얘를 가공해서 저장한다음에 원메뉴로 넘긴다
-        window.location.replace(`./AnalyzeStock/?${res.data.name}`)
+        window.location.replace(`./AnalyzeStock/?${res.data[0].name}`)
         alert('재고가 선택되었습니다.')
         })
         .catch(err =>{
@@ -57,10 +57,10 @@ const TrackStock = ( { history } ) => {
             {
                 stock.map((stocks) => (
                     <div>
-                        {stocks.id}
-                        {stocks.name}
-                        {stocks.amount}
-                        <form onSubmit={onSubmit}>
+                        &emsp;&emsp;{stocks.id}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        &emsp;&emsp;&emsp;&emsp;{stocks.name}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        &emsp;&emsp;{stocks.amount}&emsp;&emsp;&emsp;
+                        <form style={{display:'inline'}} onSubmit={onSubmit}>
                         <input class="btn" type='submit' size="large" value='선택' onClick={e => setName(stocks.name)}/>
                         </form>
                     </div>

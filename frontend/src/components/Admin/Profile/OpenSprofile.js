@@ -52,10 +52,10 @@ const OpenSprofile = ( { history } ) => {
             {
                 staff.map((staffs) => (
                     <div>
-                        <h3>직원 no.<br/>
-                        {staffs.id}<br/>
-                        {staffs.name}<br/>
-                        <form onSubmit={onSubmit}>
+                        <h3>직원 no.
+                        {staffs.id}&emsp;&emsp;
+                        {staffs.name}&emsp;&emsp;
+                        <form style={{display:'inline'}} onSubmit={onSubmit}>
                         <input class="btn" type='submit' size="large" value='선택' onClick={e => setID(staffs.staff_id)}/>
                         </form></h3>
                     </div>

@@ -72,7 +72,7 @@ const OrderStock = ( { history } ) => {
             </div>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
             <div className="btn_right">
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            <button onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             </div>
             <div class="outbox">
             <h2>재고 주문</h2>
@@ -94,8 +94,7 @@ const OrderStock = ( { history } ) => {
                     </div>
                 ))}
             </div><br/><br/>
-            총금액<br/><br/><input class="input" name="price" val={price}
-            onChange={chkPrice}/>
+            총금액<br/><br/>{price}
             <div style={{display:'inline'}} class="btn_loc">
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
             <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;

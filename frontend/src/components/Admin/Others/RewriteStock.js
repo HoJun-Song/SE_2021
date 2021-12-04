@@ -14,15 +14,11 @@ const RewriteStock = ( { history } ) => {
             unit: unit,
             price: price,
         };
-           
         Axios.post('http://127.0.0.1:8000/post/modifyStock/',stock)
             .then(res =>{
-            localStorage.clear()
-            localStorage.setItem('token', res.data.key)
             alert('재고가 수정되었습니다.')
             })
             .catch(err =>{
-            console.clear()
             alert('입력이 잘못되었습니다.')
             })
         };
@@ -43,7 +39,7 @@ const RewriteStock = ( { history } ) => {
             <h3> RewriteStock </h3>
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
+            <button onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button><br/>
             재고 정보 수정<br/>
             <hr/>
             <form onSubmit={onSubmit}>

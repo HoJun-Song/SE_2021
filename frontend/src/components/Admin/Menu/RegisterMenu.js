@@ -8,8 +8,9 @@ const RegisterMenu = ( { history } ) => {
     const [category,setCate] = useState('');
     const [price,setPrice] = useState('');
     const [inputList,setStockList] = useState([{
-        stock_name:"", amount:""
+        stock_name:"", amount:0
     }]);
+    const selectList = ["pasta", "pizza", "steak"];
 
     const handleChange = (e, index) => {
         const {name, value} = e.target;   
@@ -24,9 +25,9 @@ const RegisterMenu = ( { history } ) => {
         name: name,
         category: category,
         price: price,
-        stock_name: inputList.stock_name,
-        amount: inputList.amount
+        stock_list: inputList
     };
+    
        
     Axios.post('http://127.0.0.1:8000/post/createMenu/',user)
         .then(res =>{
@@ -76,9 +77,11 @@ const RegisterMenu = ( { history } ) => {
         setStockList(list);
       };
     const handleAddClick = () => {
-        setStockList([...inputList, { stock_name: "", amount: "" }]);
+        setStockList([...inputList, { stock_name: "", amount: 0 }]);
         };
-
+    const handleSelect = (e) => {
+        setCate(e.target.value);
+        };
     return (
         <div>
             <div className="btn_left">
@@ -94,40 +97,36 @@ const RegisterMenu = ( { history } ) => {
             <form onSubmit={onSubmit}>
             <h3>메뉴 이름
             <div class="select_text">카테고리</div><br/>
-            <input id="name" name="name" 
+            <input class="input" id="name" name="name" 
             onChange={e => setName(e.target.value)} onChange={chkName} value={name} />
-            <select class="select_cate">
-            <option id="category" key="all" value="all"
-            onChange={e => setCate(e.target.value)}>전체</option>
-            <option id="category" key="pasta" value="pasta" 
-            onChange={e => setCate(e.target.value)}>파스타</option>
-            <option id="category" key="pizza" value="pizza"
-            onChange={e => setCate(e.target.value)}>피자</option>
-            <option id="category" key="steak" value="steak"
-            onChange={e => setCate(e.target.value)}>스테이크</option>
-            </select><p/>
+            <select class="select_cate" onChange={handleSelect}>
+            <option value="pasta" >pasta</option>
+            <option value="pizza">pizza</option>
+            <option value="steak">steak</option>
+            </select>
+            <p/>
             가격<br/>
-            <input id="price" name="price"
+            <input class="input" id="price" name="price"
             onChange={e => setPrice(e.target.value)} onChange={chkPrice} value={price}/><p/>
             재료<br/>
             <div className="innerbox">
             {inputList.map((x,i)=>{
                 return(
                     <div>
-                    <input 
+                    <input class="input"
                     id="stock_name" name="stock_name" 
                     onChange={e => setStockList(e.target.value)} 
                     onChange={e => handleChange(e, i)} 
                     value={inputList.stock_name}/>&ensp;&ensp;
-                    <input 
+                    <input class="input"
                     id="amount" name="amount" 
                     onChange={e => setStockList(e.target.value)}
                     onChange={e => handleChange(e, i)}
                     value={inputList.amount}/>&ensp;&ensp;
                     {inputList.length !== 1 &&
-                    <button onClick={() => handleRemoveClick(i)}>-</button>}
+                    <button class="btn" onClick={() => handleRemoveClick(i)}>-</button>}&ensp;
                     {inputList.length - 1 === i &&
-                    <button onClick={handleAddClick}>+</button>}
+                    <button class="btn" onClick={handleAddClick}>+</button>}
                     </div>
                 )}
             )}</div></h3>

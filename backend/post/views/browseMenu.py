@@ -108,8 +108,14 @@ def modifyMenu(request):
         modify_menu.price = int(data['price'])
         modify_menu.save()
 
+        stock = []
+        amount = []
+        for i in data['stock_list']:
+            stock.append(i['stock_name'])
+            amount.append(i['amount'])
+
         # MenuToStock 수정
-        for st, amt in zip(data['stock'], data['amount']):
+        for st, amt in zip(stock, amount):
             modify_menu_to_stock = MenuToStock.objects.filter(Q(menu=modify_menu) & Q(stock=Stock.objects.get(name=st)))
             modify_menu_to_stock_id = modify_menu_to_stock.first().id
 

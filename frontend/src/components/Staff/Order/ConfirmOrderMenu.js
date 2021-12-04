@@ -1,8 +1,9 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
+import Axios from 'axios';
 //주문 버튼 누르면 자동으로 amount 업데이트
 const ConfirmOrderMenu = ( { history } ) => {
-    const [total_price, setTPrice] = useState([])
+    const [total_price, setTPrice] = useState()
     const [menus, setMenus] = useState([])
     const getStocks = async () => {
         const response = await axios.post('http://127.0.0.1:8000/post/finishMenu/')
@@ -13,13 +14,26 @@ const ConfirmOrderMenu = ( { history } ) => {
     useEffect(() => {
         getStocks();
     }, [])
-    
+    const onSubmit2 = (e) => {
+        e.preventDefault();
+        const user = {
+            table_id: 0,
+        };
+        Axios.post('http://127.0.0.1:8000/post/checkPay/',user)
+        .then(res =>{
+        window.location.replace(`../Payment/?${0}`)
+        alert('포장 주문으로 이동합니다.')
+        })
+        .catch(err =>{
+        alert('잘못된 접근입니다.')
+        })
+    };
     return (
         <div>
             <h3> ConfirmOrderMenu </h3>
             <button onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
+            <button onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button><br/>
             <hr/>
             <container>
             메뉴 주문<br/><hr/>
@@ -36,7 +50,7 @@ const ConfirmOrderMenu = ( { history } ) => {
             }<br/>
             총금액{total_price}<br/>
             <button onClick={()=> {history.push("./SelectTable")}}> 테이블 주문 </button><br/>
-            <button onClick={()=> {history.push("./Payment")}}> 포장 주문 </button><br/>
+            <button onClick={onSubmit2}> 포장 주문 </button><br/>
             </container>
         </div>
     );

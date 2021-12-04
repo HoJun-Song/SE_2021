@@ -38,7 +38,7 @@ const OpenOneAnalyze = ( { history } ) => {
             <h3> OpenOneAnalyze </h3>
             <button onClick={() => {history.goBack()} }> 뒤로 버튼 </button>
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button><br/>
+            <button onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button><br/>
 
             <container>
             판매 분석 <br/><hr/>

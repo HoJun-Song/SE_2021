@@ -33,13 +33,17 @@ def browse(request):
         order_time_objs = OrderTimer.objects.all()
         order_time_list = list(order_time_objs.values_list())
         order_time = []
-
-        for ot in order_time_list:
-            start_ot = datetime.strptime(ot[1], time_format)
-            end_ot = datetime.strptime(ot[2], time_format) if ot[2] else ""
+        
+        for ot in order_time_objs:
+            print(type(ot.start_time), ot.start_time)
+            start_ot = datetime.strptime(ot.start_time, time_format)
+            if ot.end_time != "":
+                end_ot = datetime.strptime(ot.end_time, time_format) 
+            else:
+                continue
             order_time.append(end_ot - start_ot)
             
-        avg_order_time = sum(order_time, timedelta(0)) / len(order_time_list)
+        avg_order_time = sum(order_time, timedelta(microseconds=0)) / len(order_time_list)
 
         # 메뉴 별 소요시간
         menu_name = []
@@ -65,19 +69,22 @@ def browse(request):
             
             for i_obj in menu_time_i:
                 start_mt = datetime.strptime(i_obj.start_time, time_format)
-                end_mt = datetime.strptime(i_obj.end_time, time_format) if i_obj.end_time else ""
+                if i_obj.end_time:
+                    end_mt = datetime.strptime(i_obj.end_time, time_format) 
+                else:
+                    continue
                 menu_time_info_i.append(end_mt - start_mt)
 
-            avg_menu_time_i = sum(menu_time_info_i, timedelta(0)) / len(menu_time_i)
+            avg_menu_time_i = sum(menu_time_info_i, timedelta(microseconds=0)) / len(menu_time_i)
             menu_time.append(avg_menu_time_i)
             menu_name.append(list(menu_i.values_list('name'))[0][0])
 
         time_list = []
         for mn, mt in zip(list(menu_name), list(menu_time)):
             time_list.append({
-                "average_order_time" : str(avg_order_time),
+                "average_order_time" : str(avg_order_time).split('.')[0],
                 "menu_name"          : mn,
-                "menu_time"          : str(mt)
+                "menu_time"          : str(mt).split('.')[0]
             })
             
         output_data = json.dumps(time_list)

@@ -69,7 +69,7 @@ const OrderMenu = ( { history } ) => {
             <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
             </div>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <button className="btn_right" onClick={()=> {history.push("./Main_Staff")}}> 홈버튼 </button>
+            <button className="btn_right" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
             <container>
             <div className="outbox">
             <h2>메뉴 주문</h2><br/>
@@ -87,7 +87,7 @@ const OrderMenu = ( { history } ) => {
                     </div>
                 ))}
             </div><br/>
-            <h3>&emsp;총금액</h3>&emsp;<input class="input" id="price" name="price" onChange={chkPrice} val={price}/>
+            <h3>&emsp;총금액</h3>&emsp;{price}
             <div style={{display:'inline'}} class="btn_loc">
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    
             <button className="btn" onClick={resetVal}>초기화</button>&emsp;&emsp;

@@ -16,20 +16,20 @@ def showOrderMenu(request):
     2021-12-04 1차 검수 (완료)
     '''
     try:
-        menu = Orders.objects.all()
+        menu = MenuTimer.objects.filter(end_time = None)
         if not menu.exists():
-            return Response({'MESSAGE' : 'ORDER_MENU_IS_EMPTY'}, status=401)
+            return Response({'MESSAGE' : 'MENU_TIMER_IS_EMPTY'}, status=401)
         
         order_list = []
         menu_list = []
         for i in menu:
-            menu_list.append(Menu.objects.filter(id = i.menu.id).values('name'))
+            menu_list.append(i.menu.name)
             order_list.append(i.order_id)
         
         output_data = []
         for mn, oid in zip(list(menu_list), list(order_list)):
             output_data.append({
-                "menu_name" : mn[0]['name'],
+                "menu_name" : mn,
                 "order_id" : oid
             })
 
@@ -53,6 +53,7 @@ def checkMenuTime(request):
         current_time = datetime.now().strftime(time_format)
         
         data = json.loads(request.body)
+        print(data)
         select_menu = MenuTimer.objects.filter(order_id = data['order_id'])
         ready_time = select_menu.get(menu = Menu.objects.get(name = data['name']))
         

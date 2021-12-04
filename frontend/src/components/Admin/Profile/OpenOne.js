@@ -56,7 +56,7 @@ const OpenOne = ( { history } ) => {
             </div>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
             <div className="btn_right">
-            <button onClick={()=> {history.push("./Main_Admin")}}> 홈버튼 </button>
+            <button onClick={()=> {history.push("../Main_Admin")}}> 홈버튼 </button>
             </div>
             <container>
             <div className="outbox">
