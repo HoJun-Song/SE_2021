@@ -3,7 +3,7 @@ import Axios from 'axios';
 import axios from 'axios';
 const SelectTable = ( { history } ) => {
 
-    const [fulled_table, setTable] = useState()
+    const [fulled_table, setTable] = useState([])
     const [index, setIndex] = useState()
     const table_num = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
     const tables = table_num.map((index)=>
@@ -54,9 +54,18 @@ const SelectTable = ( { history } ) => {
             &emsp;&emsp;<h3 style={{display:'inline'}}>테이블 번호</h3>
             &emsp;&emsp;
             <textbox class="txtbox">{index}</textbox>
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;<h3 style={{display:'inline'}}>사용중인 테이블</h3>&emsp;&emsp;
+           {
+               fulled_table.map((full)=>(
+                <div style={{display:'inline'}}>
+                    <textbox class="txtbox">{full.table_id}</textbox>
+                </div>   
+               ))
+           }<br/><br/>
+            <div class="btn_loc">
+            
             <button class="btn" onClick={onSubmit}> 선택완료 </button>
+            </div>
             </div>
         </div>
     );
