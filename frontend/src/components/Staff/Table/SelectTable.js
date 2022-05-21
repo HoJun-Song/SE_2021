@@ -7,7 +7,7 @@ const SelectTable = ( { history } ) => {
     const [index, setIndex] = useState()
     const table_num = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
     const tables = table_num.map((index)=>
-    (<button className="btn_table" onClick={()=>setIndex(index)}>{index}</button>));
+    (<button className="btn_table" onClick={setIndex(index)}>{index}</button>));
     const getTables = async () => {
         const response = await axios.post('http://127.0.0.1:8000/post/showTable/')
         setTable(response.data)
@@ -39,10 +39,12 @@ const SelectTable = ( { history } ) => {
     
     return (
         <div>    
-            <button className="btn_left" onClick={ () => {history.goBack()} }> 뒤로 버튼 </button>
-            <button className="btn_left2" onClick={()=> {history.push("../Main_Staff")}}> 홈버튼 </button>
+            <div class="btn_left">
+            <button onClick={() => {history.goBack()} }> 뒤로 버튼 </button>
+            <button onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            </div>
             <h1 style={{color:"white", textAlign:"center", textSizeAdjust:"20"}}> RASZAS </h1>
-            <button className="btn_right"onClick={()=> {history.push("./")}}> 로그아웃 </button>
+            <button className="btn_right" onClick={()=> {history.push("./Main_Staff")}}> 홈버튼 </button>
             <div class="outbox">
             <container>
             <h2>테이블 선택</h2>
@@ -52,10 +54,8 @@ const SelectTable = ( { history } ) => {
             </div>
             </container><br/> 
             &emsp;&emsp;<h3 style={{display:'inline'}}>테이블 번호</h3>
-            &emsp;&emsp;
-            <textbox class="txtbox">{index}</textbox>
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;{index}
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             <button class="btn" onClick={onSubmit}> 선택완료 </button>
             </div>
         </div>
